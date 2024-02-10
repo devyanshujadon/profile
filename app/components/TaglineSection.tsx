@@ -4,9 +4,9 @@ type Props = {}
 
 function TaglineSection({}: Props) {
   return (
-    <div className='flex flex-col'>
-        <h1 className=' text-4xl   text-wrap '>
-        Innovating with Passion, Coding with Purpose: Welcome to My Digital Journey
+    <div className='flex flex-col my-4'>
+        <h1 className=' lg:text-5xl md:text-5xl sm:text-5xl text-4xl   text-wrap '>
+        Creating with Passion, Coding with Purpose: Welcome to My Journey!
         </h1>
         <div className='flex gap-12 my-8 '>
             <button className='bg-gray-800 text-[#fff] border px-6 py-2 gap-12 rounded-3xl'>Resume</button>

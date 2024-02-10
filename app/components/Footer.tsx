@@ -1,6 +1,7 @@
 import React from "react";
 import FooterImage from "./FooterImage";
 import Social from "./Social";
+import Link from "next/link";
 
 type Props = {};
 
@@ -20,18 +21,16 @@ function Footer({}: Props) {
       <div className="lg:hidden my-4"><h6>© 2024 | Devyanshu Jadon </h6></div>
       
       <div className="flex items-center gap-4 my-4">
-          <ul className="lg:grid lg:grid-cols-2 flex gap-8">
-            <li>Home</li>
-            <li>About</li>
-            <li>Blog</li>
-            <li>Contact</li>
+          <ul className=" flex gap-8">
+               <Link href={"/"}><li>Home</li></Link>
+               <Link href={"/about"}><li>About Me</li></Link>
+               <Link href={"/"}><li>Blog</li></Link>
+               
           </ul>
         </div>
       <div className="flex items-center gap-8 my-4 lg:p-4"> 
         <div className="text-black dark:text-white"><Social /></div>
-        <button className="bg-[#fff] text-[#000] border-2 lg:px-6 py-2 gap-12 rounded-3xl">
-          Projects
-        </button>
+        <button className='bg-[#fff] text-[#000] border px-6 py-2 gap-12 rounded-3xl lg:flex md:flex sm:flex hidden '>Let's Talk</button>
       </div>
       </div>
     </footer>
