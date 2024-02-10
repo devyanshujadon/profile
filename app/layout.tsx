@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import ThemeSwitch from "./components/ThemeSwitch";
+import Link from "next/link";
+import Headers from "./components/Header";
+import Providers from "./providers";
+import Footer from "./components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,8 +19,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning >
+      <body className="bg-[#fffbf5] dark:bg-slate-700" >
+        <Providers>
+
+          {/* Header */}
+          <Headers />
+
+          {/* Page */}
+          <main>{children}</main>
+
+          {/* Footer */}
+          
+          <Footer />
+        
+        </Providers>
+      </body>
     </html>
   );
 }
