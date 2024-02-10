@@ -15,7 +15,7 @@ function Experience({}: Props) {
       <h1 className=" lg:text-5xl md:text-5xl sm:text-5xl text-4xl">Experiences</h1>
       <div className="my-8">
         {experience.position.map((position, index) => (
-          <Link href={experience.redirect[index]}>
+          <Link key={index} href={experience.redirect[index]}>
             <div
             key={index}
             className="flex justify-between  my-4 w-full lg:w-[75%] md:w-[75%] sm:w-[75%] rounded-full items-center gap-2 dark:bg-gray-500 bg-white px-4 py-2 border dark:text-white"

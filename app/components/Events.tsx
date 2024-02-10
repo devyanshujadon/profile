@@ -17,7 +17,7 @@ function Events({}: Props) {
         </h1>
         <div className='my-8'>
         {events.event.map((event, index) => (
-          <Link href={events.redirect[index]}>
+          <Link key={index} href={events.redirect[index]}>
             <div
             key={index}
             className="flex justify-between  my-4 w-full lg:w-[75%] md:w-[75%] sm:w-[75%] rounded-full items-center gap-2 dark:bg-gray-500 bg-white px-4 py-2 border dark:text-white"
