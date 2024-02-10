@@ -24,7 +24,7 @@ function Footer({}: Props) {
           <ul className=" flex gap-8">
                <Link href={"/"}><li>Home</li></Link>
                <Link href={"/about"}><li>About Me</li></Link>
-               <Link href={"/"}><li>Blog</li></Link>
+               <Link href={"https://devyanshu.hashnode.dev/"}><li>Blog</li></Link>
                
           </ul>
         </div>

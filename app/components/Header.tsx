@@ -22,7 +22,7 @@ function Header({}: Props) {
             <ul className='flex gap-4'>
                <Link href={"/"}><li>Home</li></Link>
                <Link href={"/about"}><li>About</li></Link>
-               <Link href={"/"}><li>Blog</li></Link>
+               <Link href={"https://devyanshu.hashnode.dev/"}><li>Blog</li></Link>
                <Link href={"mailto:jadon.devyanshu@gmail.com"}><li>Contact</li></Link>
             </ul>
         </div>
