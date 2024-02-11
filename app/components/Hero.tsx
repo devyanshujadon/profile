@@ -5,7 +5,7 @@ type Props = {};
 
 function Hero({}: Props) {
   return (
-    <section className="lg:w-[50%] w-[100%]">
+    <section className="lg:w-[50%] w-[100%] dark:text-gray-300">
       <div className="flex flex-col">
         <div><Headshot /></div>
         <div className=" my-6 ">

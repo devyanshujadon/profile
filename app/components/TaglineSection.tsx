@@ -6,7 +6,7 @@ type Props = {}
 function TaglineSection({}: Props) {
   return (
     <div className='flex flex-col my-4'>
-        <h1 className=' lg:text-5xl md:text-5xl sm:text-5xl text-4xl   text-wrap '>
+        <h1 className=' lg:text-5xl md:text-5xl sm:text-5xl text-4xl   text-wrap dark:text-gray-300 '>
         Creating with Passion, Coding with Purpose: Welcome to My Journey!
         </h1>
         <div className='flex gap-12 my-8 '>

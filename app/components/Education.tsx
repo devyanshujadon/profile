@@ -13,11 +13,11 @@ function Education({}: Props) {
   return (
     <div>
       <h1 className=" lg:text-5xl md:text-5xl sm:text-5xl text-4xl">Education</h1>
-      <div className="my-8">
+      <div className="my-8 ">
         {education.course.map((course, index) => (
           <div
             key={index}
-            className="flex my-4 w-full lg:w-[75%] md:w-[75%] sm:w-[75%] justify-between rounded-full items-center gap-2 dark:bg-gray-500 bg-white px-4 py-2 border dark:text-white"
+            className="flex my-4 w-full lg:w-[75%] md:w-[75%] sm:w-[75%] justify-between rounded-full items-center gap-2 dark:bg-gray-500 bg-white px-4 py-2 border dark:text-gray-100"
           >
             <div className="flex max-w-max items-center gap-3">
             <div className="p-2 h-[100%] rounded-full bg-[#fffbf5] dark:bg-gray-800">
