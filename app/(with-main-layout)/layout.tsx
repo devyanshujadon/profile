@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import ThemeSwitch from "./components/ThemeSwitch";
+import "../globals.css";
+import ThemeSwitch from "../components/ThemeSwitch";
 import Link from "next/link";
-import Headers from "./components/Header";
-import Providers from "./providers";
-import Footer from "./components/Footer";
+import Headers from "../components/Header";
+import Providers from "../providers";
+import Footer from "../components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning >
-      <body className="bg-[#fffbf5] dark:bg-slate-700" >
+      <body className="bg-[#fffbf5] dark:bg-[#17223B]" >
         <Providers>
 
           {/* Header */}

@@ -1,8 +1,8 @@
-import Education from "./components/Education";
-import Events from "./components/Events";
-import Experience from "./components/Experience";
-import Hero from "./components/Hero";
-import TaglineSection from "./components/TaglineSection";
+import Education from "../components/Education";
+import Events from "../components/Events";
+import Experience from "../components/Experience";
+import Hero from "../components/Hero";
+import TaglineSection from "../components/TaglineSection";
 
 export default function Home() {
   return (
