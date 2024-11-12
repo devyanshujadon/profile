@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",            // Match any path on the subdomain
+        destination: "/projects/:path*",   // Rewrite to /blog route
+        has: [
+          {
+            type: "host",
+            value: "projects.devyanshu.live", // The subdomain to match
+          },
+        ],
+      },
+    ];
+  },
     images: {
         remotePatterns: [
           {
