@@ -2,26 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-gradient {
-    background-image: radial-gradient(circle, rgba(71, 145, 255, 0.25) 25%, transparent), linear-gradient(215deg, rgba(0, 0, 0, 0.4), rgba(5, 5, 5, 0.75));
-  }
 
-  .gradient-border {
-    background-image: linear-gradient(to right, #f00 0%, #0f0 100%); /* Your desired gradient */
-    padding: 4px; /* Define the "border" width with padding */
-    background-clip: padding-box; /* Clip the gradient to the padding area */
-  }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+
+html {
+  scrollbar-width: thin;
   
-  .gradient-border::before { /* Content overlay using Tailwind classes */
-    content: "";
-    background-color: inherit;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    /* Tailwind classes for styling */
-    /* w-full h-full rounded-full bg-opacity-0; Optional for rounded corners */
-  }
+}
+
+.noto-serif-500 {
+  font-family: "Noto Serif Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+.outfit-500 {
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
 
