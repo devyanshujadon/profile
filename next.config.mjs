@@ -10,6 +10,12 @@ const nextConfig = {
           },
         ],
       },
+      domains: [
+        'devyanshu.live',
+        'www.devyanshu.live',
+        'blog.devyanshu.live',
+        'projects.devyanshu.live',
+      ],
 };
 
 export default nextConfig;
