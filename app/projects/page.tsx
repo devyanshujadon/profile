@@ -11,10 +11,14 @@ import ProjectFooter from '../components/ProjectFooter';
 type Props = {}
 
 function Projects({}: Props) {
+
+
+  
   return (
     
     
       <div className='  w-full h-[200vh]'>
+        
         <ProjectsHeader/>
         <div className='relative flex flex-col gap-8'>
         <ProjectsHero/>
