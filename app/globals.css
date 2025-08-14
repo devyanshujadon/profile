@@ -1,29 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
-
-html {
-  scrollbar-width: thin;
-  
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-.noto-serif-500 {
-  font-family: "Noto Serif Display", serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
-
-.outfit-500 {
-  font-family: "Outfit", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
+body {
+  background-color: #f0f8ff;
+  color: #6a5acd;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
 }
-
