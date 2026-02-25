@@ -1,14 +1,25 @@
+import Hero from "@/components/Hero";
+import Status from "@/components/Status";
+import Contact from "@/components/Contact";
+import About from "@/components/About";
+import Skills from "@/components/Skills";
+import Experience from "@/components/Experience";
+import Projects from "@/components/Projects";
+import TechStack from "@/components/TechStack";
+
 export default function Home() {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <main className="text-center p-4">
-        <h1 className="text-6xl font-bold mb-6">Under Maintenance</h1>
-        <p className="text-lg">
-          This site is currently being updated with a brand new design.
-          <br />
-          Please check back soon.
-        </p>
-      </main>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-auto md:auto-rows-[150px] gap-4">
+        <Hero />
+        <Status />
+        <Contact />
+        <About />
+        <Skills />
+        <Experience />
+        <Projects />
+        <TechStack />
+      </div>
     </div>
   );
 }
