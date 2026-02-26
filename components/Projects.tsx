@@ -21,7 +21,7 @@ const projects = [
 
 const Projects = () => {
     return (
-        <div className="md:col-span-6 lg:col-span-5 md:row-span-2 bg-zinc-900 rounded-3xl p-5 sm:p-6 md:p-8 flex flex-col min-h-[300px] md:h-[316px] md:min-h-0 overflow-hidden">
+        <div className="md:col-span-6 lg:col-span-5 md:row-span-2 bg-zinc-900 rounded-3xl p-5 sm:p-6 md:p-8 flex flex-col min-h-[300px] md:min-h-0 overflow-hidden">
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-medium text-white">Selected Projects</h3>
             </div>
