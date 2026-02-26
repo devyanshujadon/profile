@@ -1,9 +1,10 @@
 import React from 'react';
 
 const technologies = [
+    'JavaScript', 'TypeScript', 'Next.js', 'Node.js',
     'Python', 'Go', 'TensorFlow', 'PyTorch',
     'PostgreSQL', 'MongoDB', 'Docker', 'Kubernetes',
-    'AWS', 'Redis'
+    'AWS', 'Redis', 'LLM', 'RAG', 'LangChain', 'LangGraph'
 ];
 
 const TechStack = () => {

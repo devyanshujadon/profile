@@ -2,14 +2,19 @@ import React from 'react';
 
 const experiences = [
     {
-        role: 'Senior AI Engineer',
-        company: 'Tech Corp',
-        period: '2023 - Present',
+        role: 'AI Engineer',
+        company: 'Tudip Technologies',
+        period: '2025 - Present',
     },
     {
-        role: 'Backend Developer',
-        company: 'StartupXYZ',
-        period: '2021 - 2023',
+        role: 'Software Engineering Intern',
+        company: 'Buzzworld',
+        period: '2024',
+    },
+    {
+        role: 'Z Ambassador',
+        company: 'IBMz',
+        period: '2020 - 2022',
     },
 ];
 

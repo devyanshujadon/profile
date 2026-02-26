@@ -10,7 +10,7 @@ import TechStack from "@/components/TechStack";
 export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6">
-      <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-auto md:auto-rows-[150px] gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-auto md:auto-rows-[180px] gap-4">
         <Hero />
         <Status />
         <Contact />
