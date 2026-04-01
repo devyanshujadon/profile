@@ -3,33 +3,46 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 
 const Hero = () => {
     return (
-        <div className="md:col-span-6 lg:col-span-5 md:row-span-2 bg-zinc-900 text-white rounded-3xl p-5 sm:p-6 flex flex-col justify-end relative overflow-hidden group min-h-[300px] md:min-h-0">
-            {/* Decorative gradient blob */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-zinc-800 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-500"></div>
-
-            <div className="relative z-10 flex flex-col h-full justify-end">
-                <h1 className="text-4xl font-light leading-tight mb-2">
-                    Devyanshu Jadon
-                    <br />
-                    <span className="text-zinc-400">AI & Backend Engineer</span>
-                </h1>
-                <p className="text-sm text-zinc-400 mb-6">
-                    Building intelligent systems and scalable infrastructure
-                </p>
-
-                <div className="flex items-center gap-3 mt-auto">
-                    <a href="https://github.com/devyanshujadon" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-zinc-700 hover:scale-105 transition-all text-zinc-300 hover:text-white">
-                        <Github size={18} strokeWidth={2} />
-                    </a>
-                    <a href="https://linkedin.com/in/devyanshu-jadon" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-zinc-700 hover:scale-105 transition-all text-zinc-300 hover:text-white">
-                        <Linkedin size={18} strokeWidth={2} />
-                    </a>
-                    <a href="mailto:jadon.devyanshu@gmail.com" className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-zinc-700 hover:scale-105 transition-all text-zinc-300 hover:text-white">
-                        <Mail size={18} strokeWidth={2} />
-                    </a>
+        <section className="relative min-h-[70vh] flex flex-col justify-center">
+            <div className="mb-8 flex items-center gap-4">
+                <div className="h-px w-12 bg-brass-500"></div>
+                <span className="text-xs uppercase tracking-[0.2em] text-brass-500">00 — Introduction</span>
+            </div>
+            
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] leading-[0.9] font-serif mb-12 text-parchment-200">
+                Devyanshu <br/> Jadon.
+            </h1>
+            
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 w-full">
+                <div className="md:col-span-4 lg:col-span-3">
+                    <p className="text-sm text-parchment-400 font-light leading-relaxed">
+                        Based in India.<br/>
+                        Available for remote engagements.<br/>
+                        Operating globally.
+                    </p>
+                </div>
+                <div className="md:col-span-8 lg:col-span-6">
+                    <h2 className="text-xl md:text-3xl font-serif text-parchment-300 leading-snug mb-8">
+                        Architecting intelligent systems and refined backend infrastructure. Bridging the elegance of design with the rigor of engineering.
+                    </h2>
+                    
+                    <div className="flex items-center gap-6">
+                        <a href="https://github.com/devyanshujadon" target="_blank" rel="noopener noreferrer" className="text-parchment-500 hover:text-brass-500 transition-colors duration-500">
+                            <span className="sr-only">GitHub</span>
+                            <Github size={20} strokeWidth={1} />
+                        </a>
+                        <a href="https://linkedin.com/in/devyanshu-jadon" target="_blank" rel="noopener noreferrer" className="text-parchment-500 hover:text-brass-500 transition-colors duration-500">
+                            <span className="sr-only">LinkedIn</span>
+                            <Linkedin size={20} strokeWidth={1} />
+                        </a>
+                        <a href="mailto:jadon.devyanshu@gmail.com" className="text-parchment-500 hover:text-brass-500 transition-colors duration-500">
+                            <span className="sr-only">Email</span>
+                            <Mail size={20} strokeWidth={1} />
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

@@ -1,24 +1,24 @@
 import React from 'react';
-import { Brain, Database, Code, Cloud } from 'lucide-react';
+import { BrainCircuit, Database, Code2, CloudCog } from 'lucide-react';
 
 const skills = [
-    { name: 'Machine Learning', icon: Brain, color: 'bg-blue-500' },
-    { name: 'Database Design', icon: Database, color: 'bg-purple-500' },
-    { name: 'API Development', icon: Code, color: 'bg-green-500' },
-    { name: 'Cloud Architecture', icon: Cloud, color: 'bg-orange-500' },
+    { name: 'Machine Learning', icon: BrainCircuit, bg: 'bg-indigo-50/50', color: 'text-indigo-600' },
+    { name: 'Database Design', icon: Database, bg: 'bg-violet-50/50', color: 'text-violet-600' },
+    { name: 'API Development', icon: Code2, bg: 'bg-blue-50/50', color: 'text-blue-600' },
+    { name: 'Cloud Architecture', icon: CloudCog, bg: 'bg-sky-50/50', color: 'text-sky-600' },
 ];
 
 const Skills = () => {
     return (
-        <div className="md:col-span-3 lg:col-span-4 md:row-span-2 bg-zinc-50 border border-zinc-200 rounded-3xl p-5 sm:p-6 min-h-[300px] md:min-h-0">
-            <h3 className="text-lg font-medium text-zinc-900 mb-4">Core Skills</h3>
-            <div className="grid grid-cols-2 gap-4 h-[calc(100%-2rem)]">
+        <div className="md:col-span-3 lg:col-span-4 md:row-span-2 glass-card p-6 sm:p-8 min-h-[300px] md:min-h-0 flex flex-col">
+            <h3 className="text-sm font-display font-semibold text-surface-900 tracking-widest uppercase mb-6 opacity-50">Core Skills</h3>
+            <div className="grid grid-cols-2 gap-3 h-full">
                 {skills.map((skill) => (
-                    <div key={skill.name} className="flex flex-col items-center justify-center text-center p-3 rounded-2xl bg-white border border-zinc-100 hover:shadow-sm transition-shadow">
-                        <div className={`w-10 h-10 ${skill.color} rounded-full flex items-center justify-center text-white mb-2`}>
-                            <skill.icon size={20} strokeWidth={2} />
+                    <div key={skill.name} className={`flex flex-col items-center justify-center text-center p-4 rounded-2xl ${skill.bg} subtle-border hover:shadow-sm transition-all duration-300 hover:-translate-y-1`}>
+                        <div className={`mb-3 ${skill.color}`}>
+                            <skill.icon size={24} strokeWidth={1.5} />
                         </div>
-                        <span className="text-xs font-medium text-zinc-600">{skill.name}</span>
+                        <span className="text-xs font-medium text-surface-700">{skill.name}</span>
                     </div>
                 ))}
             </div>

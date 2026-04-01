@@ -15,32 +15,23 @@ const Navbar = () => {
   }, [calNamespace]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-white/80 backdrop-blur-md border-b border-zinc-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="font-semibold text-base sm:text-lg tracking-tight truncate">
-            Devyanshu
-          </Link>
-          <Link 
-            href="/blog" 
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
-          >
-            Blog
-          </Link>
-          <Link 
-            href="/blog/admin" 
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
-          >
-            Admin
-          </Link>
+    <nav className="fixed top-0 left-0 right-0 z-40 bg-ink-900/80 backdrop-blur-md fine-border-b">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 h-16 flex items-center justify-between">
+        <Link href="/" className="font-serif text-2xl tracking-wide text-parchment-200 hover:text-brass-500 transition-colors duration-500">
+          Devyanshu.
+        </Link>
+        <div className="flex items-center gap-8">
+          <span className="hidden md:block text-xs uppercase tracking-[0.2em] text-parchment-500">
+            AI & Backend Engineer
+          </span>
+          <button
+            data-cal-namespace={calNamespace}
+            data-cal-link={calLink}
+            data-cal-config='{"layout":"month_view"}'
+            className="text-xs uppercase tracking-widest text-parchment-300 hover:text-brass-500 transition-colors duration-500">
+            Inquire
+          </button>
         </div>
-        <button
-          data-cal-namespace={calNamespace}
-          data-cal-link={calLink}
-          data-cal-config='{"layout":"month_view"}'
-          className="text-xs sm:text-sm font-medium text-white bg-zinc-900 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full hover:bg-zinc-800 transition-colors shadow-sm cursor-pointer whitespace-nowrap">
-          Let's Talk
-        </button>
       </div>
     </nav>
   );

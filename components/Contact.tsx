@@ -1,15 +1,22 @@
 import React from 'react';
-import { Mail } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const Contact = () => {
     return (
-        <a href="mailto:jadon.devyanshu@gmail.com" className="md:col-span-3 lg:col-span-3 md:row-span-1 bg-white border border-zinc-200 rounded-3xl p-5 sm:p-6 flex flex-col items-center justify-center group hover:border-zinc-300 transition-colors cursor-pointer min-h-[150px] md:min-h-0 block">
-            <div className="w-12 h-12 bg-zinc-900 rounded-xl flex items-center justify-center text-white mb-3 group-hover:scale-110 transition-transform">
-                <Mail size={24} strokeWidth={1.5} />
+        <section className="relative pt-32 pb-16">
+            <div className="text-center flex flex-col items-center">
+                <p className="text-xs uppercase tracking-[0.2em] text-brass-500 mb-8">05 — Engage</p>
+                
+                <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif text-parchment-200 mb-12 hover:italic transition-all duration-700 cursor-default">
+                    Initiate a Dialog.
+                </h2>
+                
+                <a href="mailto:jadon.devyanshu@gmail.com" className="group flex items-center gap-6 px-10 py-5 fine-border hover:border-brass-500 transition-colors duration-500">
+                    <span className="text-sm uppercase tracking-[0.15em] text-parchment-300 group-hover:text-brass-500 transition-colors duration-500">jadon.devyanshu@gmail.com</span>
+                    <ArrowRight size={16} className="text-parchment-500 group-hover:text-brass-500 group-hover:translate-x-2 transition-all duration-500" />
+                </a>
             </div>
-            <h3 className="font-medium text-zinc-900 mb-1">Let's Connect</h3>
-            <p className="text-xs text-zinc-500">jadon.devyanshu@gmail.com</p>
-        </a>
+        </section>
     );
 };
 

@@ -2,51 +2,75 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-zinc-50: #fafafa;
-  --color-zinc-100: #f4f4f5;
-  --color-zinc-200: #e4e4e7;
-  --color-zinc-300: #d4d4d8;
-  --color-zinc-400: #a1a1aa;
-  --color-zinc-500: #71717a;
-  --color-zinc-600: #52525b;
-  --color-zinc-700: #3f3f46;
-  --color-zinc-800: #27272a;
-  --color-zinc-900: #18181b;
-  --color-zinc-950: #09090b;
+  --color-ink-900: #0c0c0c;
+  --color-ink-800: #141312;
+  --color-ink-700: #1c1a19;
+  --color-ink-600: #2a2826;
+  
+  --color-parchment-100: #ffffff;
+  --color-parchment-200: #f5f3ef;
+  --color-parchment-300: #e8e6e1;
+  --color-parchment-400: #d1cdc5;
+  --color-parchment-500: #b0aba1;
+
+  --color-brass-500: #bf9553;
+  --color-brass-600: #a37c40;
+
+  --font-serif: var(--font-cormorant), serif;
+  --font-sans: var(--font-manrope), sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-zinc-50 text-zinc-900;
+    @apply bg-ink-900 text-parchment-300 font-sans antialiased selection:bg-brass-500 selection:text-ink-900;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-light text-parchment-200;
+  }
+
+  /* SVG Noise Grain */
+  .noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 }
 
-
 @layer utilities {
+  .fine-border {
+    @apply border border-ink-600;
+  }
+  .fine-border-b {
+    @apply border-b border-ink-600;
+  }
+  .fine-border-t {
+    @apply border-t border-ink-600;
+  }
+  .fine-border-l {
+    @apply border-l border-ink-600;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
   }
-
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(39, 39, 42, 0.5);
-    border-radius: 4px;
+    background: var(--color-ink-900);
   }
-
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(161, 161, 170, 0.5);
-    border-radius: 4px;
+    background: var(--color-ink-600);
   }
-
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(161, 161, 170, 0.8);
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    background: var(--color-brass-500);
   }
 }
