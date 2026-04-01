@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from 'react';
 import { getCalApi } from "@calcom/embed-react";
+import Link from 'next/link';
 
 const Navbar = () => {
   const calNamespace = process.env.NEXT_PUBLIC_CAL_NAMESPACE || "15min";
@@ -16,7 +17,23 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-white/80 backdrop-blur-md border-b border-zinc-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-        <div className="font-semibold text-base sm:text-lg tracking-tight truncate mr-2">Devyanshu</div>
+        <div className="flex items-center gap-6">
+          <Link href="/" className="font-semibold text-base sm:text-lg tracking-tight truncate">
+            Devyanshu
+          </Link>
+          <Link 
+            href="/blog" 
+            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
+          >
+            Blog
+          </Link>
+          <Link 
+            href="/blog/admin" 
+            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
+          >
+            Admin
+          </Link>
+        </div>
         <button
           data-cal-namespace={calNamespace}
           data-cal-link={calLink}
