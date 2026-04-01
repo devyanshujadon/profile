@@ -3,19 +3,19 @@ import { Lock } from 'lucide-react';
 
 const projects = [
     {
-        title: 'XML Report Validator',
-        tag: 'Backend',
-        description: 'Automated pipeline for batched XML validation against complex rules.',
+        title: 'AgentOps Control Plane',
+        tag: 'AI Platform',
+        description: 'Built a workflow orchestration layer for multi-agent tasks with retries, traces, and policy guards.',
     },
     {
-        title: 'NPR OCR for Reports',
-        tag: 'Computer Vision',
-        description: 'Optical character recognition system to extract data from NPRs.',
+        title: 'Multimodal Doc Intelligence',
+        tag: 'Vision + LLM',
+        description: 'Production OCR + VLM extraction pipeline for forms, tables, and handwritten notes.',
     },
     {
-        title: 'Periodic Summary Generator',
-        tag: 'LLMs & RAG',
-        description: 'AI-driven system to synthesize and summarize periodic reports.',
+        title: 'RAG with Evals & Feedback',
+        tag: 'LLM Infra',
+        description: 'Evaluation-first retrieval system with grounded answers, prompt versioning, and human feedback loops.',
     },
 ];
 

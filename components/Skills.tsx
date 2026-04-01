@@ -1,11 +1,11 @@
 import React from 'react';
-import { Brain, Database, Code, Cloud } from 'lucide-react';
+import { Brain, Bot, Database, Cloud } from 'lucide-react';
 
 const skills = [
-    { name: 'Machine Learning', icon: Brain, color: 'bg-blue-500' },
-    { name: 'Database Design', icon: Database, color: 'bg-purple-500' },
-    { name: 'API Development', icon: Code, color: 'bg-green-500' },
-    { name: 'Cloud Architecture', icon: Cloud, color: 'bg-orange-500' },
+    { name: 'Agentic AI Systems', icon: Bot, color: 'bg-blue-500' },
+    { name: 'LLM Evaluation', icon: Brain, color: 'bg-indigo-500' },
+    { name: 'Data & Vector Stores', icon: Database, color: 'bg-emerald-500' },
+    { name: 'Cloud-Native Backend', icon: Cloud, color: 'bg-orange-500' },
 ];
 
 const Skills = () => {

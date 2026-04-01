@@ -14,7 +14,7 @@ const Hero = () => {
                     <span className="text-zinc-400">AI & Backend Engineer</span>
                 </h1>
                 <p className="text-sm text-zinc-400 mb-6">
-                    Building intelligent systems and scalable infrastructure
+                    Shipping agentic AI products, robust APIs, and cloud-scale data systems
                 </p>
 
                 <div className="flex items-center gap-3 mt-auto">

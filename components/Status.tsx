@@ -11,7 +11,7 @@ const Status = () => {
                 <h3 className="text-xl font-medium">Available for work</h3>
             </div>
             <p className="text-sm text-green-100">
-                Currently open to new opportunities and exciting projects.
+                Open to AI platform, applied ML, and backend engineering opportunities.
             </p>
         </div>
     );

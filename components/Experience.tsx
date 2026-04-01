@@ -4,7 +4,7 @@ const experiences = [
     {
         role: 'AI Engineer',
         company: 'Tudip Technologies',
-        period: '2025 - Present',
+        period: '2025 - Present (2026)',
     },
     {
         role: 'Software Engineering Intern',
