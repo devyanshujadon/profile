@@ -1,23 +1,18 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Providers } from "@/components/Providers";
 
-const fontCormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-});
-
-const fontManrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Devyanshu Jadon",
+  title: "Devyanshu Jadon | AI & Backend Engineer",
   description: "AI and Backend Engineer Portfolio",
 };
 
@@ -29,13 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontCormorant.variable} ${fontManrope.variable} antialiased custom-scrollbar`}
+        className={`${spaceGrotesk.variable} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
-        <div className="noise-overlay"></div>
         <Providers>
           <Navbar />
-          <main className="min-h-screen pt-32 pb-24 px-6 md:px-12 lg:px-24">
+          <main className="min-h-screen pt-20 pb-12 px-4 md:px-8">
             {children}
           </main>
           <Footer />

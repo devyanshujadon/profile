@@ -23,31 +23,35 @@ const projects = [
 
 const Projects = () => {
     return (
-        <section className="relative">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-                <div className="lg:col-span-4 relative">
-                    <div className="sticky top-32">
-                        <div className="mb-4 flex items-center gap-4">
-                            <span className="text-xs uppercase tracking-[0.2em] text-parchment-500">03 — Works</span>
-                            <div className="h-px w-full bg-ink-600"></div>
+        <section className="relative py-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                <div className="lg:col-span-4">
+                    <div className="sticky top-24">
+                        <div className="mb-4 px-4 py-1 bg-ink text-base inline-block">
+                            <span className="mono text-sm text-base">04 — WORKS</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-serif text-parchment-200">Selected<br/>Exhibits.</h2>
+                        <h2 className="text-4xl md:text-6xl font-display font-bold text-ink leading-[0.9]">
+                            SELECTED<br/>EXHIBITS<span className="text-accent">.</span>
+                        </h2>
                     </div>
                 </div>
                 
-                <div className="lg:col-span-8">
-                    <div className="flex flex-col gap-16">
+                <div className="lg:col-span-7 lg:col-start-6">
+                    <div className="flex flex-col gap-4">
                         {projects.map((project, index) => (
-                            <div key={index} className="group cursor-default">
-                                <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 pb-6 fine-border-b relative overflow-hidden">
-                                    <div className="absolute bottom-0 left-0 w-0 h-px bg-brass-500 transition-all duration-700 group-hover:w-full"></div>
+                            <div key={index} className="brutal-card p-6 group cursor-pointer">
+                                <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 pb-4 border-b-2 border-ink">
                                     <div>
-                                        <p className="text-xs uppercase tracking-[0.15em] text-parchment-500 mb-2">{project.tag}</p>
-                                        <h3 className="text-3xl md:text-4xl font-serif text-parchment-200 transition-colors duration-500 group-hover:text-brass-500">{project.title}</h3>
+                                        <p className="mono text-xs font-bold text-accent mb-1">{project.tag}</p>
+                                        <h3 className="text-2xl md:text-3xl font-display font-bold text-ink group-hover:text-accent transition-colors">
+                                            {project.title}
+                                        </h3>
                                     </div>
-                                    <span className="text-xs font-serif italic text-parchment-500 mt-4 md:mt-0">{project.year}</span>
+                                    <span className="mono text-sm font-bold text-ink mt-2 md:mt-0">
+                                        [{project.year}]
+                                    </span>
                                 </div>
-                                <p className="text-sm md:text-base font-light text-parchment-400 leading-relaxed max-w-2xl">
+                                <p className="text-sm md:text-base font-display project-description leading-relaxed max-w-2xl">
                                     {project.description}
                                 </p>
                             </div>

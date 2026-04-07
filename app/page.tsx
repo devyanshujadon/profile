@@ -7,7 +7,7 @@ import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
-    <div className="max-w-[1400px] mx-auto flex flex-col gap-32 md:gap-48 pb-20">
+    <div className="max-w-[1400px] mx-auto flex flex-col gap-24 md:gap-32 pb-16">
       <Hero />
       <About />
       <Experience />
