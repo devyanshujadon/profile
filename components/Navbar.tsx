@@ -13,6 +13,11 @@ const Navbar = () => {
           <span className="hidden md:block section-label">
             AI + BACKEND ENGINEER
           </span>
+          <a
+            href="https://blog.devyanshu.com"
+            className="font-display font-bold text-sm uppercase tracking-wider hover:text-accent transition-colors">
+            JOURNAL →
+          </a>
           <button
             className="font-display font-bold text-sm uppercase tracking-wider hover:text-accent transition-colors">
             CONTACT

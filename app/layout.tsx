@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Providers } from "@/components/Providers";
 
 const spaceGrotesk = Space_Grotesk({
@@ -12,7 +10,10 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Devyanshu Jadon | AI & Backend Engineer",
+  title: {
+    template: "%s • Devyanshu",
+    default: "Devyanshu Jadon | AI & Backend Engineer",
+  },
   description: "AI and Backend Engineer Portfolio",
 };
 
@@ -27,13 +28,7 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
-        <Providers>
-          <Navbar />
-          <main className="min-h-screen pt-20 pb-12 px-4 md:px-8">
-            {children}
-          </main>
-          <Footer />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
