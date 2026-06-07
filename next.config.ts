@@ -19,11 +19,6 @@ const nextConfig: NextConfig = {
         destination: "https://blog.devyanshu.com",
         permanent: false,
       },
-      {
-        source: "/blog/:slug",
-        destination: "https://blog.devyanshu.com/:slug",
-        permanent: false,
-      },
     ];
   },
 };
