@@ -1,5 +1,5 @@
 const GITHUB_API_URL = 'https://api.github.com';
-const OWNER = process.env.GITHUB_OWNER || 'Devyanshu';
+const OWNER = process.env.GITHUB_OWNER || 'devyanshujadon';
 const REPO = process.env.GITHUB_REPO || 'profile';
 
 export interface GitHubUser {

@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const OWNER = process.env.GITHUB_OWNER || "Devyanshu";
+  const OWNER = process.env.GITHUB_OWNER || "devyanshujadon";
 
   const githubUser = await getGitHubUser(session.accessToken);
 
