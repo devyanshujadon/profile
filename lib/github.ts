@@ -47,9 +47,16 @@ export async function createFile(
   );
 
   if (!response.ok) {
-    const error = await response.json();
-    console.error('GitHub API Error:', JSON.stringify(error, null, 2));
-    throw new Error(error.message || `Failed to create file: ${response.status}`);
+    const errorText = await response.text();
+    console.error(
+      `[createFile] target=${OWNER}/${REPO} path=${path} status=${response.status} body=${errorText}`
+    );
+    let detail = `GitHub API ${response.status}`;
+    try {
+      const parsed = JSON.parse(errorText);
+      if (parsed.message) detail = parsed.message;
+    } catch {}
+    throw new Error(`[${OWNER}/${REPO}] ${detail}`);
   }
 }
 
