@@ -1,30 +1,84 @@
 "use client";
-import React from 'react';
-import Link from 'next/link';
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+
+const links = [
+  { href: "#work", label: "Work" },
+  { href: "#about", label: "About" },
+  { href: "#contact", label: "Contact" },
+];
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-base border-b-3 border-ink">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
-        <Link href="/" className="font-display font-bold text-xl tracking-tight hover:text-accent transition-colors">
-          DEVYANSHU<span className="text-accent">.</span>
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        scrolled || open
+          ? "bg-canvas/90 backdrop-blur-sm border-b border-line"
+          : ""
+      }`}
+    >
+      <nav className="mx-auto max-w-[920px] px-6 sm:px-10 lg:px-0 h-16 flex items-center justify-between">
+        <Link
+          href="/"
+          className="font-display text-[1.15rem] tracking-tight text-ink hover:text-mark transition-colors"
+        >
+          Devyanshu Jadon
         </Link>
-        <div className="flex items-center gap-6">
-          <span className="hidden md:block section-label">
-            AI + BACKEND ENGINEER
-          </span>
+
+        <div className="hidden sm:flex items-center gap-8">
+          {links.map((link) => (
+            <a key={link.href} href={link.href} className="nav-link">
+              {link.label}
+            </a>
+          ))}
           <a
             href="https://blog.devyanshu.com"
-            className="font-display font-bold text-sm uppercase tracking-wider hover:text-accent transition-colors">
-            JOURNAL →
+            className="nav-link"
+          >
+            Writing
           </a>
-          <button
-            className="font-display font-bold text-sm uppercase tracking-wider hover:text-accent transition-colors">
-            CONTACT
-          </button>
         </div>
-      </div>
-    </nav>
+
+        <button
+          type="button"
+          className="sm:hidden text-ink-2"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close menu" : "Open menu"}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </nav>
+
+      {open && (
+        <div className="sm:hidden border-t border-line bg-canvas px-6 py-5 flex flex-col gap-4">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="nav-link text-base"
+            >
+              {link.label}
+            </a>
+          ))}
+          <a href="https://blog.devyanshu.com" className="nav-link text-base">
+            Writing
+          </a>
+        </div>
+      )}
+    </header>
   );
 };
 

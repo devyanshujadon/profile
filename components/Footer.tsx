@@ -1,21 +1,18 @@
-import React from 'react';
+import React from "react";
 
 const Footer = () => {
-    return (
-        <footer className="max-w-[1400px] mx-auto px-4 md:px-8 py-8 bg-ink text-base">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h4 className="font-display font-bold text-lg text-base">DEVYANSHU JADON</h4>
-                    <p className="mono text-xs text-base/70">&copy; {new Date().getFullYear()} — ALL RIGHTS RESERVED</p>
-                </div>
-                <div className="text-right">
-                    <p className="mono text-xs text-base/70">
-                        BASED IN INDIA <br/> OPERATING GLOBALLY
-                    </p>
-                </div>
-            </div>
-        </footer>
-    );
+  return (
+    <footer className="px-6 sm:px-10 lg:px-16 pb-12">
+      <div className="mx-auto max-w-[920px] border-t border-line pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p className="text-sm text-ink-3">
+          © {new Date().getFullYear()} Devyanshu Jadon
+        </p>
+        <p className="text-sm text-ink-3">
+          India · Working remotely
+        </p>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

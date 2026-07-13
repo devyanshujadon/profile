@@ -1,30 +1,15 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 
 const BlogFooter = () => {
   return (
-    <footer className="max-w-[1400px] mx-auto px-4 md:px-8 py-12 border-t-3 border-ink">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <h4 className="font-display font-bold text-2xl text-ink">
-            DEVYANSHU JADON<span className="text-accent">.</span>
-          </h4>
-          <p className="mono text-xs text-ink-light mt-1">
-            &copy; {new Date().getFullYear()} — JOURNAL
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
-          <span className="mono text-xs text-ink-light">
-            BUILT WITH NEXT.JS · HOSTED ON VERCEL
-          </span>
-          <Link
-            href="https://devyanshu.com"
-            className="inline-flex items-center gap-1 mono text-xs font-bold uppercase tracking-wider text-ink hover:text-accent transition-colors"
-          >
-            Main site
-            <ArrowUpRight size={12} />
-          </Link>
-        </div>
+    <footer className="px-6 sm:px-10 pb-12">
+      <div className="mx-auto max-w-[920px] border-t border-line pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p className="text-sm text-ink-3">
+          © {new Date().getFullYear()} Devyanshu Jadon
+        </p>
+        <Link href="https://devyanshu.com" className="text-sm text-ink-3 hover:text-mark transition-colors">
+          Back to portfolio
+        </Link>
       </div>
     </footer>
   );

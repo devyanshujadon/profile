@@ -5,11 +5,11 @@ import BlogFooter from "./_components/BlogFooter";
 export const metadata: Metadata = {
   metadataBase: new URL("https://blog.devyanshu.com"),
   title: {
-    template: "%s • Journal — Devyanshu",
+    template: "%s · Journal — Devyanshu",
     default: "Journal — Devyanshu Jadon",
   },
   description:
-    "Engineering logs, ideas, and field notes from building software by Devyanshu Jadon.",
+    "Engineering notes and writing by Devyanshu Jadon.",
   openGraph: {
     siteName: "Journal — Devyanshu",
     type: "website",
@@ -32,10 +32,12 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="site-shell min-h-screen">
       <BlogNavbar />
-      <main className="min-h-screen pt-20 pb-12 px-4 md:px-8">{children}</main>
+      <main className="relative min-h-screen pt-28 pb-12 px-6 sm:px-10">
+        {children}
+      </main>
       <BlogFooter />
-    </>
+    </div>
   );
 }

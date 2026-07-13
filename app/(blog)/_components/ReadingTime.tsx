@@ -11,7 +11,7 @@ export default function ReadingTime({ content, className = "" }: ReadingTimeProp
   const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 
   return (
-    <span className={`mono text-xs ${className}`}>
+    <span className={`font-mono text-xs ${className}`}>
       · {minutes} min read
     </span>
   );

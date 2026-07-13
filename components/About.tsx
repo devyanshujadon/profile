@@ -1,34 +1,30 @@
-import React from 'react';
+import React from "react";
 
 const About = () => {
-    return (
-        <section className="relative py-16">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-                <div className="lg:col-span-4">
-                    <div className="sticky top-24">
-                        <div className="mb-4 px-4 py-1 bg-ink text-base inline-block">
-                            <span className="mono text-sm text-base">02 — ABOUT</span>
-                        </div>
-                        <h2 className="text-4xl md:text-6xl font-display font-bold text-ink leading-[0.9]">
-                            THE<br/>PHILOSOPHY<span className="text-accent">.</span>
-                        </h2>
-                    </div>
-                </div>
-                
-                <div className="lg:col-span-7 lg:col-start-6">
-                    <div className="brutal-card p-6 md:p-8">
-                        <p className="text-lg md:text-xl font-display font-medium text-ink leading-relaxed space-y-6">
-                            <span className="text-7xl md:text-8xl font-display font-bold text-accent float-left mr-3 mt-[-8px]">I</span>
-                            SPECIALIZE IN ENGINEERING ROBUST BACKEND SYSTEMS AND SEAMLESSLY INTEGRATING CUTTING-EDGE AI CAPABILITIES INTO SCALABLE APPLICATIONS. MY FOCUS LIES IN DESIGNING INTELLIGENT ARCHITECTURES, LEVERAGING LARGE LANGUAGE MODELS, AND BUILDING RETRIEVAL-AUGMENTED GENERATION PIPELINES TO DEPLOY RESILIENT APIS.
-                        </p>
-                        <p className="text-lg md:text-xl font-display font-medium text-ink leading-relaxed mt-6">
-                            PASSIONATE ABOUT BRIDGING THE GAP BETWEEN COMPLEX MACHINE LEARNING MODELS AND ELEGANT, REAL-WORLD SOLUTIONS. MY APPROACH COMBINES TECHNICAL RIGOR WITH AN APPRECIATION FOR CLEAN, MAINTAINABLE DESIGN.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+  return (
+    <section id="about" className="scroll-mt-24 py-16 md:py-20 border-t border-line">
+      <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-12">
+        <h2 className="label pt-1">About</h2>
+
+        <div className="space-y-5 text-[1.05rem] leading-[1.7] text-ink-2 max-w-[38rem]">
+          <p>
+            My work sits where models meet production: retrieval pipelines,
+            resilient APIs, and the unglamorous infrastructure that keeps
+            intelligent features dependable.
+          </p>
+          <p>
+            I also ship end to end — from small libraries like LoomKit to
+            full product surfaces like FeedFr — when a real problem is worth
+            solving cleanly.
+          </p>
+          <p>
+            Based in India, working remotely. I care about clear architecture,
+            readable code, and interfaces that stay out of the way.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default About;

@@ -4,8 +4,7 @@ import Sidebar from "../_components/Sidebar";
 
 export const metadata = {
   title: "All Entries",
-  description:
-    "Engineering logs, ideas, and field notes from building software by Devyanshu Jadon.",
+  description: "Engineering notes and writing by Devyanshu Jadon.",
 };
 
 export default function JournalHomePage() {
@@ -13,9 +12,9 @@ export default function JournalHomePage() {
   const categoriesList = getAllCategories();
   const [featured, ...rest] = posts;
 
-  const categories = categoriesList.map(name => ({
+  const categories = categoriesList.map((name) => ({
     name,
-    count: posts.filter(p => p.category.toLowerCase() === name.toLowerCase()).length,
+    count: posts.filter((p) => p.category.toLowerCase() === name.toLowerCase()).length,
   }));
 
   const tagMap = new Map<string, number>();
@@ -30,53 +29,41 @@ export default function JournalHomePage() {
     .slice(0, 20);
 
   return (
-    <div className="max-w-[1400px] mx-auto">
-      <header className="mb-12 md:mb-16">
-        <div className="mb-4 px-4 py-1 bg-ink text-base inline-block">
-          <span className="mono text-sm text-base">JOURNAL — EST. 2024</span>
-        </div>
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-bold leading-[0.85] mb-6 tracking-tight">
-          WRITINGS<span className="text-accent">.</span>
+    <div className="mx-auto max-w-[920px]">
+      <header className="mb-14">
+        <p className="label mb-4">Writing</p>
+        <h1 className="font-display text-4xl md:text-5xl tracking-tight text-ink max-w-[12ch]">
+          Notes from building.
         </h1>
-        <p className="text-lg md:text-xl font-display font-medium text-ink-light max-w-2xl leading-relaxed">
-          ENGINEERING LOGS, IDEAS, AND FIELD NOTES FROM BUILDING SOFTWARE.
+        <p className="mt-5 text-ink-2 max-w-md leading-relaxed">
+          Engineering logs, ideas, and field notes.
         </p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-        <div className="lg:col-span-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12 lg:gap-16">
+        <div>
           {featured && (
-            <div className="mb-12">
+            <div className="mb-10 pb-10 border-b border-line">
               <PostCard post={featured} variant="featured" />
             </div>
           )}
 
           {rest.length > 0 && (
-            <>
-              <div className="mb-6 flex items-center gap-3">
-                <span className="section-label">All Entries</span>
-                <span className="flex-1 h-0.5 bg-ink" />
-                <span className="mono text-xs text-ink-light">
-                  {rest.length} {rest.length === 1 ? "POST" : "POSTS"}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {rest.map(post => (
-                  <PostCard key={post.slug} post={post} variant="grid" />
-                ))}
-              </div>
-            </>
+            <div className="space-y-0 divide-y divide-[var(--color-line)]">
+              {rest.map((post) => (
+                <div key={post.slug} className="py-8 first:pt-0">
+                  <PostCard post={post} variant="list" />
+                </div>
+              ))}
+            </div>
           )}
 
           {posts.length === 0 && (
-            <div className="brutal-card p-12 text-center">
-              <p className="font-display font-bold text-3xl text-ink">NO ENTRIES YET</p>
-              <p className="mono text-sm text-ink-light mt-2">Check back soon.</p>
-            </div>
+            <p className="text-ink-3">No entries yet.</p>
           )}
         </div>
 
-        <div className="lg:col-span-4">
+        <div>
           <Sidebar categories={categories} tags={tags} />
         </div>
       </div>

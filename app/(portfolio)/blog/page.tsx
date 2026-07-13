@@ -1,10 +1,9 @@
-import Link from 'next/link';
-import { getAllPosts, getAllCategories } from '@/lib/blog';
-import { ArrowUpRight } from 'lucide-react';
+import Link from "next/link";
+import { getAllPosts, getAllCategories } from "@/lib/blog";
 
 export const metadata = {
-  title: 'Journal',
-  description: 'Engineering logs, ideas, and field notes.',
+  title: "Writing",
+  description: "Engineering notes and ideas.",
 };
 
 export default function BlogIndexPage() {
@@ -13,87 +12,54 @@ export default function BlogIndexPage() {
   const [featured, ...rest] = posts;
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <header className="mb-16">
-        <div className="mb-4 px-4 py-1 bg-ink text-base inline-block">
-          <span className="mono text-sm text-base">07 — JOURNAL</span>
-        </div>
-        <h1 className="text-5xl md:text-7xl font-display font-bold leading-[0.9] mb-6 tracking-tight">
-          WRITINGS<span className="text-accent">.</span>
+    <div className="mx-auto max-w-[680px]">
+      <header className="mb-14">
+        <p className="label mb-4">Writing</p>
+        <h1 className="font-display text-4xl md:text-5xl tracking-tight text-ink">
+          Notes from building.
         </h1>
-        <p className="text-lg font-display font-medium text-ink-light max-w-xl leading-relaxed">
-          ENGINEERING LOGS, IDEAS, AND FIELD NOTES FROM BUILDING SOFTWARE.
+        <p className="mt-5 text-ink-2 leading-relaxed">
+          Engineering logs, ideas, and field notes.
         </p>
       </header>
 
       {categories.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-12">
-          {categories.map(category => (
-            <span
-              key={category}
-              className="px-3 py-1 text-xs font-bold bg-white brutal-border-2 text-ink uppercase tracking-wider"
-            >
-              {category}
-            </span>
+        <div className="flex flex-wrap gap-x-4 gap-y-2 mb-10 text-sm text-ink-3">
+          {categories.map((category) => (
+            <span key={category}>{category}</span>
           ))}
         </div>
       )}
 
       {featured && (
-        <Link href={`/blog/${featured.slug}`} className="block group mb-12">
-          <article className="brutal-card p-6 md:p-8 bg-accent-2">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <span className="mono text-xs text-ink font-bold">FEATURED</span>
-              <span className="mono text-xs text-ink-light">{featured.date}</span>
-              <span className="text-xs font-bold uppercase tracking-wider text-ink">{featured.category}</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-ink leading-[1.05] group-hover:underline decoration-2 underline-offset-4">
-              {featured.title}
-            </h2>
-            <p className="text-ink-light leading-relaxed mb-4">{featured.excerpt}</p>
-            <span className="inline-flex items-center gap-2 mono text-sm font-bold uppercase text-ink">
-              Read entry <ArrowUpRight size={16} />
-            </span>
-          </article>
+        <Link href={`/blog/${featured.slug}`} className="block group mb-10 pb-10 border-b border-line">
+          <div className="flex flex-wrap gap-3 mb-3 text-sm text-ink-3">
+            <span className="text-mark font-medium">Featured</span>
+            <span>{featured.date}</span>
+          </div>
+          <h2 className="font-display text-3xl tracking-tight text-ink group-hover:text-mark transition-colors">
+            {featured.title}
+          </h2>
+          <p className="mt-3 text-ink-2 leading-relaxed">{featured.excerpt}</p>
         </Link>
       )}
 
-      <div className="space-y-10">
-        {rest.map(post => (
-          <article key={post.slug} className="group">
-            <Link href={`/blog/${post.slug}`} className="block">
-              <div className="flex flex-wrap items-center gap-3 mb-3">
-                <time dateTime={post.date} className="mono text-xs text-ink-light">
-                  {post.date}
-                </time>
-                <span className="w-1 h-1 bg-ink rounded-full" />
-                <span className="text-xs font-bold uppercase tracking-wider text-ink">{post.category}</span>
+      <div className="divide-y divide-[var(--color-line)]">
+        {rest.map((post) => (
+          <article key={post.slug} className="py-8 first:pt-0">
+            <Link href={`/blog/${post.slug}`} className="block group">
+              <div className="flex flex-wrap gap-3 mb-2 text-sm text-ink-3">
+                <time dateTime={post.date}>{post.date}</time>
+                <span>{post.category}</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-display font-bold mb-3 text-ink leading-tight group-hover:text-accent transition-colors">
+              <h2 className="font-display text-2xl tracking-tight text-ink group-hover:text-mark transition-colors">
                 {post.title}
               </h2>
-              <p className="text-ink-light leading-relaxed mb-4">{post.excerpt}</p>
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map(tag => (
-                  <span
-                    key={tag}
-                    className="text-[10px] font-bold text-ink bg-base-dark brutal-border-2 px-2 py-1 uppercase tracking-wider"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
+              <p className="mt-2 text-ink-2 leading-relaxed">{post.excerpt}</p>
             </Link>
           </article>
         ))}
       </div>
-
-      {posts.length === 0 && (
-        <div className="brutal-card p-12 text-center">
-          <p className="font-display font-bold text-2xl text-ink">NO ENTRIES YET</p>
-          <p className="mono text-sm text-ink-light mt-2">Check back soon.</p>
-        </div>
-      )}
     </div>
   );
 }

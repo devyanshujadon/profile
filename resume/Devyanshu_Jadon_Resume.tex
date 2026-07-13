@@ -1,0 +1,113 @@
+% ATS-friendly one-page resume
+% Compile: pdflatex Devyanshu_Jadon_Resume.tex
+\documentclass[10.5pt,a4paper]{article}
+
+\usepackage[margin=0.55in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=black,
+  linkcolor=black,
+  pdfauthor={Devyanshu Jadon},
+  pdftitle={Devyanshu Jadon -- Resume}
+}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{
+  leftmargin=1.15em,
+  itemsep=2pt,
+  topsep=3pt,
+  parsep=0pt,
+  partopsep=0pt
+}
+
+\titleformat{\section}{\normalsize\bfseries\uppercase}{}{0em}{}[\vspace{-2pt}\titlerule]
+\titlespacing*{\section}{0pt}{10pt}{5pt}
+
+\newcommand{\roleline}[3]{%
+  \textbf{#1} \hfill #3\\[-0.5pt]
+  \textit{#2}\\[2pt]
+}
+
+\begin{document}
+
+% ---------- HEADER ----------
+\begin{center}
+  {\LARGE\bfseries Devyanshu Jadon}\\[3pt]
+  AI and Backend Engineer\\[3pt]
+  \href{mailto:jadon.devyanshu@gmail.com}{jadon.devyanshu@gmail.com}
+  $\cdot$ India (Remote)\\[2pt]
+  \href{https://github.com/devyanshujadon}{github.com/devyanshujadon}
+  $\cdot$
+  \href{https://linkedin.com/in/devyanshu-jadon}{linkedin.com/in/devyanshu-jadon}
+  $\cdot$
+  \href{https://devyanshu.com}{devyanshu.com}
+\end{center}
+
+% ---------- SUMMARY ----------
+\section{Summary}
+AI and backend engineer focused on production LLM systems, retrieval pipelines, and reliable APIs. Build intelligent features for enterprise use and ship end-to-end products---from a lightweight LLM orchestration library to a full feedback platform. Comfortable across Python, TypeScript, RAG architectures, and cloud infrastructure.
+
+% ---------- SKILLS ----------
+\section{Skills}
+\textbf{Languages:} Python, TypeScript, JavaScript, Go\\[2pt]
+\textbf{AI / ML:} Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), LangChain, LangGraph, TensorFlow, PyTorch\\[2pt]
+\textbf{Backend \& APIs:} FastAPI, Node.js, Flask, Pydantic, SQLAlchemy, REST API design\\[2pt]
+\textbf{Frontend:} Next.js, React, TypeScript\\[2pt]
+\textbf{Data \& Infrastructure:} PostgreSQL, MongoDB, Redis, Docker, Kubernetes, AWS\\[2pt]
+\textbf{Practices:} Production system design, database design, cloud architecture, machine learning integration
+
+% ---------- EXPERIENCE ----------
+\section{Experience}
+
+\roleline{AI Engineer}{Tudip Technologies}{2025 -- Present}
+\begin{itemize}
+  \item Design and implement intelligent data pipelines and LLM integrations for enterprise applications.
+  \item Build production-ready retrieval and inference workflows that connect models to reliable backend services.
+  \item Partner with product and engineering teams to ship AI features that are maintainable, observable, and operable in production.
+\end{itemize}
+
+\vspace{5pt}
+\roleline{IBM Z Ambassador}{IBM}{2020 -- 2022}
+\begin{itemize}
+  \item Advocated enterprise mainframe and Z Systems technologies through community engagement and technical outreach.
+  \item Facilitated technical workshops and knowledge-sharing sessions for students and early-career developers.
+\end{itemize}
+
+% ---------- PROJECTS ----------
+\section{Projects}
+
+\roleline{LoomKit}{Python LLM orchestration library}{2025}
+\href{https://loomkit.vercel.app/}{loomkit.vercel.app}
+$\cdot$ \texttt{pip install loomkit}
+\begin{itemize}
+  \item Built a lightweight, swappable LLM orchestration core using a Provider Protocol so backends can be exchanged without inheritance or registration.
+  \item Defined a minimal Message, Response, and Usage surface for chat-style generation while keeping the core package zero-dependency.
+  \item Shipped Gemini support as an optional extra; designed the API to layer streaming, tools, retries, and agents later without breaking call sites.
+\end{itemize}
+
+\vspace{5pt}
+\roleline{FeedFr}{Full-stack feedback product}{2025}
+\href{https://feedfr.com}{feedfr.com}
+$\cdot$ Next.js, TypeScript, PostgreSQL
+\begin{itemize}
+  \item Built and shipped a live product for collecting, prioritizing, and closing the loop on user feedback without enterprise overhead.
+  \item Implemented public feedback boards with voting, product roadmaps, changelogs, and an embeddable in-product capture widget.
+  \item Delivered the full stack end to end---auth, data model, product surfaces, and a free-to-paid tier---using Next.js, TypeScript, and PostgreSQL.
+\end{itemize}
+
+% ---------- EDUCATION ----------
+\section{Education}
+
+\textbf{Bachelor of Technology (B.Tech), Computer Science and Engineering (CSE)} \hfill 2020 -- 2024\\
+\textit{Bansal Institute of Science and Technology, Bhopal}
+
+\end{document}

@@ -57,20 +57,19 @@ export default function AdminPage() {
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-6 h-6 border-2 border-surface-200 border-t-primary-600 rounded-full animate-spin"></div>
+        <div className="w-6 h-6 border-2 border-line border-t-signal rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!session) {
     return (
-      <div className="max-w-md mx-auto px-6 py-20 mt-12 glass-card text-center">
-        <h1 className="text-2xl font-display font-bold mb-3">Workspace Access</h1>
-        <p className="text-surface-500 mb-8 text-sm leading-relaxed">Authentication is required to access the authoring tools and workspace.</p>
-        <button
-          onClick={() => signIn("github")}
-          className="px-6 py-3 bg-surface-900 text-white font-medium rounded-xl hover:bg-surface-800 hover:shadow-lg hover:shadow-surface-900/10 transition-all w-full active:scale-95"
-        >
+      <div className="max-w-md mx-auto py-20 glass rounded-3xl p-8 text-center">
+        <h1 className="text-2xl font-display text-snow mb-3">Workspace Access</h1>
+        <p className="text-fog font-light mb-8 text-sm leading-relaxed">
+          Authentication is required to access the authoring tools and workspace.
+        </p>
+        <button onClick={() => signIn("github")} className="btn-primary w-full">
           Sign in with GitHub
         </button>
       </div>
@@ -78,16 +77,16 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12">
-        <h1 className="text-3xl font-display font-bold text-surface-900 mb-4 sm:mb-0">Workspace</h1>
-        <div className="flex items-center gap-4 bg-white subtle-border px-4 py-2 rounded-full shadow-sm">
-          <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-          <span className="text-xs font-medium text-surface-600">{session.user?.name}</span>
-          <div className="w-px h-4 bg-surface-200"></div>
+    <div className="max-w-4xl mx-auto py-12">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4">
+        <h1 className="text-3xl font-display text-snow">Workspace</h1>
+        <div className="flex items-center gap-4 glass rounded-full px-4 py-2">
+          <div className="w-2 h-2 rounded-full bg-signal" />
+          <span className="text-xs font-medium text-mist">{session.user?.name}</span>
+          <div className="w-px h-4 bg-white/15" />
           <button
             onClick={() => signOut()}
-            className="text-xs font-semibold text-surface-500 hover:text-surface-900 transition-colors"
+            className="text-xs font-medium text-fog hover:text-snow transition-colors"
           >
             Sign Out
           </button>
@@ -96,97 +95,92 @@ export default function AdminPage() {
 
       {message && (
         <div
-          className={`p-4 mb-8 rounded-xl text-sm font-medium border ${
+          className={`p-4 mb-8 rounded-2xl text-sm font-medium border ${
             message.type === "success"
-              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
-              : "bg-red-50 text-red-800 border-red-200"
+              ? "border-signal/40 bg-signal-dim text-signal"
+              : "border-red-400/40 bg-red-500/10 text-red-300"
           }`}
         >
           {message.text}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8 glass-card p-8 sm:p-10">
-        <div>
-          <label className="block text-sm font-semibold mb-2 text-surface-900">Post Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full px-4 py-3 bg-white border border-surface-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all rounded-xl placeholder:text-surface-400"
-            placeholder="An interesting title..."
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold mb-2 text-surface-900">Excerpt</label>
-          <input
-            type="text"
-            value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
-            className="w-full px-4 py-3 bg-white border border-surface-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all rounded-xl placeholder:text-surface-400"
-            placeholder="A brief summary for the index page..."
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="glass rounded-3xl p-6 space-y-5">
           <div>
-            <label className="block text-sm font-semibold mb-2 text-surface-900">Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-3 bg-white border border-surface-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all rounded-xl appearance-none"
-            >
-              <option value="Tech">Tech</option>
-              <option value="Personal">Personal</option>
-              <option value="DevOps">DevOps</option>
-              <option value="Career">Career</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold mb-2 text-surface-900">Tags</label>
+            <label className="block font-mono text-[10px] tracking-widest uppercase text-fog mb-2">
+              Title
+            </label>
             <input
               type="text"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className="w-full px-4 py-3 bg-white border border-surface-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all rounded-xl placeholder:text-surface-400"
-              placeholder="e.g. react, nextjs, typescript"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="w-full bg-void/50 border border-line rounded-xl px-4 py-3 text-snow placeholder:text-fog/50 focus:outline-none focus:border-signal/50"
+              placeholder="Post title"
             />
           </div>
-        </div>
 
-        <div className="flex items-center gap-3 py-2">
-          <input
-            type="checkbox"
-            id="published"
-            checked={published}
-            onChange={(e) => setPublished(e.target.checked)}
-            className="w-4 h-4 text-primary-600 bg-white border-surface-300 rounded focus:ring-primary-500 focus:ring-offset-0 cursor-pointer"
-          />
-          <label htmlFor="published" className="text-sm font-semibold cursor-pointer text-surface-900">
-            Publish Immediately
+          <div>
+            <label className="block font-mono text-[10px] tracking-widest uppercase text-fog mb-2">
+              Excerpt
+            </label>
+            <textarea
+              value={excerpt}
+              onChange={(e) => setExcerpt(e.target.value)}
+              rows={2}
+              className="w-full bg-void/50 border border-line rounded-xl px-4 py-3 text-snow placeholder:text-fog/50 focus:outline-none focus:border-signal/50 resize-none"
+              placeholder="Short summary"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-mono text-[10px] tracking-widest uppercase text-fog mb-2">
+                Category
+              </label>
+              <input
+                type="text"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full bg-void/50 border border-line rounded-xl px-4 py-3 text-snow focus:outline-none focus:border-signal/50"
+              />
+            </div>
+            <div>
+              <label className="block font-mono text-[10px] tracking-widest uppercase text-fog mb-2">
+                Tags (comma-separated)
+              </label>
+              <input
+                type="text"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="w-full bg-void/50 border border-line rounded-xl px-4 py-3 text-snow placeholder:text-fog/50 focus:outline-none focus:border-signal/50"
+                placeholder="nextjs, ai, product"
+              />
+            </div>
+          </div>
+
+          <label className="inline-flex items-center gap-2 text-sm text-mist cursor-pointer">
+            <input
+              type="checkbox"
+              checked={published}
+              onChange={(e) => setPublished(e.target.checked)}
+              className="rounded border-line"
+            />
+            Published
           </label>
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold mb-2 text-surface-900">Content Body</label>
-          <div className="border border-surface-200 focus-within:ring-2 focus-within:ring-primary-500/20 focus-within:border-primary-500 transition-all rounded-xl overflow-hidden bg-white">
-             <Editor content={content} onChange={setContent} />
-          </div>
+        <div className="glass rounded-3xl p-6">
+          <label className="block font-mono text-[10px] tracking-widest uppercase text-fog mb-3">
+            Content
+          </label>
+          <Editor content={content} onChange={setContent} />
         </div>
 
-        <div className="pt-4">
-            <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3.5 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
-            >
-            {loading ? "Publishing..." : "Publish Entry"}
-            </button>
-        </div>
+        <button type="submit" disabled={loading} className="btn-primary disabled:opacity-50">
+          {loading ? "Creating…" : "Create post"}
+        </button>
       </form>
     </div>
   );

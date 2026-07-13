@@ -1,66 +1,107 @@
-import React from 'react';
+import React from "react";
+import { ArrowUpRight } from "lucide-react";
 
 const projects = [
-    {
-        title: 'XML Report Validator',
-        tag: 'Backend Infrastructure',
-        description: 'Automated pipeline for batched XML validation against complex, evolving schemas. Designed for absolute reliability at scale.',
-        year: '2025'
-    },
-    {
-        title: 'NPR OCR Engine',
-        tag: 'Computer Vision',
-        description: 'Optical character recognition system to extract precision data from NPRs, bridging physical documents with digital accuracy.',
-        year: '2024'
-    },
-    {
-        title: 'Periodic Summary Generator',
-        tag: 'LLMs & RAG',
-        description: 'AI-driven synthesis engine designed to distill massive periodic reports into actionable, elegant summaries.',
-        year: '2024'
-    },
+  {
+    title: "LoomKit",
+    tag: "Featured",
+    year: "2025",
+    blurb:
+      "Tiny, swappable LLM orchestration core — the seam under your agent harness, without LangChain-scale bloat. A Protocol, a few dataclasses, one optional provider.",
+    points: [
+      "Provider Protocol — swap backends without inheritance or registration",
+      "Small Message · Response · Usage surface for chat-style generation",
+      "Gemini out of the box; core package stays zero-deps",
+      "Built to layer streaming, tools, retries, and agents later",
+    ],
+    href: "https://loomkit.vercel.app/",
+    linkLabel: "Visit loomkit.vercel.app",
+    stack: "Python · pip install loomkit",
+  },
+  {
+    title: "FeedFr",
+    tag: "Live",
+    year: "2025",
+    blurb:
+      "User feedback that ships. Collect ideas, prioritize with votes, show what's planned, and announce what landed — without enterprise pricing or clutter.",
+    points: [
+      "Public feedback boards with voting",
+      "Roadmaps and changelogs that close the loop",
+      "Embeddable widget for in-product capture",
+      "Free forever tier — paid when you outgrow it",
+    ],
+    href: "https://feedfr.com",
+    linkLabel: "Visit feedfr.com",
+    stack: "Next.js · TypeScript · PostgreSQL",
+  },
 ];
 
 const Projects = () => {
-    return (
-        <section className="relative py-16">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-                <div className="lg:col-span-4">
-                    <div className="sticky top-24">
-                        <div className="mb-4 px-4 py-1 bg-ink text-base inline-block">
-                            <span className="mono text-sm text-base">04 — WORKS</span>
-                        </div>
-                        <h2 className="text-4xl md:text-6xl font-display font-bold text-ink leading-[0.9]">
-                            SELECTED<br/>EXHIBITS<span className="text-accent">.</span>
-                        </h2>
-                    </div>
-                </div>
-                
-                <div className="lg:col-span-7 lg:col-start-6">
-                    <div className="flex flex-col gap-4">
-                        {projects.map((project, index) => (
-                            <div key={index} className="brutal-card p-6 group cursor-pointer">
-                                <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 pb-4 border-b-2 border-ink">
-                                    <div>
-                                        <p className="mono text-xs font-bold text-accent mb-1">{project.tag}</p>
-                                        <h3 className="text-2xl md:text-3xl font-display font-bold text-ink group-hover:text-accent transition-colors">
-                                            {project.title}
-                                        </h3>
-                                    </div>
-                                    <span className="mono text-sm font-bold text-ink mt-2 md:mt-0">
-                                        [{project.year}]
-                                    </span>
-                                </div>
-                                <p className="text-sm md:text-base font-display project-description leading-relaxed max-w-2xl">
-                                    {project.description}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+  return (
+    <section id="work" className="scroll-mt-8 pb-14 md:pb-16">
+      <p className="label mb-6">Work</p>
+
+      <div className="space-y-6 md:space-y-8">
+        {projects.map((project) => (
+          <article
+            key={project.title}
+            className="surface-card p-6 sm:p-8 md:p-9"
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-3 mb-5">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h2 className="font-display text-3xl md:text-[2.5rem] tracking-tight text-ink">
+                  {project.title}
+                </h2>
+                <span className="text-sm text-mark font-medium">
+                  {project.tag}
+                </span>
+              </div>
+              <span className="font-mono text-xs text-ink-3">
+                {project.year}
+              </span>
             </div>
-        </section>
-    );
+
+            <p className="text-lg md:text-[1.15rem] leading-[1.7] text-ink-2 max-w-[36rem]">
+              {project.blurb}
+            </p>
+
+            <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 max-w-[40rem]">
+              {project.points.map((point) => (
+                <li
+                  key={point}
+                  className="flex gap-2.5 text-[0.92rem] text-ink-2 leading-relaxed"
+                >
+                  <span
+                    className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-mark"
+                    aria-hidden
+                  />
+                  {point}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8 pt-6 border-t border-line flex flex-wrap items-center justify-between gap-4">
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 text-[0.98rem] font-medium text-mark hover:text-ink transition-colors"
+              >
+                {project.linkLabel}
+                <ArrowUpRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </a>
+              <span className="font-mono text-[11px] tracking-wide text-ink-3">
+                {project.stack}
+              </span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
 };
 
 export default Projects;
