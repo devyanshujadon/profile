@@ -1,6 +1,5 @@
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import {
   deletePost,
   getPostBySlug,
@@ -14,27 +13,30 @@ interface Params {
 }
 
 export async function GET(_request: Request, { params }: Params) {
+  const admin = await requireAdmin();
   const { slug } = await params;
-  const session = await getServerSession(authOptions);
 
   try {
-    const post = await getPostBySlug(slug, { includeDrafts: Boolean(session) });
-    if (!post || (!post.published && !session)) {
+    const post = await getPostBySlug(slug, { includeDrafts: Boolean(admin) });
+    if (!post || (!post.published && !admin)) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
     return NextResponse.json({ post });
   } catch (error) {
     console.error("GET /api/blog/[slug]", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to fetch post" },
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to fetch post",
+      },
       { status: 500 }
     );
   }
 }
 
 export async function PUT(request: Request, { params }: Params) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const admin = await requireAdmin();
+  if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -53,15 +55,18 @@ export async function PUT(request: Request, { params }: Params) {
   } catch (error) {
     console.error("PUT /api/blog/[slug]", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to update post" },
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to update post",
+      },
       { status: 500 }
     );
   }
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const admin = await requireAdmin();
+  if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -77,7 +82,10 @@ export async function DELETE(_request: Request, { params }: Params) {
   } catch (error) {
     console.error("DELETE /api/blog/[slug]", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to delete post" },
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to delete post",
+      },
       { status: 500 }
     );
   }

@@ -1,6 +1,5 @@
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import {
   createPost,
   getAllPosts,
@@ -9,54 +8,48 @@ import {
 } from "@/lib/blog";
 import { revalidateBlogPaths } from "@/lib/revalidate-blog";
 
-async function requireSession() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return null;
-  }
-  return session;
-}
-
 export async function GET(request: Request) {
-  const session = await requireSession();
+  const admin = await requireAdmin();
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get("slug");
   const drafts = searchParams.get("drafts") === "1";
 
-  // Public can list published posts; drafts require auth
-  if (drafts && !session) {
+  // Drafts only for admins
+  if (drafts && !admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
     if (slug) {
       const post = await getPostBySlug(slug, {
-        includeDrafts: Boolean(session && drafts),
+        includeDrafts: Boolean(admin && drafts),
       });
       if (!post) {
         return NextResponse.json({ error: "Not found" }, { status: 404 });
       }
-      // Hide drafts from unauthenticated clients
-      if (!post.published && !session) {
+      if (!post.published && !admin) {
         return NextResponse.json({ error: "Not found" }, { status: 404 });
       }
       return NextResponse.json({ post });
     }
 
-    const posts = await getAllPosts(Boolean(session && drafts));
+    const posts = await getAllPosts(Boolean(admin && drafts));
     return NextResponse.json({ posts });
   } catch (error) {
     console.error("GET /api/blog", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to fetch posts" },
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to fetch posts",
+      },
       { status: 500 }
     );
   }
 }
 
 export async function POST(request: Request) {
-  const session = await requireSession();
-  if (!session) {
+  const admin = await requireAdmin();
+  if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -80,7 +73,10 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("POST /api/blog", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to create post" },
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to create post",
+      },
       { status: 500 }
     );
   }

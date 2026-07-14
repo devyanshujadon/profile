@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, Suspense } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Editor from "@/components/Editor";
 import type { BlogPost } from "@/lib/blog";
@@ -19,8 +20,10 @@ const emptyForm = {
   content: "",
 };
 
-export default function AdminPage() {
+function AdminPageInner() {
   const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+  const accessDenied = searchParams.get("error") === "AccessDenied";
   const [mode, setMode] = useState<Mode>("list");
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loadingList, setLoadingList] = useState(true);
@@ -192,15 +195,45 @@ export default function AdminPage() {
       <div className="max-w-md mx-auto py-16 surface-card p-8 text-center">
         <p className="label mb-3">CMS</p>
         <h1 className="text-2xl font-display text-ink mb-3">Blog admin</h1>
-        <p className="text-ink-2 text-sm leading-relaxed mb-8">
-          Sign in with GitHub to create and edit posts stored in Postgres.
+        <p className="text-ink-2 text-sm leading-relaxed mb-6">
+          Sign in with GitHub to create and edit posts. Only allowlisted
+          accounts can access the CMS.
         </p>
+        {accessDenied && (
+          <p className="mb-6 text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            That GitHub account is not authorized to use the admin CMS.
+          </p>
+        )}
         <button
           type="button"
           onClick={() => signIn("github")}
           className="btn-primary w-full"
         >
           Sign in with GitHub
+        </button>
+      </div>
+    );
+  }
+
+  // Signed in but not admin (stale session / env change)
+  if (!session.isAdmin) {
+    return (
+      <div className="max-w-md mx-auto py-16 surface-card p-8 text-center">
+        <p className="label mb-3">CMS</p>
+        <h1 className="text-2xl font-display text-ink mb-3">Access denied</h1>
+        <p className="text-ink-2 text-sm leading-relaxed mb-6">
+          Signed in as{" "}
+          <span className="font-mono text-ink">
+            {session.githubLogin || session.user?.name || "unknown"}
+          </span>
+          , which is not on the admin allowlist.
+        </p>
+        <button
+          type="button"
+          onClick={() => signOut()}
+          className="btn-primary w-full"
+        >
+          Sign out
         </button>
       </div>
     );
@@ -456,5 +489,19 @@ export default function AdminPage() {
         </form>
       )}
     </div>
+  );
+}
+
+export default function AdminPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="w-5 h-5 border-2 border-line border-t-mark rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <AdminPageInner />
+    </Suspense>
   );
 }
