@@ -1,6 +1,6 @@
-import { getAllPosts, markdownToHtml } from "@/lib/blog";
+import { getAllPosts, resolveContentHtml } from "@/lib/blog";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 function escapeXml(str: string): string {
   return str
@@ -13,11 +13,16 @@ function escapeXml(str: string): string {
 
 export async function GET() {
   const site = "https://blog.devyanshu.com";
-  const posts = getAllPosts();
+  let posts: Awaited<ReturnType<typeof getAllPosts>> = [];
+  try {
+    posts = await getAllPosts();
+  } catch {
+    posts = [];
+  }
 
   const items = await Promise.all(
-    posts.map(async post => {
-      const html = await markdownToHtml(post.contentHtml || "");
+    posts.map(async (post) => {
+      const html = await resolveContentHtml(post);
       const link = `${site}/${post.slug}`;
       const pubDate = new Date(post.date).toUTCString();
 
@@ -29,7 +34,7 @@ export async function GET() {
       <pubDate>${pubDate}</pubDate>
       <description>${escapeXml(post.excerpt)}</description>
       <category>${escapeXml(post.category)}</category>
-      ${post.tags.map(t => `<category>${escapeXml(t)}</category>`).join("\n      ")}
+      ${post.tags.map((t) => `<category>${escapeXml(t)}</category>`).join("\n      ")}
       <content:encoded><![CDATA[${html}]]></content:encoded>
     </item>`;
     })
@@ -52,7 +57,7 @@ export async function GET() {
   return new Response(xml, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600",
     },
   });
 }

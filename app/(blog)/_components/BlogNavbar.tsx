@@ -8,18 +8,18 @@ const BlogNavbar = () => {
   const isHome = pathname === "/" || pathname === "/journal";
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-canvas/90 backdrop-blur-sm border-b border-line">
-      <nav className="mx-auto max-w-[920px] px-6 sm:px-10 h-16 flex items-center justify-between">
+    <header className="fixed top-0 inset-x-0 z-50 bg-canvas/95 border-b border-line">
+      <nav className="mx-auto max-w-[42rem] px-6 sm:px-8 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="font-display text-[1.15rem] tracking-tight text-ink hover:text-mark transition-colors"
+          className="font-display text-[1.1rem] tracking-tight text-ink hover:text-mark transition-colors"
         >
           Journal
         </Link>
-        <div className="flex items-center gap-6 text-sm">
+        <div className="flex items-center gap-5 text-sm">
           <Link
             href="/"
-            className={isHome ? "text-mark" : "nav-link"}
+            className={isHome ? "text-ink font-medium" : "nav-link"}
           >
             All
           </Link>

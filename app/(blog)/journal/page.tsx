@@ -2,19 +2,23 @@ import { getAllPosts, getAllCategories } from "@/lib/blog";
 import PostCard from "../_components/PostCard";
 import Sidebar from "../_components/Sidebar";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "All Entries",
   description: "Engineering notes and writing by Devyanshu Jadon.",
 };
 
-export default function JournalHomePage() {
-  const posts = getAllPosts();
-  const categoriesList = getAllCategories();
+export default async function JournalHomePage() {
+  const posts = await getAllPosts();
+  const categoriesList = await getAllCategories();
   const [featured, ...rest] = posts;
 
   const categories = categoriesList.map((name) => ({
     name,
-    count: posts.filter((p) => p.category.toLowerCase() === name.toLowerCase()).length,
+    count: posts.filter(
+      (p) => p.category.toLowerCase() === name.toLowerCase()
+    ).length,
   }));
 
   const tagMap = new Map<string, number>();
@@ -29,18 +33,18 @@ export default function JournalHomePage() {
     .slice(0, 20);
 
   return (
-    <div className="mx-auto max-w-[920px]">
-      <header className="mb-14">
+    <div className="mx-auto max-w-[42rem] lg:max-w-[56rem]">
+      <header className="mb-12 md:mb-14">
         <p className="label mb-4">Writing</p>
-        <h1 className="font-display text-4xl md:text-5xl tracking-tight text-ink max-w-[12ch]">
+        <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink max-w-[14ch] leading-[1.15]">
           Notes from building.
         </h1>
-        <p className="mt-5 text-ink-2 max-w-md leading-relaxed">
+        <p className="mt-4 text-ink-2 max-w-md leading-relaxed">
           Engineering logs, ideas, and field notes.
         </p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12 lg:gap-16">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_11rem] gap-12 lg:gap-16">
         <div>
           {featured && (
             <div className="mb-10 pb-10 border-b border-line">
@@ -49,7 +53,7 @@ export default function JournalHomePage() {
           )}
 
           {rest.length > 0 && (
-            <div className="space-y-0 divide-y divide-[var(--color-line)]">
+            <div className="divide-y divide-[var(--color-line)]">
               {rest.map((post) => (
                 <div key={post.slug} className="py-8 first:pt-0">
                   <PostCard post={post} variant="list" />
@@ -63,7 +67,7 @@ export default function JournalHomePage() {
           )}
         </div>
 
-        <div>
+        <div className="hidden lg:block">
           <Sidebar categories={categories} tags={tags} />
         </div>
       </div>

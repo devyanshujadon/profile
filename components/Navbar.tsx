@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 
 const links = [
   { href: "#work", label: "Work" },
-  { href: "#about", label: "About" },
+  { href: "#path", label: "Path" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -23,30 +23,25 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled || open
-          ? "bg-canvas/90 backdrop-blur-sm border-b border-line"
-          : ""
+      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-200 ${
+        scrolled || open ? "bg-canvas/95 border-b border-line" : ""
       }`}
     >
-      <nav className="mx-auto max-w-[920px] px-6 sm:px-10 lg:px-0 h-16 flex items-center justify-between">
+      <nav className="mx-auto max-w-[40rem] px-6 sm:px-8 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="font-display text-[1.15rem] tracking-tight text-ink hover:text-mark transition-colors"
+          className="font-display text-[1.05rem] tracking-tight text-ink hover:text-mark transition-colors"
         >
           Devyanshu Jadon
         </Link>
 
-        <div className="hidden sm:flex items-center gap-8">
+        <div className="hidden sm:flex items-center gap-6">
           {links.map((link) => (
             <a key={link.href} href={link.href} className="nav-link">
               {link.label}
             </a>
           ))}
-          <a
-            href="https://blog.devyanshu.com"
-            className="nav-link"
-          >
+          <a href="https://blog.devyanshu.com" className="nav-link">
             Writing
           </a>
         </div>
@@ -62,7 +57,7 @@ const Navbar = () => {
       </nav>
 
       {open && (
-        <div className="sm:hidden border-t border-line bg-canvas px-6 py-5 flex flex-col gap-4">
+        <div className="sm:hidden border-t border-line bg-canvas px-6 py-4 flex flex-col gap-3">
           {links.map((link) => (
             <a
               key={link.href}

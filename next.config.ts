@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Public writing index lives on the journal host.
+      // Keep /blog/admin and /blog/* API-adjacent pages on the main site.
       {
         source: "/blog",
         destination: "https://blog.devyanshu.com",
@@ -21,6 +23,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
 };
 
 export default nextConfig;

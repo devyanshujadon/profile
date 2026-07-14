@@ -1,24 +1,26 @@
 import Link from "next/link";
 import { getAllPosts, getAllCategories } from "@/lib/blog";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Writing",
   description: "Engineering notes and ideas.",
 };
 
-export default function BlogIndexPage() {
-  const posts = getAllPosts();
-  const categories = getAllCategories();
+export default async function BlogIndexPage() {
+  const posts = await getAllPosts();
+  const categories = await getAllCategories();
   const [featured, ...rest] = posts;
 
   return (
-    <div className="mx-auto max-w-[680px]">
-      <header className="mb-14">
+    <div className="mx-auto max-w-[38rem]">
+      <header className="mb-12">
         <p className="label mb-4">Writing</p>
-        <h1 className="font-display text-4xl md:text-5xl tracking-tight text-ink">
+        <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink">
           Notes from building.
         </h1>
-        <p className="mt-5 text-ink-2 leading-relaxed">
+        <p className="mt-4 text-ink-2 leading-relaxed">
           Engineering logs, ideas, and field notes.
         </p>
       </header>
@@ -32,12 +34,15 @@ export default function BlogIndexPage() {
       )}
 
       {featured && (
-        <Link href={`/blog/${featured.slug}`} className="block group mb-10 pb-10 border-b border-line">
+        <Link
+          href={`/blog/${featured.slug}`}
+          className="block group mb-10 pb-10 border-b border-line"
+        >
           <div className="flex flex-wrap gap-3 mb-3 text-sm text-ink-3">
-            <span className="text-mark font-medium">Featured</span>
+            <span className="text-mark">Featured</span>
             <span>{featured.date}</span>
           </div>
-          <h2 className="font-display text-3xl tracking-tight text-ink group-hover:text-mark transition-colors">
+          <h2 className="font-display text-2xl md:text-3xl tracking-tight text-ink group-hover:text-mark transition-colors">
             {featured.title}
           </h2>
           <p className="mt-3 text-ink-2 leading-relaxed">{featured.excerpt}</p>
@@ -52,7 +57,7 @@ export default function BlogIndexPage() {
                 <time dateTime={post.date}>{post.date}</time>
                 <span>{post.category}</span>
               </div>
-              <h2 className="font-display text-2xl tracking-tight text-ink group-hover:text-mark transition-colors">
+              <h2 className="font-display text-xl md:text-2xl tracking-tight text-ink group-hover:text-mark transition-colors">
                 {post.title}
               </h2>
               <p className="mt-2 text-ink-2 leading-relaxed">{post.excerpt}</p>

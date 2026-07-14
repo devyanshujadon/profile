@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -27,19 +28,34 @@ export default function Editor({ content, onChange }: EditorProps) {
         lowlight,
       }),
     ],
-    content,
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+    content: content || "",
+    onUpdate: ({ editor: ed }) => {
+      onChange(ed.getHTML());
     },
     editorProps: {
       attributes: {
-        class: "prose prose-zinc max-w-none focus:outline-none min-h-[300px] p-4",
+        class:
+          "prose prose-neutral max-w-none focus:outline-none min-h-[320px] px-4 py-3 text-ink prose-headings:font-display prose-a:text-mark",
       },
     },
   });
 
+  // Sync external content (e.g. loading a post to edit)
+  useEffect(() => {
+    if (!editor) return;
+    const current = editor.getHTML();
+    if (content && content !== current) {
+      editor.commands.setContent(content, { emitUpdate: false });
+    }
+    if (!content && current !== "<p></p>") {
+      editor.commands.setContent("", { emitUpdate: false });
+    }
+  }, [content, editor]);
+
   if (!editor) {
-    return null;
+    return (
+      <div className="min-h-[320px] border border-line rounded-lg bg-panel animate-pulse" />
+    );
   }
 
   const addLink = () => {
@@ -49,102 +65,115 @@ export default function Editor({ content, onChange }: EditorProps) {
     }
   };
 
+  const btn = (active: boolean) =>
+    `px-2.5 py-1.5 rounded text-sm transition-colors ${
+      active
+        ? "bg-canvas-2 text-ink"
+        : "text-ink-2 hover:bg-canvas-2 hover:text-ink"
+    }`;
+
   return (
-    <div className="border border-zinc-200 rounded-lg overflow-hidden">
-      <div className="flex flex-wrap gap-1 p-2 bg-zinc-50 border-b border-zinc-200">
+    <div className="border border-line rounded-lg overflow-hidden bg-canvas">
+      <div className="flex flex-wrap gap-0.5 p-2 bg-panel border-b border-line">
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("bold") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("bold"))}
         >
           <strong>B</strong>
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("italic") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("italic"))}
         >
           <em>I</em>
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("strike") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("strike"))}
         >
           <s>S</s>
         </button>
-        <div className="w-px h-8 bg-zinc-300 mx-1" />
+        <div className="w-px h-7 bg-line mx-1 self-center" />
         <button
           type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("heading", { level: 1 }) ? "bg-zinc-200" : ""}`}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
+          className={btn(editor.isActive("heading", { level: 1 }))}
         >
           H1
         </button>
         <button
           type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("heading", { level: 2 }) ? "bg-zinc-200" : ""}`}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={btn(editor.isActive("heading", { level: 2 }))}
         >
           H2
         </button>
         <button
           type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("heading", { level: 3 }) ? "bg-zinc-200" : ""}`}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
+          }
+          className={btn(editor.isActive("heading", { level: 3 }))}
         >
           H3
         </button>
-        <div className="w-px h-8 bg-zinc-300 mx-1" />
+        <div className="w-px h-7 bg-line mx-1 self-center" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("bulletList") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("bulletList"))}
         >
           • List
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("orderedList") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("orderedList"))}
         >
           1. List
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("blockquote") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("blockquote"))}
         >
-          {'>'}
+          Quote
         </button>
-        <div className="w-px h-8 bg-zinc-300 mx-1" />
+        <div className="w-px h-7 bg-line mx-1 self-center" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleCode().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("code") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("code"))}
         >
-          {'</>'}
+          Code
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("codeBlock") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("codeBlock"))}
         >
-          {'[]'}
+          Block
         </button>
         <button
           type="button"
           onClick={addLink}
-          className={`p-2 rounded hover:bg-zinc-200 ${editor.isActive("link") ? "bg-zinc-200" : ""}`}
+          className={btn(editor.isActive("link"))}
         >
-          🔗
+          Link
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
-          className="p-2 rounded hover:bg-zinc-200"
+          className={btn(false)}
         >
-          ─
+          —
         </button>
       </div>
       <EditorContent editor={editor} />

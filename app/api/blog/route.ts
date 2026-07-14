@@ -1,60 +1,86 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { createFile, getGitHubUser } from "@/lib/github";
 import { NextResponse } from "next/server";
+import { authOptions } from "@/lib/auth";
+import {
+  createPost,
+  getAllPosts,
+  getPostBySlug,
+  type BlogPostInput,
+} from "@/lib/blog";
+import { revalidateBlogPaths } from "@/lib/revalidate-blog";
 
-export async function POST(request: Request) {
+async function requireSession() {
   const session = await getServerSession(authOptions);
-  
-  if (!session || !session.accessToken) {
+  if (!session) {
+    return null;
+  }
+  return session;
+}
+
+export async function GET(request: Request) {
+  const session = await requireSession();
+  const { searchParams } = new URL(request.url);
+  const slug = searchParams.get("slug");
+  const drafts = searchParams.get("drafts") === "1";
+
+  // Public can list published posts; drafts require auth
+  if (drafts && !session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const OWNER = process.env.GITHUB_OWNER || "devyanshujadon";
-
-  const githubUser = await getGitHubUser(session.accessToken);
-
   try {
-    const body = await request.json();
-    const { title, content, category, tags, published } = body;
-
-    if (!title || !content) {
-      return NextResponse.json(
-        { error: "Title and content are required" },
-        { status: 400 }
-      );
+    if (slug) {
+      const post = await getPostBySlug(slug, {
+        includeDrafts: Boolean(session && drafts),
+      });
+      if (!post) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+      }
+      // Hide drafts from unauthenticated clients
+      if (!post.published && !session) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+      }
+      return NextResponse.json({ post });
     }
 
-    const slug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
-
-    const date = new Date().toISOString().split("T")[0];
-    
-    const frontmatter = `---
-title: "${title}"
-date: "${date}"
-excerpt: "${body.excerpt || ""}"
-category: "${category || "Tech"}"
-tags: ${JSON.stringify(tags || [])}
-published: ${published !== false}
----
-
-${content}
-`;
-
-    const path = `content/blog/${slug}.md`;
-    const message = `Add blog post: ${title}`;
-
-    await createFile(session.accessToken, path, frontmatter, message);
-
-    return NextResponse.json({ success: true, slug, path });
+    const posts = await getAllPosts(Boolean(session && drafts));
+    return NextResponse.json({ posts });
   } catch (error) {
-    console.error("Error creating post:", error);
-    const errorMessage = error instanceof Error ? error.message : "Failed to create post";
+    console.error("GET /api/blog", error);
     return NextResponse.json(
-      { error: errorMessage },
+      { error: error instanceof Error ? error.message : "Failed to fetch posts" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  const session = await requireSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = (await request.json()) as BlogPostInput;
+    const post = await createPost({
+      title: body.title,
+      slug: body.slug,
+      excerpt: body.excerpt,
+      content: body.content,
+      contentFormat: body.contentFormat || "html",
+      category: body.category,
+      tags: body.tags,
+      published: body.published,
+      date: body.date,
+    });
+
+    revalidateBlogPaths(post.slug);
+
+    return NextResponse.json({ success: true, post, slug: post.slug });
+  } catch (error) {
+    console.error("POST /api/blog", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Failed to create post" },
       { status: 500 }
     );
   }

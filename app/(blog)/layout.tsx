@@ -8,8 +8,7 @@ export const metadata: Metadata = {
     template: "%s · Journal — Devyanshu",
     default: "Journal — Devyanshu Jadon",
   },
-  description:
-    "Engineering notes and writing by Devyanshu Jadon.",
+  description: "Engineering notes and writing by Devyanshu Jadon.",
   openGraph: {
     siteName: "Journal — Devyanshu",
     type: "website",
@@ -34,7 +33,7 @@ export default function BlogLayout({
   return (
     <div className="site-shell min-h-screen">
       <BlogNavbar />
-      <main className="relative min-h-screen pt-28 pb-12 px-6 sm:px-10">
+      <main className="relative min-h-screen pt-24 pb-12 px-6 sm:px-8">
         {children}
       </main>
       <BlogFooter />

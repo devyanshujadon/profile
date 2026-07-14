@@ -7,7 +7,7 @@ interface SidebarProps {
 
 export default function Sidebar({ categories, tags }: SidebarProps) {
   return (
-    <aside className="space-y-10 lg:sticky lg:top-28">
+    <aside className="space-y-10 lg:sticky lg:top-24">
       <section>
         <h3 className="label mb-4">Categories</h3>
         <ul className="space-y-2">
@@ -15,10 +15,12 @@ export default function Sidebar({ categories, tags }: SidebarProps) {
             <li key={cat.name}>
               <Link
                 href={`/category/${encodeURIComponent(cat.name.toLowerCase())}`}
-                className="flex justify-between text-sm text-ink-2 hover:text-mark transition-colors"
+                className="flex justify-between text-sm text-ink-2 hover:text-ink transition-colors"
               >
                 <span>{cat.name}</span>
-                <span className="text-ink-3">{cat.count}</span>
+                <span className="text-ink-3 font-mono text-xs">
+                  {cat.count}
+                </span>
               </Link>
             </li>
           ))}
@@ -40,7 +42,10 @@ export default function Sidebar({ categories, tags }: SidebarProps) {
 
       <section>
         <h3 className="label mb-3">Subscribe</h3>
-        <a href="/feed.xml" className="text-sm text-mark hover:text-ink transition-colors">
+        <a
+          href="/feed.xml"
+          className="text-sm text-mark hover:text-ink transition-colors"
+        >
           RSS feed
         </a>
       </section>

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Fraunces, Work_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Newsreader, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
 });
 
-const workSans = Work_Sans({
-  variable: "--font-work-sans",
+const publicSans = Public_Sans({
+  variable: "--font-public-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fraunces.variable} ${workSans.variable} ${plexMono.variable} antialiased custom-scrollbar`}
+        className={`${newsreader.variable} ${publicSans.variable} ${plexMono.variable} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
         <Providers>{children}</Providers>

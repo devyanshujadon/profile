@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 /**
  * Home uses a sticky identity rail — no top chrome.
- * Nested routes (blog, admin) get a light header + footer.
+ * Nested routes get a light header + footer.
  */
 export default function PortfolioChrome({
   children,
@@ -23,7 +23,7 @@ export default function PortfolioChrome({
   return (
     <>
       <header className="border-b border-line">
-        <div className="mx-auto max-w-[920px] px-6 sm:px-10 h-14 flex items-center justify-between">
+        <div className="mx-auto max-w-[40rem] px-6 sm:px-8 h-14 flex items-center justify-between">
           <Link
             href="/"
             className="font-display text-[1.05rem] tracking-tight text-ink hover:text-mark transition-colors"
@@ -31,24 +31,27 @@ export default function PortfolioChrome({
             Devyanshu Jadon
           </Link>
           <nav className="flex items-center gap-5 text-sm text-ink-2">
-            <Link href="/" className="hover:text-mark transition-colors">
+            <Link href="/" className="hover:text-ink transition-colors">
               Home
             </Link>
-            <Link href="/blog" className="hover:text-mark transition-colors">
+            <a
+              href="https://blog.devyanshu.com"
+              className="hover:text-ink transition-colors"
+            >
               Writing
-            </Link>
+            </a>
           </nav>
         </div>
       </header>
-      <main className="px-6 sm:px-10 pt-12 pb-8">{children}</main>
-      <footer className="px-6 sm:px-10 pb-10">
-        <div className="mx-auto max-w-[920px] border-t border-line pt-6 flex flex-col sm:flex-row sm:justify-between gap-2">
+      <main className="px-6 sm:px-8 pt-12 pb-8">{children}</main>
+      <footer className="px-6 sm:px-8 pb-10">
+        <div className="mx-auto max-w-[40rem] border-t border-line pt-6 flex flex-col sm:flex-row sm:justify-between gap-2">
           <p className="text-sm text-ink-3">
             © {new Date().getFullYear()} Devyanshu Jadon
           </p>
           <Link
             href="/"
-            className="text-sm text-ink-3 hover:text-mark transition-colors"
+            className="text-sm text-ink-3 hover:text-ink transition-colors"
           >
             Back home
           </Link>

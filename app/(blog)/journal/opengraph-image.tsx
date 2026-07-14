@@ -14,12 +14,9 @@ export default async function Image() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#f0f0e8",
-          backgroundImage:
-            "radial-gradient(#0d0d0d 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-          padding: "60px",
-          fontFamily: "monospace",
+          backgroundColor: "#faf9f7",
+          padding: "72px",
+          fontFamily: "Georgia, serif",
         }}
       >
         <div
@@ -30,22 +27,17 @@ export default async function Image() {
             marginBottom: "auto",
           }}
         >
-          <div
-            style={{
-              width: "16px",
-              height: "16px",
-              backgroundColor: "#ff4d00",
-            }}
-          />
           <span
             style={{
-              fontSize: "20px",
-              fontWeight: 700,
-              letterSpacing: "0.15em",
-              color: "#0d0d0d",
+              fontSize: "18px",
+              fontWeight: 500,
+              letterSpacing: "0.14em",
+              color: "#8a847a",
+              fontFamily: "monospace",
+              textTransform: "uppercase",
             }}
           >
-            JOURNAL — EST. 2024
+            Journal
           </span>
         </div>
 
@@ -58,52 +50,37 @@ export default async function Image() {
         >
           <div
             style={{
-              fontSize: "120px",
-              fontWeight: 700,
-              lineHeight: 0.9,
-              color: "#0d0d0d",
-              letterSpacing: "-0.04em",
-            }}
-          >
-            WRITINGS.
-          </div>
-          <div
-            style={{
-              fontSize: "28px",
+              fontSize: "84px",
               fontWeight: 500,
-              color: "#2a2a2a",
-              marginTop: "24px",
+              lineHeight: 1.05,
+              color: "#1a1814",
+              letterSpacing: "-0.02em",
               maxWidth: "900px",
-              lineHeight: 1.3,
             }}
           >
-            Engineering logs, ideas, and field notes from building software.
+            Notes from building.
           </div>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              marginTop: "40px",
+              fontSize: "24px",
+              color: "#4f4a43",
+              marginTop: "28px",
+              maxWidth: "700px",
+              lineHeight: 1.4,
+              fontFamily: "system-ui, sans-serif",
             }}
           >
-            <div
-              style={{
-                width: "48px",
-                height: "4px",
-                backgroundColor: "#0d0d0d",
-              }}
-            />
-            <span
-              style={{
-                fontSize: "22px",
-                fontWeight: 700,
-                letterSpacing: "0.1em",
-                color: "#0d0d0d",
-              }}
-            >
-              DEVYANSHU JADON
-            </span>
+            Engineering logs and field notes by Devyanshu Jadon.
+          </div>
+          <div
+            style={{
+              marginTop: "40px",
+              fontSize: "18px",
+              color: "#0d5c63",
+              fontFamily: "system-ui, sans-serif",
+            }}
+          >
+            blog.devyanshu.com
           </div>
         </div>
       </div>
