@@ -5,7 +5,7 @@ const projects = [
   {
     title: "LoomKit",
     tag: "Featured",
-    year: "2025",
+    year: "2026",
     blurb:
       "Tiny, swappable LLM orchestration core — the seam under your agent harness, without LangChain-scale bloat. A Protocol, a few dataclasses, one optional provider.",
     points: [
@@ -21,7 +21,7 @@ const projects = [
   {
     title: "FeedFr",
     tag: "Live",
-    year: "2025",
+    year: "2026",
     blurb:
       "User feedback that ships. Collect ideas, prioritize with votes, show what's planned, and announce what landed — without enterprise pricing or clutter.",
     points: [
