@@ -3,6 +3,8 @@ import remarkGfm from "remark-gfm";
 import html from "remark-html";
 import { ensureBlogSchema, getSql } from "@/lib/db";
 
+export type PostStatus = "draft" | "published" | "archived";
+
 export interface BlogPost {
   id?: string;
   slug: string;
@@ -12,6 +14,11 @@ export interface BlogPost {
   category: string;
   tags: string[];
   published: boolean;
+  status?: PostStatus;
+  coverImage?: string | null;
+  featured?: boolean;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
   contentHtml?: string;
   contentFormat?: "html" | "markdown";
   createdAt?: string;
@@ -27,7 +34,12 @@ export interface BlogPostInput {
   category?: string;
   tags?: string[];
   published?: boolean;
+  status?: PostStatus;
   date?: string;
+  coverImage?: string | null;
+  featured?: boolean;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
 }
 
 type PostRow = {
@@ -40,6 +52,11 @@ type PostRow = {
   category: string;
   tags: string[] | null;
   published: boolean;
+  status?: string | null;
+  cover_image?: string | null;
+  featured?: boolean | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
   date: string | Date;
   created_at: string | Date;
   updated_at: string | Date;
@@ -59,7 +76,18 @@ function formatDateTime(value: string | Date): string {
   return String(value);
 }
 
+function normalizeStatus(
+  status: string | null | undefined,
+  published: boolean
+): PostStatus {
+  if (status === "draft" || status === "published" || status === "archived") {
+    return status;
+  }
+  return published ? "published" : "draft";
+}
+
 function rowToPost(row: PostRow, includeContent = true): BlogPost {
+  const published = row.published;
   return {
     id: row.id,
     slug: row.slug,
@@ -68,7 +96,12 @@ function rowToPost(row: PostRow, includeContent = true): BlogPost {
     excerpt: row.excerpt || "",
     category: row.category || "Uncategorized",
     tags: row.tags || [],
-    published: row.published,
+    published,
+    status: normalizeStatus(row.status, published),
+    coverImage: row.cover_image ?? null,
+    featured: Boolean(row.featured),
+    seoTitle: row.seo_title ?? null,
+    seoDescription: row.seo_description ?? null,
     contentFormat: row.content_format,
     contentHtml: includeContent ? row.content : undefined,
     createdAt: formatDateTime(row.created_at),
@@ -100,7 +133,10 @@ export async function resolveContentHtml(post: BlogPost): Promise<string> {
     return markdownToHtml(raw);
   }
   // Heuristic: plain markdown without block tags
-  if (!/<[a-z][\s\S]*>/i.test(raw) && /(?:^|\n)\s*#{1,6}\s|^\s*[-*+]\s/m.test(raw)) {
+  if (
+    !/<[a-z][\s\S]*>/i.test(raw) &&
+    /(?:^|\n)\s*#{1,6}\s|^\s*[-*+]\s/m.test(raw)
+  ) {
     return markdownToHtml(raw);
   }
   return raw;
@@ -113,16 +149,18 @@ export async function getAllPosts(includeDrafts = false): Promise<BlogPost[]> {
   const rows = includeDrafts
     ? ((await db`
         SELECT id, slug, title, excerpt, content, content_format, category,
-               tags, published, date, created_at, updated_at
+               tags, published, status, cover_image, featured, seo_title,
+               seo_description, date, created_at, updated_at
         FROM blog_posts
-        ORDER BY date DESC, created_at DESC
+        ORDER BY featured DESC, date DESC, created_at DESC
       `) as PostRow[])
     : ((await db`
         SELECT id, slug, title, excerpt, content, content_format, category,
-               tags, published, date, created_at, updated_at
+               tags, published, status, cover_image, featured, seo_title,
+               seo_description, date, created_at, updated_at
         FROM blog_posts
         WHERE published = true
-        ORDER BY date DESC, created_at DESC
+        ORDER BY featured DESC, date DESC, created_at DESC
       `) as PostRow[]);
 
   return rows.map((row) => rowToPost(row, true));
@@ -139,14 +177,16 @@ export async function getPostBySlug(
   const rows = options.includeDrafts
     ? ((await db`
         SELECT id, slug, title, excerpt, content, content_format, category,
-               tags, published, date, created_at, updated_at
+               tags, published, status, cover_image, featured, seo_title,
+               seo_description, date, created_at, updated_at
         FROM blog_posts
         WHERE slug = ${realSlug}
         LIMIT 1
       `) as PostRow[])
     : ((await db`
         SELECT id, slug, title, excerpt, content, content_format, category,
-               tags, published, date, created_at, updated_at
+               tags, published, status, cover_image, featured, seo_title,
+               seo_description, date, created_at, updated_at
         FROM blog_posts
         WHERE slug = ${realSlug} AND published = true
         LIMIT 1
@@ -156,12 +196,15 @@ export async function getPostBySlug(
   return rowToPost(rows[0], true);
 }
 
-export async function getPostsByCategory(category: string): Promise<BlogPost[]> {
+export async function getPostsByCategory(
+  category: string
+): Promise<BlogPost[]> {
   await ensureBlogSchema();
   const db = getSql();
   const rows = (await db`
     SELECT id, slug, title, excerpt, content, content_format, category,
-           tags, published, date, created_at, updated_at
+           tags, published, status, cover_image, featured, seo_title,
+           seo_description, date, created_at, updated_at
     FROM blog_posts
     WHERE published = true AND lower(category) = lower(${category})
     ORDER BY date DESC, created_at DESC
@@ -199,7 +242,6 @@ export async function createPost(input: BlogPostInput): Promise<BlogPost> {
   let slug = (input.slug || slugify(title)).trim();
   if (!slug) throw new Error("Could not derive a valid slug");
 
-  // Ensure unique slug
   const existing = (await db`
     SELECT slug FROM blog_posts WHERE slug = ${slug} LIMIT 1
   `) as { slug: string }[];
@@ -212,11 +254,19 @@ export async function createPost(input: BlogPostInput): Promise<BlogPost> {
   const category = input.category?.trim() || "Tech";
   const excerpt = input.excerpt?.trim() || "";
   const contentFormat = input.contentFormat || "html";
-  const published = input.published !== false;
+  const status: PostStatus =
+    input.status || (input.published === false ? "draft" : "published");
+  const published =
+    input.published !== undefined ? input.published : status === "published";
+  const coverImage = input.coverImage ?? null;
+  const featured = Boolean(input.featured);
+  const seoTitle = input.seoTitle?.trim() || null;
+  const seoDescription = input.seoDescription?.trim() || null;
 
   const rows = (await db`
     INSERT INTO blog_posts (
-      slug, title, excerpt, content, content_format, category, tags, published, date
+      slug, title, excerpt, content, content_format, category, tags,
+      published, status, date, cover_image, featured, seo_title, seo_description
     ) VALUES (
       ${slug},
       ${title},
@@ -226,10 +276,16 @@ export async function createPost(input: BlogPostInput): Promise<BlogPost> {
       ${category},
       ${tags},
       ${published},
-      ${date}
+      ${status},
+      ${date},
+      ${coverImage},
+      ${featured},
+      ${seoTitle},
+      ${seoDescription}
     )
     RETURNING id, slug, title, excerpt, content, content_format, category,
-              tags, published, date, created_at, updated_at
+              tags, published, status, cover_image, featured, seo_title,
+              seo_description, date, created_at, updated_at
   `) as PostRow[];
 
   return rowToPost(rows[0], true);
@@ -246,15 +302,36 @@ export async function updatePost(
   if (!current) throw new Error("Post not found");
 
   const title = input.title?.trim() ?? current.title;
-  const excerpt = input.excerpt !== undefined ? input.excerpt.trim() : current.excerpt;
+  const excerpt =
+    input.excerpt !== undefined ? input.excerpt.trim() : current.excerpt;
   const content = input.content ?? current.contentHtml ?? "";
   const contentFormat =
     input.contentFormat ?? current.contentFormat ?? "html";
   const category = input.category?.trim() || current.category;
   const tags = input.tags ?? current.tags;
-  const published =
-    input.published !== undefined ? input.published : current.published;
   const date = input.date || current.date;
+  const coverImage =
+    input.coverImage !== undefined ? input.coverImage : current.coverImage;
+  const featured =
+    input.featured !== undefined ? input.featured : Boolean(current.featured);
+  const seoTitle =
+    input.seoTitle !== undefined
+      ? input.seoTitle?.trim() || null
+      : current.seoTitle;
+  const seoDescription =
+    input.seoDescription !== undefined
+      ? input.seoDescription?.trim() || null
+      : current.seoDescription;
+
+  let status: PostStatus =
+    input.status ?? current.status ?? (current.published ? "published" : "draft");
+  if (input.published !== undefined && input.status === undefined) {
+    status = input.published ? "published" : "draft";
+  }
+  const published =
+    input.published !== undefined
+      ? input.published
+      : status === "published";
 
   let nextSlug = input.newSlug?.trim() || input.slug?.trim() || current.slug;
   if (nextSlug !== current.slug) {
@@ -277,11 +354,17 @@ export async function updatePost(
       category = ${category},
       tags = ${tags},
       published = ${published},
+      status = ${status},
       date = ${date},
+      cover_image = ${coverImage ?? null},
+      featured = ${featured},
+      seo_title = ${seoTitle},
+      seo_description = ${seoDescription},
       updated_at = NOW()
     WHERE slug = ${current.slug}
     RETURNING id, slug, title, excerpt, content, content_format, category,
-              tags, published, date, created_at, updated_at
+              tags, published, status, cover_image, featured, seo_title,
+              seo_description, date, created_at, updated_at
   `) as PostRow[];
 
   if (!rows[0]) throw new Error("Failed to update post");
@@ -298,6 +381,27 @@ export async function deletePost(slug: string): Promise<boolean> {
   return rows.length > 0;
 }
 
+export async function duplicatePost(slug: string): Promise<BlogPost> {
+  const source = await getPostBySlug(slug, { includeDrafts: true });
+  if (!source) throw new Error("Post not found");
+  return createPost({
+    title: `${source.title} (copy)`,
+    slug: `${source.slug}-copy`,
+    excerpt: source.excerpt,
+    content: source.contentHtml || "",
+    contentFormat: source.contentFormat || "html",
+    category: source.category,
+    tags: source.tags,
+    published: false,
+    status: "draft",
+    date: new Date().toISOString().slice(0, 10),
+    coverImage: source.coverImage,
+    featured: false,
+    seoTitle: source.seoTitle,
+    seoDescription: source.seoDescription,
+  });
+}
+
 export async function upsertPostBySlug(
   slug: string,
   input: BlogPostInput
@@ -307,4 +411,19 @@ export async function upsertPostBySlug(
     return updatePost(slug, { ...input, newSlug: slug });
   }
   return createPost({ ...input, slug });
+}
+
+export async function countPosts(includeDrafts = false): Promise<number> {
+  await ensureBlogSchema();
+  const db = getSql();
+  if (includeDrafts) {
+    const rows = (await db`SELECT COUNT(*)::int AS count FROM blog_posts`) as {
+      count: number;
+    }[];
+    return rows[0]?.count ?? 0;
+  }
+  const rows = (await db`
+    SELECT COUNT(*)::int AS count FROM blog_posts WHERE published = true
+  `) as { count: number }[];
+  return rows[0]?.count ?? 0;
 }

@@ -25,7 +25,13 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.excerpt,
+    openGraph: post.coverImage
+      ? { images: [{ url: post.coverImage }] }
+      : undefined,
+  };
 }
 
 export default async function BlogPostPage({ params }: Props) {

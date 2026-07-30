@@ -64,7 +64,12 @@ export async function POST(request: Request) {
       category: body.category,
       tags: body.tags,
       published: body.published,
+      status: body.status,
       date: body.date,
+      coverImage: body.coverImage,
+      featured: body.featured,
+      seoTitle: body.seoTitle,
+      seoDescription: body.seoDescription,
     });
 
     revalidateBlogPaths(post.slug);

@@ -1,7 +1,20 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
+import { getPublishedProjects, type CmsEntry } from "@/lib/cms";
 
-const projects = [
+type ProjectView = {
+  title: string;
+  tag: string;
+  year: string;
+  blurb: string;
+  points: string[];
+  href: string;
+  linkLabel: string;
+  stack: string;
+};
+
+/** Fallback when the CMS has no published projects yet. */
+const FALLBACK_PROJECTS: ProjectView[] = [
   {
     title: "LoomKit",
     tag: "Featured",
@@ -36,7 +49,39 @@ const projects = [
   },
 ];
 
-const Projects = () => {
+function entryToProject(entry: CmsEntry): ProjectView {
+  const m = entry.meta || {};
+  return {
+    title: entry.title,
+    tag: String(m.tag || (entry.featured ? "Featured" : "Live")),
+    year: String(m.year || entry.date.slice(0, 4)),
+    blurb: entry.excerpt || "",
+    points: Array.isArray(m.points)
+      ? m.points.map(String)
+      : [],
+    href: String(m.href || "#"),
+    linkLabel:
+      String(m.linkLabel || "") ||
+      String(m.href || "").replace(/^https?:\/\//, ""),
+    stack: String(m.stack || ""),
+  };
+}
+
+async function loadProjects(): Promise<ProjectView[]> {
+  try {
+    const entries = await getPublishedProjects();
+    if (entries.length > 0) {
+      return entries.map(entryToProject);
+    }
+  } catch (err) {
+    console.error("Failed to load CMS projects, using fallback:", err);
+  }
+  return FALLBACK_PROJECTS;
+}
+
+const Projects = async () => {
+  const projects = await loadProjects();
+
   return (
     <section id="work" className="scroll-mt-8 pb-14 md:pb-16">
       <p className="label mb-8">Work</p>
@@ -60,36 +105,42 @@ const Projects = () => {
               {project.blurb}
             </p>
 
-            <ul className="mt-5 space-y-1.5 max-w-[34rem]">
-              {project.points.map((point) => (
-                <li
-                  key={point}
-                  className="flex gap-2.5 text-[0.9rem] text-ink-2 leading-relaxed"
-                >
-                  <span className="text-ink-3 select-none" aria-hidden>
-                    –
-                  </span>
-                  {point}
-                </li>
-              ))}
-            </ul>
+            {project.points.length > 0 && (
+              <ul className="mt-5 space-y-1.5 max-w-[34rem]">
+                {project.points.map((point) => (
+                  <li
+                    key={point}
+                    className="flex gap-2.5 text-[0.95rem] text-ink-2 leading-relaxed"
+                  >
+                    <span className="text-ink-3 select-none" aria-hidden>
+                      –
+                    </span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
-              <a
-                href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1 text-[0.95rem] text-mark hover:text-ink transition-colors"
-              >
-                {project.linkLabel}
-                <ArrowUpRight
-                  size={14}
-                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </a>
-              <span className="font-mono text-[11px] text-ink-3">
-                {project.stack}
-              </span>
+              {project.href && project.href !== "#" && (
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-1 text-[0.95rem] text-mark hover:text-ink transition-colors"
+                >
+                  {project.linkLabel || project.href}
+                  <ArrowUpRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
+              )}
+              {project.stack && (
+                <span className="font-mono text-[11px] text-ink-3">
+                  {project.stack}
+                </span>
+              )}
             </div>
           </article>
         ))}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
 import {
   deletePost,
+  duplicatePost,
   getPostBySlug,
   updatePost,
   type BlogPostInput,
@@ -45,7 +46,15 @@ export async function PUT(request: Request, { params }: Params) {
   try {
     const body = (await request.json()) as Partial<BlogPostInput> & {
       newSlug?: string;
+      action?: string;
     };
+
+    if (body.action === "duplicate") {
+      const post = await duplicatePost(slug);
+      revalidateBlogPaths(post.slug);
+      return NextResponse.json({ success: true, post, slug: post.slug });
+    }
+
     const post = await updatePost(slug, body);
     revalidateBlogPaths(slug);
     if (post.slug !== slug) {

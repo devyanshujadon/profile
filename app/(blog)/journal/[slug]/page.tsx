@@ -27,9 +27,12 @@ export async function generateMetadata({ params }: Props) {
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.excerpt,
     alternates: { canonical: `/${post.slug}` },
+    openGraph: post.coverImage
+      ? { images: [{ url: post.coverImage }] }
+      : undefined,
   };
 }
 
@@ -72,6 +75,15 @@ export default async function JournalPostPage({ params }: Props) {
           <p className="mt-5 text-lg text-ink-2 leading-relaxed">
             {post.excerpt}
           </p>
+        )}
+
+        {post.coverImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.coverImage}
+            alt=""
+            className="mt-8 w-full rounded-lg border border-line object-cover max-h-[28rem]"
+          />
         )}
       </header>
 

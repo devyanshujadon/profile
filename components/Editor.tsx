@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
+import Underline from "@tiptap/extension-underline";
+import Placeholder from "@tiptap/extension-placeholder";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { common, createLowlight } from "lowlight";
 
@@ -12,18 +15,33 @@ const lowlight = createLowlight(common);
 interface EditorProps {
   content: string;
   onChange: (content: string) => void;
+  placeholder?: string;
+  minHeight?: string;
 }
 
-export default function Editor({ content, onChange }: EditorProps) {
+export default function Editor({
+  content,
+  onChange,
+  placeholder = "Start writing…",
+  minHeight = "320px",
+}: EditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         codeBlock: false,
       }),
+      Underline,
       Link.configure({
         openOnClick: false,
+        HTMLAttributes: { rel: "noopener noreferrer", target: "_blank" },
       }),
+      Image.configure({
+        HTMLAttributes: {
+          class: "rounded-lg max-w-full h-auto my-4",
+        },
+      }),
+      Placeholder.configure({ placeholder }),
       CodeBlockLowlight.configure({
         lowlight,
       }),
@@ -35,38 +53,75 @@ export default function Editor({ content, onChange }: EditorProps) {
     editorProps: {
       attributes: {
         class:
-          "prose prose-neutral max-w-none focus:outline-none min-h-[320px] px-4 py-3 text-ink prose-headings:font-display prose-a:text-mark",
+          "prose prose-neutral max-w-none focus:outline-none px-4 py-3 text-ink prose-headings:font-display prose-a:text-mark prose-img:rounded-lg",
+        style: `min-height: ${minHeight}`,
+      },
+      handleDrop: (view, event, _slice, moved) => {
+        if (moved || !event.dataTransfer?.files?.length) return false;
+        const file = event.dataTransfer.files[0];
+        if (!file?.type.startsWith("image/")) return false;
+        // External images only — prompt for URL instead of uploading
+        event.preventDefault();
+        return true;
       },
     },
   });
 
-  // Sync external content (e.g. loading a post to edit)
   useEffect(() => {
     if (!editor) return;
     const current = editor.getHTML();
     if (content && content !== current) {
       editor.commands.setContent(content, { emitUpdate: false });
     }
-    if (!content && current !== "<p></p>") {
+    if (!content && current !== "<p></p>" && current !== "") {
       editor.commands.setContent("", { emitUpdate: false });
     }
   }, [content, editor]);
 
+  const addLink = useCallback(() => {
+    if (!editor) return;
+    const prev = editor.getAttributes("link").href as string | undefined;
+    const url = window.prompt("Enter URL:", prev || "https://");
+    if (url === null) return;
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      return;
+    }
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: url })
+      .run();
+  }, [editor]);
+
+  const addImage = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt("Image URL:");
+    if (!url) return;
+    editor.chain().focus().setImage({ src: url }).run();
+  }, [editor]);
+
+  const addYoutube = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt("YouTube or embed URL:");
+    if (!url) return;
+    // Simple embed as a link-styled block for portability
+    const html = `<p><a href="${url}">${url}</a></p>`;
+    editor.chain().focus().insertContent(html).run();
+  }, [editor]);
+
   if (!editor) {
     return (
-      <div className="min-h-[320px] border border-line rounded-lg bg-panel animate-pulse" />
+      <div
+        className="border border-line rounded-lg bg-panel animate-pulse"
+        style={{ minHeight }}
+      />
     );
   }
 
-  const addLink = () => {
-    const url = window.prompt("Enter URL:");
-    if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-  };
-
   const btn = (active: boolean) =>
-    `px-2.5 py-1.5 rounded text-sm transition-colors ${
+    `px-2 py-1.5 rounded text-xs font-medium transition-colors ${
       active
         ? "bg-canvas-2 text-ink"
         : "text-ink-2 hover:bg-canvas-2 hover:text-ink"
@@ -74,11 +129,29 @@ export default function Editor({ content, onChange }: EditorProps) {
 
   return (
     <div className="border border-line rounded-lg overflow-hidden bg-canvas">
-      <div className="flex flex-wrap gap-0.5 p-2 bg-panel border-b border-line">
+      <div className="flex flex-wrap gap-0.5 p-2 bg-panel border-b border-line sticky top-0 z-10">
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().undo().run()}
+          className={btn(false)}
+          title="Undo"
+        >
+          ↶
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().redo().run()}
+          className={btn(false)}
+          title="Redo"
+        >
+          ↷
+        </button>
+        <div className="w-px h-6 bg-line mx-1 self-center" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={btn(editor.isActive("bold"))}
+          title="Bold"
         >
           <strong>B</strong>
         </button>
@@ -86,17 +159,27 @@ export default function Editor({ content, onChange }: EditorProps) {
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={btn(editor.isActive("italic"))}
+          title="Italic"
         >
           <em>I</em>
         </button>
         <button
           type="button"
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          className={btn(editor.isActive("underline"))}
+          title="Underline"
+        >
+          <span className="underline">U</span>
+        </button>
+        <button
+          type="button"
           onClick={() => editor.chain().focus().toggleStrike().run()}
           className={btn(editor.isActive("strike"))}
+          title="Strikethrough"
         >
           <s>S</s>
         </button>
-        <div className="w-px h-7 bg-line mx-1 self-center" />
+        <div className="w-px h-6 bg-line mx-1 self-center" />
         <button
           type="button"
           onClick={() =>
@@ -124,7 +207,7 @@ export default function Editor({ content, onChange }: EditorProps) {
         >
           H3
         </button>
-        <div className="w-px h-7 bg-line mx-1 self-center" />
+        <div className="w-px h-6 bg-line mx-1 self-center" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -146,7 +229,7 @@ export default function Editor({ content, onChange }: EditorProps) {
         >
           Quote
         </button>
-        <div className="w-px h-7 bg-line mx-1 self-center" />
+        <div className="w-px h-6 bg-line mx-1 self-center" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleCode().run()}
@@ -167,6 +250,12 @@ export default function Editor({ content, onChange }: EditorProps) {
           className={btn(editor.isActive("link"))}
         >
           Link
+        </button>
+        <button type="button" onClick={addImage} className={btn(false)}>
+          Image
+        </button>
+        <button type="button" onClick={addYoutube} className={btn(false)}>
+          Embed
         </button>
         <button
           type="button"
