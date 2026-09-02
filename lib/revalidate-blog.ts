@@ -7,6 +7,9 @@ export function revalidateBlogPaths(slug?: string) {
   revalidatePath("/journal");
   revalidatePath("/journal/feed.xml");
   revalidatePath("/journal/sitemap.xml");
+  revalidatePath("/sitemap.xml");
+  revalidatePath("/llms.txt");
+  revalidatePath("/developers");
 
   if (slug) {
     revalidatePath(`/blog/${slug}`);

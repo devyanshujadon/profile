@@ -1,11 +1,5 @@
 import React from "react";
-
-const lines = [
-  ["Languages", "JavaScript, TypeScript, Python, Go"],
-  ["AI", "LLMs, LangChain, LangGraph, RAG, TensorFlow, PyTorch"],
-  ["Infrastructure", "PostgreSQL, MongoDB, Redis, Docker, Kubernetes, AWS"],
-  ["Frameworks", "FastAPI, Next.js, Node.js, Flask, Pydantic, SQLAlchemy"],
-];
+import { TOOLS as lines } from "@/lib/site";
 
 const TechStack = () => {
   return (

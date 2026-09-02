@@ -34,6 +34,12 @@ export default function PortfolioChrome({
             <Link href="/" className="hover:text-ink transition-colors">
               Home
             </Link>
+            <Link
+              href="/developers"
+              className="hover:text-ink transition-colors"
+            >
+              Developers
+            </Link>
             <a
               href="https://blog.devyanshu.com"
               className="hover:text-ink transition-colors"

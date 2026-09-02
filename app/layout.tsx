@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Newsreader, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import JsonLd from "@/components/JsonLd";
+import { homepageJsonLd } from "@/lib/site";
 
 const newsreader = Newsreader({
   variable: "--font-newsreader",
@@ -42,6 +44,7 @@ export default function RootLayout({
         className={`${newsreader.variable} ${publicSans.variable} ${plexMono.variable} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
+        <JsonLd data={homepageJsonLd()} />
         <Providers>{children}</Providers>
       </body>
     </html>

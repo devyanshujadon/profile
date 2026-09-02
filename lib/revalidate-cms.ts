@@ -7,6 +7,9 @@ export function revalidateCmsPaths(type?: CmsEntryType, slug?: string) {
   // Portfolio shell always reflects projects / notes
   revalidatePath("/");
   revalidatePath("/", "layout");
+  revalidatePath("/sitemap.xml");
+  revalidatePath("/llms.txt");
+  revalidatePath("/developers");
 
   if (type === "project" || !type) {
     revalidatePath("/");

@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "tsx --test lib/accept.test.ts lib/site.test.ts lib/markdown-content.test.ts",
     "db:seed": "tsx --env-file=.env.local scripts/seed-blog.ts"
   },
   "dependencies": {

@@ -1,20 +1,5 @@
 import React from "react";
-
-const experiences = [
-  {
-    role: "AI Engineer",
-    company: "Tudip Technologies",
-    period: "2025 — Present",
-    detail:
-      "Intelligent pipelines and LLM integrations for enterprise applications.",
-  },
-  {
-    role: "Z Ambassador",
-    company: "IBMz",
-    period: "2020 — 2022",
-    detail: "Enterprise computing advocacy and technical workshops.",
-  },
-];
+import { EXPERIENCES as experiences } from "@/lib/site";
 
 const Experience = () => {
   return (
