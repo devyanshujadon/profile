@@ -8,28 +8,23 @@ const BlogNavbar = () => {
   const isHome = pathname === "/" || pathname === "/journal";
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-canvas/95 border-b border-line">
-      <nav className="mx-auto max-w-[42rem] px-6 sm:px-8 h-14 flex items-center justify-between">
-        <Link
-          href="/"
-          className="font-display text-[1.1rem] tracking-tight text-ink hover:text-mark transition-colors"
-        >
-          Journal
+    <header className="register">
+      <Link
+        href="/"
+        className="font-mono text-[0.72rem] font-medium tracking-[0.14em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer"
+      >
+        Journal
+      </Link>
+      <nav className="flex items-center gap-x-4" aria-label="Journal">
+        <Link href="/" className={isHome ? "nav-link text-ink" : "nav-link"}>
+          All
         </Link>
-        <div className="flex items-center gap-5 text-sm">
-          <Link
-            href="/"
-            className={isHome ? "text-ink font-medium" : "nav-link"}
-          >
-            All
-          </Link>
-          <a href="https://devyanshu.com" className="nav-link">
-            Portfolio
-          </a>
-          <a href="/feed.xml" className="nav-link">
-            RSS
-          </a>
-        </div>
+        <a href="https://devyanshu.com" className="nav-link">
+          Portfolio
+        </a>
+        <a href="/feed.xml" className="nav-link">
+          RSS
+        </a>
       </nav>
     </header>
   );

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
 
 const links = [
   { href: "#work", label: "Work" },
@@ -12,67 +11,51 @@ const links = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-200 ${
-        scrolled || open ? "bg-canvas/95 border-b border-line" : ""
-      }`}
-    >
-      <nav className="mx-auto max-w-[40rem] px-6 sm:px-8 h-14 flex items-center justify-between">
-        <Link
-          href="/"
-          className="font-display text-[1.05rem] tracking-tight text-ink hover:text-mark transition-colors"
-        >
-          Devyanshu Jadon
-        </Link>
+    <header className="register">
+      <Link href="/" className="font-mono text-[0.72rem] font-medium tracking-[0.14em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer">
+        DJ
+      </Link>
 
-        <div className="hidden sm:flex items-center gap-6">
-          {links.map((link) => (
-            <a key={link.href} href={link.href} className="nav-link">
-              {link.label}
-            </a>
-          ))}
-          <a href="https://blog.devyanshu.com" className="nav-link">
-            Writing
+      <nav className="hidden sm:flex items-center gap-4" aria-label="Primary">
+        {links.map((link) => (
+          <a key={link.href} href={link.href} className="nav-link">
+            {link.label}
           </a>
-        </div>
-
-        <button
-          type="button"
-          className="sm:hidden text-ink-2"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Close menu" : "Open menu"}
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        ))}
+        <a href="https://blog.devyanshu.com" className="nav-highlight">
+          Writing
+        </a>
       </nav>
 
-      {open && (
-        <div className="sm:hidden border-t border-line bg-canvas px-6 py-4 flex flex-col gap-3">
+      <button
+        type="button"
+        className="sm:hidden font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink cursor-pointer"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-label={open ? "Close menu" : "Open menu"}
+      >
+        {open ? "Close" : "Menu"}
+      </button>
+
+      {open ? (
+        <div className="sm:hidden absolute left-0 right-0 top-full border-b-2 border-ink bg-canvas px-5 py-4 flex flex-col gap-3">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="nav-link text-base"
+              className="nav-link text-sm"
             >
               {link.label}
             </a>
           ))}
-          <a href="https://blog.devyanshu.com" className="nav-link text-base">
+          <a href="https://blog.devyanshu.com" className="nav-highlight w-fit">
             Writing
           </a>
         </div>
-      )}
+      ) : null}
     </header>
   );
 };

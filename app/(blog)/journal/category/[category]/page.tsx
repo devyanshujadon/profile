@@ -43,25 +43,21 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-[42rem]">
-      <header className="mb-12">
-        <Link
-          href="/"
-          className="text-sm text-ink-3 hover:text-ink transition-colors mb-8 inline-block"
-        >
-          ← Journal
+      <header className="mb-12 pb-8 border-b-2 border-ink">
+        <Link href="/" className="nav-link mb-8 inline-block">
+          Journal
         </Link>
-        <p className="label mb-3">Category</p>
-        <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink">
+        <h1 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] leading-[0.92] text-ink">
           {matched}
         </h1>
-        <p className="mt-2 text-sm text-ink-3">
+        <p className="mt-3 font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
           {posts.length} {posts.length === 1 ? "post" : "posts"}
         </p>
       </header>
 
-      <div className="divide-y divide-[var(--color-line)]">
+      <div>
         {posts.map((post) => (
-          <div key={post.slug} className="py-8 first:pt-0">
+          <div key={post.slug} className="py-8 border-b border-ink">
             <PostCard post={post} variant="list" />
           </div>
         ))}

@@ -57,14 +57,13 @@ export default async function CmsPage({ params }: Params) {
 
   return (
     <article
-      className={`mx-auto py-12 md:py-16 ${
-        wide ? "max-w-3xl" : "max-w-[38rem]"
+      className={`mx-auto py-12 md:py-16 px-5 sm:px-7 ${
+        wide ? "max-w-3xl" : "max-w-[40rem]"
       }`}
     >
       {!minimal && (
-        <header className="mb-10">
-          <p className="label mb-4">Page</p>
-          <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink">
+        <header className="mb-10 pb-8 border-b border-ink">
+          <h1 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] leading-[0.92] text-ink">
             {page.title}
           </h1>
           {page.excerpt && (
@@ -73,7 +72,7 @@ export default async function CmsPage({ params }: Params) {
         </header>
       )}
       {minimal && (
-        <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink mb-8">
+        <h1 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] leading-[0.92] text-ink mb-8">
           {page.title}
         </h1>
       )}

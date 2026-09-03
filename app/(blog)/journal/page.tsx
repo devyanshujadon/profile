@@ -33,13 +33,12 @@ export default async function JournalHomePage() {
     .slice(0, 20);
 
   return (
-    <div className="mx-auto max-w-[42rem] lg:max-w-[56rem]">
-      <header className="mb-12 md:mb-14">
-        <p className="label mb-4">Writing</p>
-        <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink max-w-[14ch] leading-[1.15]">
-          Notes from building.
+    <div className="mx-auto max-w-[56rem]">
+      <header className="mb-12 md:mb-14 pb-8 border-b-2 border-ink">
+        <h1 className="font-display uppercase text-[clamp(2.25rem,6vw,4rem)] tracking-[-0.04em] leading-[0.9] text-ink max-w-[12ch]">
+          Notes from building
         </h1>
-        <p className="mt-4 text-ink-2 max-w-md leading-relaxed">
+        <p className="mt-5 text-ink-2 max-w-md leading-relaxed">
           Engineering logs, ideas, and field notes.
         </p>
       </header>
@@ -47,22 +46,22 @@ export default async function JournalHomePage() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_11rem] gap-12 lg:gap-16">
         <div>
           {featured && (
-            <div className="mb-10 pb-10 border-b border-line">
+            <div className="mb-0 pb-10 border-b border-ink">
               <PostCard post={featured} variant="featured" />
             </div>
           )}
 
           {rest.length > 0 && (
-            <div className="divide-y divide-[var(--color-line)]">
+            <div>
               {rest.map((post) => (
-                <div key={post.slug} className="py-8 first:pt-0">
+                <div key={post.slug} className="py-8 border-b border-ink">
                   <PostCard post={post} variant="list" />
                 </div>
               ))}
             </div>
           )}
 
-          {posts.length === 0 && (
+          {posts.length > 0 ? null : (
             <p className="text-ink-3">No entries yet.</p>
           )}
         </div>

@@ -209,7 +209,9 @@ export default function AdminDashboard() {
     return (
       <div className="max-w-md mx-auto py-16 surface-card p-8 text-center">
         <p className="label mb-3">CMS</p>
-        <h1 className="text-2xl font-display text-ink mb-3">Content studio</h1>
+        <h1 className="text-2xl font-display uppercase tracking-[-0.02em] text-ink mb-3">
+          Content studio
+        </h1>
         <p className="text-ink-2 text-sm leading-relaxed mb-6">
           Sign in with GitHub to manage posts, projects, pages, notes, and
           media. Only allowlisted accounts can access the CMS.

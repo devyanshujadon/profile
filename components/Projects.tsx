@@ -1,72 +1,80 @@
 import React from "react";
-import { ArrowUpRight } from "lucide-react";
 import { loadProjects } from "@/lib/projects";
 
 const Projects = async () => {
   const projects = await loadProjects();
 
   return (
-    <section id="work" className="scroll-mt-8 pb-14 md:pb-16">
-      <p className="label mb-8">Work</p>
+    <section id="work" className="scroll-mt-16">
+      <div className="border-b border-ink px-5 sm:px-7 lg:px-9 py-8 md:py-10">
+        <h2 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] text-ink">
+          Work
+        </h2>
+      </div>
 
-      <div className="space-y-12 md:space-y-14">
-        {projects.map((project) => (
-          <article key={project.title}>
-            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 mb-3">
-              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <h2 className="font-display text-[1.75rem] md:text-[2rem] tracking-tight text-ink">
-                  {project.title}
-                </h2>
-                <span className="text-sm text-mark">{project.tag}</span>
+      <div className="bg-ink">
+        {projects.map((project, index) => {
+          const n = String(index + 1).padStart(2, "0");
+          const hasLink = Boolean(project.href && project.href !== "#");
+
+          return (
+            <article
+              key={project.title}
+              className="grid grid-cols-1 md:grid-cols-[11rem_minmax(0,1fr)] bg-canvas border-b border-ink"
+            >
+              <div className="px-5 sm:px-7 lg:px-9 py-8 md:py-10 md:border-r border-ink flex flex-col gap-3">
+                <p className="font-mono text-[0.68rem] tracking-[0.12em] uppercase text-ink-3">
+                  [ {n} ]
+                </p>
+                <p className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink">
+                  {project.year}
+                </p>
+                {project.stack && (
+                  <p className="font-mono text-[0.68rem] tracking-[0.08em] uppercase text-ink-3">
+                    {project.stack}
+                  </p>
+                )}
+                <p className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-mark">
+                  {project.tag}
+                </p>
               </div>
-              <span className="font-mono text-xs text-ink-3">
-                {project.year}
-              </span>
-            </div>
 
-            <p className="text-[1.02rem] leading-[1.7] text-ink-2 max-w-[34rem]">
-              {project.blurb}
-            </p>
+              <div className="px-5 sm:px-7 lg:px-9 py-8 md:py-10">
+                <h3 className="font-display uppercase text-[clamp(1.6rem,3.2vw,2.35rem)] tracking-[-0.03em] text-ink">
+                  {project.title}
+                </h3>
+                <p className="mt-4 max-w-[40rem] text-[1rem] leading-[1.65] text-ink-2">
+                  {project.blurb}
+                </p>
 
-            {project.points.length > 0 && (
-              <ul className="mt-5 space-y-1.5 max-w-[34rem]">
-                {project.points.map((point) => (
-                  <li
-                    key={point}
-                    className="flex gap-2.5 text-[0.95rem] text-ink-2 leading-relaxed"
+                {project.points.length > 0 && (
+                  <ul className="mt-6 max-w-[40rem] border-t border-ink">
+                    {project.points.map((point) => (
+                      <li
+                        key={point}
+                        className="border-b border-ink py-2.5 text-[0.95rem] leading-relaxed text-ink-2"
+                      >
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {hasLink && (
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-flex items-center gap-2 font-mono text-[0.72rem] tracking-[0.1em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer"
                   >
-                    <span className="text-ink-3 select-none" aria-hidden>
-                      –
-                    </span>
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
-              {project.href && project.href !== "#" && (
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1 text-[0.95rem] text-mark hover:text-ink transition-colors"
-                >
-                  {project.linkLabel || project.href}
-                  <ArrowUpRight
-                    size={14}
-                    className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </a>
-              )}
-              {project.stack && (
-                <span className="font-mono text-[11px] text-ink-3">
-                  {project.stack}
-                </span>
-              )}
-            </div>
-          </article>
-        ))}
+                    {project.linkLabel || project.href}
+                    <span aria-hidden>↗</span>
+                  </a>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

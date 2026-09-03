@@ -4,7 +4,7 @@ import { DEVELOPER_RESOURCES, SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Devyanshu developer resources",
   description:
-    "Developer resources for Devyanshu Jadon — GitHub, LoomKit, FeedFr, journal, llms.txt, and sitemap. Personal site; no public API or MCP server.",
+    "Developer resources for Devyanshu Jadon: GitHub, LoomKit, FeedFr, journal, llms.txt, and sitemap. Personal site; no public API or MCP server.",
   alternates: {
     canonical: "/developers",
     types: {
@@ -15,29 +15,32 @@ export const metadata: Metadata = {
 
 export default function DevelopersPage() {
   return (
-    <article className="mx-auto max-w-[38rem] py-4">
-      <header className="mb-10">
-        <p className="label mb-4">Developers</p>
-        <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink">
-          Devyanshu developer resources
+    <article className="px-5 sm:px-7 lg:px-9 py-12 md:py-16 max-w-[52rem]">
+      <header className="mb-12 pb-10 border-b border-ink">
+        <h1 className="font-display uppercase text-[clamp(2.25rem,6vw,4.5rem)] tracking-[-0.04em] leading-[0.9] text-ink">
+          Developer resources
         </h1>
-        <p className="mt-4 text-ink-2 leading-relaxed">
-          Public work, source, and machine-readable files for{" "}
-          {SITE.name}. This is a personal portfolio — there is no public
-          API, OpenAPI spec, auth flow, developer portal, or MCP server.
+        <p className="mt-6 max-w-[40rem] text-ink-2 leading-relaxed">
+          Public work, source, and machine-readable files for {SITE.name}. This
+          is a personal portfolio. There is no public API, OpenAPI spec, auth
+          flow, developer portal, or MCP server.
         </p>
       </header>
 
       <section className="mb-12">
-        <h2 className="font-display text-xl tracking-tight text-ink mb-4">
+        <h2 className="font-display uppercase text-2xl tracking-[-0.02em] text-ink mb-5">
           When to use this
         </h2>
-        <ul className="space-y-2 text-[0.95rem] text-ink-2 leading-relaxed">
-          <li>Look up Devyanshu&apos;s GitHub, products, or writing</li>
-          <li>Contact or hire Devyanshu for AI and backend engineering</li>
-          <li>
+        <ul className="border-t border-ink">
+          <li className="border-b border-ink py-3 text-ink-2">
+            Look up Devyanshu&apos;s GitHub, products, or writing
+          </li>
+          <li className="border-b border-ink py-3 text-ink-2">
+            Contact or hire Devyanshu for AI and backend engineering
+          </li>
+          <li className="border-b border-ink py-3 text-ink-2">
             Fetch markdown via{" "}
-            <code className="font-mono text-[0.85em] bg-canvas-2 px-1 rounded">
+            <code className="font-mono text-[0.85em] bg-canvas-2 px-1">
               Accept: text/markdown
             </code>{" "}
             or the <code className="font-mono text-[0.85em]">.md</code> sibling
@@ -47,18 +50,16 @@ export default function DevelopersPage() {
       </section>
 
       <section className="mb-12">
-        <h2 className="font-display text-xl tracking-tight text-ink mb-5">
+        <h2 className="font-display uppercase text-2xl tracking-[-0.02em] text-ink mb-5">
           Public work and source
         </h2>
-        <ul className="space-y-5">
+        <ul className="border-t border-ink">
           {DEVELOPER_RESOURCES.map((resource) => (
-            <li key={resource.url}>
+            <li key={resource.url} className="border-b border-ink py-5">
               <a
                 href={resource.url}
-                className="text-mark hover:text-ink transition-colors"
-                target={
-                  resource.url.startsWith("http") ? "_blank" : undefined
-                }
+                className="font-mono text-[0.78rem] tracking-[0.08em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer"
+                target={resource.url.startsWith("http") ? "_blank" : undefined}
                 rel={
                   resource.url.startsWith("http")
                     ? "noopener noreferrer"
@@ -66,8 +67,9 @@ export default function DevelopersPage() {
                 }
               >
                 {resource.name}
+                {resource.url.startsWith("http") ? " ↗" : ""}
               </a>
-              <p className="mt-1 text-[0.95rem] text-ink-2 leading-relaxed">
+              <p className="mt-2 text-[0.95rem] text-ink-2 leading-relaxed max-w-[40rem]">
                 {resource.description}
               </p>
             </li>
@@ -76,38 +78,50 @@ export default function DevelopersPage() {
       </section>
 
       <section className="mb-12">
-        <h2 className="font-display text-xl tracking-tight text-ink mb-5">
+        <h2 className="font-display uppercase text-2xl tracking-[-0.02em] text-ink mb-5">
           Machine-readable
         </h2>
-        <ul className="space-y-3 text-[0.95rem] text-ink-2">
-          <li>
-            <a href="/llms.txt" className="text-mark hover:text-ink">
+        <ul className="border-t border-ink font-mono text-[0.78rem] tracking-[0.06em] uppercase">
+          <li className="border-b border-ink py-3 flex flex-col sm:flex-row sm:gap-4">
+            <a href="/llms.txt" className="text-ink hover:text-mark cursor-pointer">
               /llms.txt
             </a>
-            <span> — index and when-to-use guidance</span>
+            <span className="text-ink-3 normal-case tracking-normal font-body text-[0.9rem]">
+              Index and when-to-use guidance
+            </span>
           </li>
-          <li>
-            <a href="/sitemap.xml" className="text-mark hover:text-ink">
+          <li className="border-b border-ink py-3 flex flex-col sm:flex-row sm:gap-4">
+            <a
+              href="/sitemap.xml"
+              className="text-ink hover:text-mark cursor-pointer"
+            >
               /sitemap.xml
             </a>
-            <span> — indexable URLs</span>
+            <span className="text-ink-3 normal-case tracking-normal font-body text-[0.9rem]">
+              Indexable URLs
+            </span>
           </li>
-          <li>
-            <a href="/developers.md" className="text-mark hover:text-ink">
+          <li className="border-b border-ink py-3 flex flex-col sm:flex-row sm:gap-4">
+            <a
+              href="/developers.md"
+              className="text-ink hover:text-mark cursor-pointer"
+            >
               /developers.md
             </a>
-            <span> — this page as markdown</span>
+            <span className="text-ink-3 normal-case tracking-normal font-body text-[0.9rem]">
+              This page as markdown
+            </span>
           </li>
         </ul>
       </section>
 
       <section>
-        <h2 className="font-display text-xl tracking-tight text-ink mb-3">
+        <h2 className="font-display uppercase text-2xl tracking-[-0.02em] text-ink mb-4">
           Contact
         </h2>
         <a
           href={`mailto:${SITE.email}`}
-          className="text-mark hover:text-ink transition-colors"
+          className="font-display uppercase text-xl tracking-[-0.02em] text-mark hover:text-ink transition-colors duration-150 cursor-pointer break-all"
         >
           {SITE.email}
         </a>

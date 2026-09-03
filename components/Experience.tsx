@@ -3,29 +3,30 @@ import { EXPERIENCES as experiences } from "@/lib/site";
 
 const Experience = () => {
   return (
-    <section id="path" className="scroll-mt-8 py-14 md:py-16 border-t border-line">
-      <p className="label mb-8">Path</p>
-
-      <ul className="space-y-8">
+    <section id="path" className="scroll-mt-16 bg-canvas">
+      <div className="px-5 sm:px-7 lg:px-9 py-8 md:py-10 border-b border-ink">
+        <h2 className="font-display uppercase text-[clamp(1.75rem,3.5vw,2.5rem)] tracking-[-0.03em] text-ink">
+          Path
+        </h2>
+      </div>
+      <ul>
         {experiences.map((exp) => (
           <li
             key={exp.company + exp.role}
-            className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6"
+            className="px-5 sm:px-7 lg:px-9 py-8 border-b border-ink last:border-b-0"
           >
-            <p className="font-mono text-xs text-ink-3 sm:pt-1.5">
-              {exp.period}
+            <p className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
+              {exp.period.replaceAll("—", "-")}
             </p>
-            <div>
-              <div className="flex flex-wrap items-baseline gap-x-2">
-                <h3 className="font-display text-lg tracking-tight text-ink">
-                  {exp.company}
-                </h3>
-                <span className="text-sm text-ink-3">· {exp.role}</span>
-              </div>
-              <p className="mt-1 text-[0.95rem] text-ink-2 leading-relaxed max-w-[30rem]">
-                {exp.detail}
-              </p>
-            </div>
+            <h3 className="mt-3 font-display uppercase text-xl tracking-[-0.02em] text-ink">
+              {exp.company}
+            </h3>
+            <p className="mt-1 font-mono text-[0.72rem] tracking-[0.08em] uppercase text-ink-2">
+              {exp.role}
+            </p>
+            <p className="mt-3 max-w-[32rem] text-[0.95rem] leading-relaxed text-ink-2">
+              {exp.detail}
+            </p>
           </li>
         ))}
       </ul>

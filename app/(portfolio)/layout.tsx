@@ -11,7 +11,7 @@ export default function PortfolioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="site-shell min-h-screen">
+    <div className="site-shell min-h-[100dvh]">
       <PortfolioChrome>{children}</PortfolioChrome>
     </div>
   );

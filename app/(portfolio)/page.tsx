@@ -20,18 +20,15 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-[1080px] lg:grid lg:grid-cols-[minmax(240px,280px)_minmax(0,1fr)] min-h-screen lg:gap-x-14 xl:gap-x-20">
-      <div className="lg:border-r border-line lg:pr-10 xl:pr-12">
-        <IdentityPanel />
-      </div>
-
-      <div className="py-10 lg:py-14 lg:pl-2">
-        <Projects />
+    <div className="min-h-[100dvh]">
+      <IdentityPanel />
+      <Projects />
+      <div className="grid grid-cols-1 lg:grid-cols-2 border-t border-ink">
         <Experience />
         <TechStack />
-        <Contact />
-        <Footer />
       </div>
+      <Contact />
+      <Footer />
     </div>
   );
 }

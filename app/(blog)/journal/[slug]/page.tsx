@@ -49,16 +49,13 @@ export default async function JournalPostPage({ params }: Props) {
   const next = idx > 0 ? all[idx - 1] : null;
 
   return (
-    <article className="mx-auto max-w-[38rem]">
-      <header className="mb-10 md:mb-12">
-        <Link
-          href="/"
-          className="text-sm text-ink-3 hover:text-ink transition-colors mb-8 inline-block"
-        >
-          ← Journal
+    <article className="mx-auto max-w-[40rem]">
+      <header className="mb-10 md:mb-12 pb-8 border-b border-ink">
+        <Link href="/" className="nav-link mb-8 inline-block">
+          Journal
         </Link>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-4 text-sm text-ink-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4 font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
           <span className="text-mark">{post.category}</span>
           <time dateTime={post.date}>{post.date}</time>
           <ReadingTime
@@ -67,7 +64,7 @@ export default async function JournalPostPage({ params }: Props) {
           />
         </div>
 
-        <h1 className="font-display text-3xl md:text-4xl tracking-tight text-ink leading-[1.15]">
+        <h1 className="font-display uppercase text-[clamp(1.85rem,4.5vw,3.25rem)] tracking-[-0.03em] text-ink leading-[0.95]">
           {post.title}
         </h1>
 
@@ -82,31 +79,33 @@ export default async function JournalPostPage({ params }: Props) {
           <img
             src={post.coverImage}
             alt=""
-            className="mt-8 w-full rounded-lg border border-line object-cover max-h-[28rem]"
+            className="mt-8 w-full border border-ink object-cover max-h-[28rem]"
           />
         )}
       </header>
 
       <div
         className="prose prose-site prose-neutral max-w-none
-          prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-ink
+          prose-headings:font-display prose-headings:font-normal prose-headings:uppercase prose-headings:tracking-[-0.02em] prose-headings:text-ink
           prose-p:text-ink-2 prose-p:leading-[1.75]
-          prose-a:text-mark prose-a:underline prose-a:underline-offset-2
+          prose-a:text-ink prose-a:underline prose-a:underline-offset-2
           prose-strong:text-ink prose-strong:font-medium
-          prose-code:text-ink prose-code:bg-canvas-2 prose-code:px-1 prose-code:rounded prose-code:text-[0.9em]
+          prose-code:text-ink prose-code:bg-canvas-2 prose-code:px-1 prose-code:text-[0.9em]
           prose-code:before:content-none prose-code:after:content-none
-          prose-pre:bg-ink prose-pre:text-[var(--color-canvas)] prose-pre:rounded-md
+          prose-pre:bg-ink prose-pre:text-[var(--color-canvas)]
           prose-blockquote:border-mark prose-blockquote:text-ink-2 prose-blockquote:not-italic
           prose-li:text-ink-2"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
 
       {(prev || next) && (
-        <nav className="mt-14 pt-8 border-t border-line grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <nav className="mt-14 pt-8 border-t-2 border-ink grid grid-cols-1 sm:grid-cols-2 gap-6">
           {prev ? (
-            <Link href={`/${prev.slug}`} className="group">
-              <span className="text-sm text-ink-3">Previous</span>
-              <span className="block mt-1 font-display text-lg text-ink group-hover:text-mark transition-colors leading-snug">
+            <Link href={`/${prev.slug}`} className="group cursor-pointer">
+              <span className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
+                Previous
+              </span>
+              <span className="block mt-1 font-display uppercase text-lg text-ink group-hover:text-mark transition-colors duration-150 leading-snug">
                 {prev.title}
               </span>
             </Link>
@@ -114,9 +113,11 @@ export default async function JournalPostPage({ params }: Props) {
             <div />
           )}
           {next ? (
-            <Link href={`/${next.slug}`} className="group sm:text-right">
-              <span className="text-sm text-ink-3">Next</span>
-              <span className="block mt-1 font-display text-lg text-ink group-hover:text-mark transition-colors leading-snug">
+            <Link href={`/${next.slug}`} className="group sm:text-right cursor-pointer">
+              <span className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
+                Next
+              </span>
+              <span className="block mt-1 font-display uppercase text-lg text-ink group-hover:text-mark transition-colors duration-150 leading-snug">
                 {next.title}
               </span>
             </Link>

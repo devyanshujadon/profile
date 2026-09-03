@@ -2,18 +2,13 @@ import Link from "next/link";
 
 const BlogFooter = () => {
   return (
-    <footer className="px-6 sm:px-8 pb-12">
-      <div className="mx-auto max-w-[42rem] border-t border-line pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <p className="text-sm text-ink-3">
-          © {new Date().getFullYear()} Devyanshu Jadon
-        </p>
-        <Link
-          href="https://devyanshu.com"
-          className="text-sm text-ink-3 hover:text-ink transition-colors"
-        >
-          Back to portfolio
-        </Link>
-      </div>
+    <footer className="site-foot">
+      <p className="font-mono text-[0.68rem] tracking-[0.08em] uppercase text-ink-3">
+        © {new Date().getFullYear()} Devyanshu Jadon
+      </p>
+      <Link href="https://devyanshu.com" className="nav-link">
+        Back to portfolio
+      </Link>
     </footer>
   );
 };

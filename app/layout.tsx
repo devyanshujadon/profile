@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
-import { Newsreader, Public_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, Archivo_Black, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import JsonLd from "@/components/JsonLd";
 import { homepageJsonLd } from "@/lib/site";
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const publicSans = Public_Sans({
-  variable: "--font-public-sans",
+const archivoBlack = Archivo_Black({
+  variable: "--font-archivo-black",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: "400",
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -41,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${newsreader.variable} ${publicSans.variable} ${plexMono.variable} antialiased custom-scrollbar`}
+        className={`${archivo.variable} ${archivoBlack.variable} ${plexMono.variable} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
         <JsonLd data={homepageJsonLd()} />

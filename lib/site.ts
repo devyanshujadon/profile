@@ -33,14 +33,14 @@ export const EXPERIENCES = [
   {
     role: "AI Engineer",
     company: "Tudip Technologies",
-    period: "2025 — Present",
+    period: "2025 - Present",
     detail:
       "Intelligent pipelines and LLM integrations for enterprise applications.",
   },
   {
     role: "Z Ambassador",
     company: "IBMz",
-    period: "2020 — 2022",
+    period: "2020 - 2022",
     detail: "Enterprise computing advocacy and technical workshops.",
   },
 ] as const;
@@ -80,7 +80,7 @@ export const DEVELOPER_RESOURCES: DeveloperResource[] = [
     name: "LoomKit",
     url: "https://loomkit.vercel.app/",
     description:
-      "Tiny, swappable LLM orchestration core — a Protocol, a few dataclasses, one optional provider.",
+      "Tiny, swappable LLM orchestration core. A Protocol, a few dataclasses, one optional provider.",
   },
   {
     name: "FeedFr",

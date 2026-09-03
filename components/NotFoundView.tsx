@@ -20,31 +20,32 @@ export default function NotFoundView({
 
   const inner = (
     <>
-      {/* Agent recovery copy (same body as the markdown 404). */}
       <pre className="hidden">{markdown}</pre>
-      <div className={`mx-auto max-w-[38rem] ${framed ? "py-4" : "px-6 sm:px-8 py-16"}`}>
-        <p className="label mb-4">404</p>
-        <h1 className="font-display text-3xl tracking-tight text-ink mb-3">
+      <div className={framed ? "py-8 px-5 sm:px-7" : "px-5 sm:px-7 lg:px-9 py-16"}>
+        <p className="font-mono text-[0.68rem] tracking-[0.12em] uppercase text-mark mb-4">
+          404
+        </p>
+        <h1 className="font-display uppercase text-[clamp(2.5rem,8vw,5.5rem)] tracking-[-0.04em] leading-[0.88] text-ink mb-6">
           Page not found
         </h1>
-        <p className="text-ink-2 mb-8 leading-relaxed">
-          That path doesn&apos;t exist. Agents and humans can recover from the
+        <p className="text-ink-2 mb-8 max-w-[36rem] leading-relaxed">
+          That path does not exist. Agents and humans can recover from the
           links below.
         </p>
-        <ul className="space-y-2 text-[0.95rem]">
+        <ul className="border-t border-ink max-w-[28rem]">
           {recovery.map((item) => (
-            <li key={item.href}>
+            <li key={item.href} className="border-b border-ink">
               {item.href.startsWith("http") ? (
                 <a
                   href={item.href}
-                  className="text-mark hover:text-ink transition-colors"
+                  className="block py-3 font-mono text-[0.72rem] tracking-[0.08em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer"
                 >
                   {item.label}
                 </a>
               ) : (
                 <Link
                   href={item.href}
-                  className="text-mark hover:text-ink transition-colors"
+                  className="block py-3 font-mono text-[0.72rem] tracking-[0.08em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer"
                 >
                   {item.label}
                 </Link>
@@ -57,5 +58,5 @@ export default function NotFoundView({
   );
 
   if (framed) return inner;
-  return <div className="site-shell min-h-screen">{inner}</div>;
+  return <div className="site-shell min-h-[100dvh]">{inner}</div>;
 }

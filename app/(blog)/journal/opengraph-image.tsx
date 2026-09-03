@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Journal — Devyanshu Jadon";
+export const alt = "Journal - Devyanshu Jadon";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -14,31 +14,27 @@ export default async function Image() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#faf9f7",
-          padding: "72px",
-          fontFamily: "Georgia, serif",
+          backgroundColor: "#f1f1ec",
+          padding: "64px",
+          fontFamily: "Arial Black, Helvetica, sans-serif",
+          border: "16px solid #111111",
         }}
       >
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
+            justifyContent: "space-between",
             marginBottom: "auto",
+            fontFamily: "ui-monospace, monospace",
+            fontSize: "18px",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "#5a5a54",
           }}
         >
-          <span
-            style={{
-              fontSize: "18px",
-              fontWeight: 500,
-              letterSpacing: "0.14em",
-              color: "#8a847a",
-              fontFamily: "monospace",
-              textTransform: "uppercase",
-            }}
-          >
-            Journal
-          </span>
+          <span>Journal</span>
+          <span style={{ color: "#e61919" }}>Open</span>
         </div>
 
         <div
@@ -50,34 +46,45 @@ export default async function Image() {
         >
           <div
             style={{
-              fontSize: "84px",
-              fontWeight: 500,
-              lineHeight: 1.05,
-              color: "#1a1814",
-              letterSpacing: "-0.02em",
-              maxWidth: "900px",
+              width: "96px",
+              height: "8px",
+              backgroundColor: "#e61919",
+              marginBottom: "28px",
+            }}
+          />
+          <div
+            style={{
+              fontSize: "76px",
+              fontWeight: 400,
+              lineHeight: 0.9,
+              color: "#111111",
+              letterSpacing: "-0.04em",
+              textTransform: "uppercase",
+              maxWidth: "980px",
             }}
           >
-            Notes from building.
+            Notes from building
           </div>
           <div
             style={{
-              fontSize: "24px",
-              color: "#4f4a43",
+              fontSize: "22px",
+              color: "#3a3a35",
               marginTop: "28px",
               maxWidth: "700px",
               lineHeight: 1.4,
-              fontFamily: "system-ui, sans-serif",
+              fontFamily: "Helvetica, Arial, sans-serif",
             }}
           >
             Engineering logs and field notes by Devyanshu Jadon.
           </div>
           <div
             style={{
-              marginTop: "40px",
-              fontSize: "18px",
-              color: "#0d5c63",
-              fontFamily: "system-ui, sans-serif",
+              marginTop: "36px",
+              fontSize: "16px",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "#111111",
+              fontFamily: "ui-monospace, monospace",
             }}
           >
             blog.devyanshu.com

@@ -4,21 +4,18 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="scroll-mt-8 py-14 md:py-16 border-t border-line"
+      className="scroll-mt-16 border-t-2 border-ink px-5 sm:px-7 lg:px-9 py-12 md:py-16"
     >
-      <p className="label mb-8">Contact</p>
-
-      <p className="font-display text-xl md:text-2xl tracking-tight text-ink max-w-[22ch] leading-[1.3]">
-        Open to thoughtful collaborations and interesting problems.
+      <h2 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] text-ink max-w-[16ch] leading-[0.92]">
+        Open to thoughtful collaborations
+      </h2>
+      <p className="mt-6 max-w-[34rem] text-[1rem] leading-[1.65] text-ink-2">
+        If you are building something that needs AI depth, backend architecture,
+        or a product-minded engineer, write.
       </p>
-      <p className="mt-4 text-[0.98rem] text-ink-2 max-w-[30rem] leading-[1.7]">
-        If you&apos;re building something that needs AI depth, backend
-        architecture, or a product-minded engineer — write.
-      </p>
-
       <a
         href="mailto:jadon.devyanshu@gmail.com"
-        className="mt-6 inline-block text-[1.05rem] text-mark hover:text-ink transition-colors"
+        className="mt-8 inline-block font-display uppercase text-[clamp(1.15rem,2.4vw,1.75rem)] tracking-[-0.02em] text-mark hover:text-ink transition-colors duration-150 cursor-pointer break-all"
       >
         jadon.devyanshu@gmail.com
       </a>
