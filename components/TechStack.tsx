@@ -3,22 +3,15 @@ import { TOOLS as lines } from "@/lib/site";
 
 const TechStack = () => {
   return (
-    <section id="tools" className="scroll-mt-16 bg-canvas border-t border-ink lg:border-t-0 lg:border-l">
-      <div className="px-5 sm:px-7 lg:px-9 py-8 md:py-10 border-b border-ink">
-        <h2 className="font-display uppercase text-[clamp(1.75rem,3.5vw,2.5rem)] tracking-[-0.03em] text-ink">
-          Tools
-        </h2>
-      </div>
-      <dl>
+    <section id="tools" className="scroll-mt-24">
+      <h2 className="text-[clamp(1.8rem,3vw,2.35rem)] font-medium tracking-[-0.03em] leading-[1.15] text-[#161616]">
+        Tools
+      </h2>
+      <dl className="mt-8 flex flex-col gap-7">
         {lines.map(([title, items]) => (
-          <div
-            key={title}
-            className="px-5 sm:px-7 lg:px-9 py-6 border-b border-ink last:border-b-0"
-          >
-            <dt className="font-mono text-[0.68rem] tracking-[0.12em] uppercase text-ink-3">
-              {title}
-            </dt>
-            <dd className="mt-2 text-[0.95rem] leading-relaxed text-ink-2">
+          <div key={title}>
+            <dt className="text-[15px] font-medium text-[#161616]">{title}</dt>
+            <dd className="mt-1.5 max-w-[32rem] text-[16px] leading-relaxed text-[#4a4a4a]">
               {items}
             </dd>
           </div>

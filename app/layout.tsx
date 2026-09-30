@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Archivo, Archivo_Black, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, Archivo_Black, Geist, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import RoamingBot from "@/components/RoamingBot";
 import JsonLd from "@/components/JsonLd";
 import { homepageJsonLd } from "@/lib/site";
 
@@ -23,6 +24,11 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: {
     template: "%s · Devyanshu",
@@ -40,11 +46,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${archivo.variable} ${archivoBlack.variable} ${plexMono.variable} antialiased custom-scrollbar`}
+        className={`${archivo.variable} ${archivoBlack.variable} ${plexMono.variable} ${geist.variable} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
         <JsonLd data={homepageJsonLd()} />
         <Providers>{children}</Providers>
+        <RoamingBot />
       </body>
     </html>
   );

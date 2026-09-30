@@ -23,7 +23,7 @@ export default function Home() {
     <div className="min-h-[100dvh]">
       <IdentityPanel />
       <Projects />
-      <div className="grid grid-cols-1 lg:grid-cols-2 border-t border-ink">
+      <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-14 px-5 sm:px-8 pb-8 lg:grid-cols-2 lg:gap-20">
         <Experience />
         <TechStack />
       </div>

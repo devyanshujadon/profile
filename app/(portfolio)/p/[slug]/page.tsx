@@ -62,8 +62,8 @@ export default async function CmsPage({ params }: Params) {
       }`}
     >
       {!minimal && (
-        <header className="mb-10 pb-8 border-b border-ink">
-          <h1 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] leading-[0.92] text-ink">
+        <header className="mb-10 pb-8 border-b border-[#ececec]">
+          <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-medium tracking-[-0.035em] leading-[1.12] text-[#161616]">
             {page.title}
           </h1>
           {page.excerpt && (
@@ -72,7 +72,7 @@ export default async function CmsPage({ params }: Params) {
         </header>
       )}
       {minimal && (
-        <h1 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] leading-[0.92] text-ink mb-8">
+        <h1 className="mb-8 text-[clamp(2rem,5vw,3.25rem)] font-medium tracking-[-0.035em] leading-[1.12] text-[#161616]">
           {page.title}
         </h1>
       )}

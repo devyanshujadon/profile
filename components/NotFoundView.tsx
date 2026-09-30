@@ -21,31 +21,29 @@ export default function NotFoundView({
   const inner = (
     <>
       <pre className="hidden">{markdown}</pre>
-      <div className={framed ? "py-8 px-5 sm:px-7" : "px-5 sm:px-7 lg:px-9 py-16"}>
-        <p className="font-mono text-[0.68rem] tracking-[0.12em] uppercase text-mark mb-4">
-          404
-        </p>
-        <h1 className="font-display uppercase text-[clamp(2.5rem,8vw,5.5rem)] tracking-[-0.04em] leading-[0.88] text-ink mb-6">
+      <div className={framed ? "mx-auto max-w-[1120px] px-5 sm:px-8 py-16" : "mx-auto max-w-[1120px] px-5 sm:px-8 py-20"}>
+        <p className="text-[15px] text-[#5e5e5e]">404</p>
+        <h1 className="mt-3 text-[clamp(2.4rem,6vw,4rem)] font-medium tracking-[-0.035em] leading-[1.1] text-[#161616]">
           Page not found
         </h1>
-        <p className="text-ink-2 mb-8 max-w-[36rem] leading-relaxed">
+        <p className="mt-5 mb-8 max-w-[36rem] text-[17px] leading-[1.6] text-[#4a4a4a]">
           That path does not exist. Agents and humans can recover from the
           links below.
         </p>
-        <ul className="border-t border-ink max-w-[28rem]">
+        <ul className="flex max-w-[28rem] flex-col gap-3">
           {recovery.map((item) => (
-            <li key={item.href} className="border-b border-ink">
+            <li key={item.href}>
               {item.href.startsWith("http") ? (
                 <a
                   href={item.href}
-                  className="block py-3 font-mono text-[0.72rem] tracking-[0.08em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer"
+                  className="text-[16px] text-[#161616] underline decoration-[#ddd] underline-offset-4 hover:decoration-[#161616]"
                 >
                   {item.label}
                 </a>
               ) : (
                 <Link
                   href={item.href}
-                  className="block py-3 font-mono text-[0.72rem] tracking-[0.08em] uppercase text-ink hover:text-mark transition-colors duration-150 cursor-pointer"
+                  className="text-[16px] text-[#161616] underline decoration-[#ddd] underline-offset-4 hover:decoration-[#161616]"
                 >
                   {item.label}
                 </Link>
@@ -58,5 +56,24 @@ export default function NotFoundView({
   );
 
   if (framed) return inner;
-  return <div className="site-shell min-h-[100dvh]">{inner}</div>;
+  return (
+    <div className="theme-dots min-h-[100dvh]">
+      <header className="dots-nav">
+        <div className="dots-nav-inner">
+          <Link href="/" className="dots-wordmark">
+            Devyanshu
+          </Link>
+          <nav className="flex items-center gap-5" aria-label="Primary">
+            <Link href="/" className="nav-link">
+              Home
+            </Link>
+            <a href={SITE.blogUrl} className="pill">
+              Writing
+            </a>
+          </nav>
+        </div>
+      </header>
+      {inner}
+    </div>
+  );
 }

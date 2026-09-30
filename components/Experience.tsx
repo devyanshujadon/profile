@@ -3,28 +3,21 @@ import { EXPERIENCES as experiences } from "@/lib/site";
 
 const Experience = () => {
   return (
-    <section id="path" className="scroll-mt-16 bg-canvas">
-      <div className="px-5 sm:px-7 lg:px-9 py-8 md:py-10 border-b border-ink">
-        <h2 className="font-display uppercase text-[clamp(1.75rem,3.5vw,2.5rem)] tracking-[-0.03em] text-ink">
-          Path
-        </h2>
-      </div>
-      <ul>
+    <section id="path" className="scroll-mt-24">
+      <h2 className="text-[clamp(1.8rem,3vw,2.35rem)] font-medium tracking-[-0.03em] leading-[1.15] text-[#161616]">
+        Path
+      </h2>
+      <ul className="mt-8 flex flex-col gap-8">
         {experiences.map((exp) => (
-          <li
-            key={exp.company + exp.role}
-            className="px-5 sm:px-7 lg:px-9 py-8 border-b border-ink last:border-b-0"
-          >
-            <p className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
-              {exp.period.replaceAll("—", "-")}
+          <li key={exp.company + exp.role}>
+            <p className="text-[13px] font-medium text-[#5e5e5e]">
+              {exp.period.replaceAll("—", "-").replaceAll("–", "-")}
             </p>
-            <h3 className="mt-3 font-display uppercase text-xl tracking-[-0.02em] text-ink">
+            <h3 className="mt-2 text-[1.35rem] font-medium tracking-[-0.02em] text-[#161616]">
               {exp.company}
             </h3>
-            <p className="mt-1 font-mono text-[0.72rem] tracking-[0.08em] uppercase text-ink-2">
-              {exp.role}
-            </p>
-            <p className="mt-3 max-w-[32rem] text-[0.95rem] leading-relaxed text-ink-2">
+            <p className="mt-1 text-[15px] text-[#525252]">{exp.role}</p>
+            <p className="mt-3 max-w-[32rem] text-[16px] leading-relaxed text-[#4a4a4a]">
               {exp.detail}
             </p>
           </li>
