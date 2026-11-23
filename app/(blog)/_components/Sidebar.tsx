@@ -3,24 +3,20 @@ import Link from "next/link";
 interface SidebarProps {
   categories: { name: string; count: number }[];
   tags: { name: string; count: number }[];
+  prefix?: string;
 }
 
-export default function Sidebar({ categories, tags }: SidebarProps) {
+export default function Sidebar({ categories, tags, prefix = "" }: SidebarProps) {
   return (
-    <aside className="space-y-10 lg:sticky lg:top-20">
+    <aside className="journal-panel journal-side">
       <section>
-        <h3 className="font-mono text-[0.68rem] tracking-[0.12em] uppercase text-ink-3 mb-4">
-          Categories
-        </h3>
-        <ul className="border-t border-ink">
+        <h2 className="kicker">Categories</h2>
+        <ul className="journal-cats">
           {categories.map((cat) => (
-            <li key={cat.name} className="border-b border-ink">
-              <Link
-                href={`/category/${encodeURIComponent(cat.name.toLowerCase())}`}
-                className="flex justify-between py-2 text-sm text-ink-2 hover:text-mark transition-colors duration-150 cursor-pointer"
-              >
+            <li key={cat.name}>
+              <Link href={`${prefix}/category/${encodeURIComponent(cat.name.toLowerCase())}`}>
                 <span>{cat.name}</span>
-                <span className="text-ink-3 font-mono text-xs">{cat.count}</span>
+                <span>{cat.count}</span>
               </Link>
             </li>
           ))}
@@ -29,27 +25,18 @@ export default function Sidebar({ categories, tags }: SidebarProps) {
 
       {tags.length > 0 && (
         <section>
-          <h3 className="font-mono text-[0.68rem] tracking-[0.12em] uppercase text-ink-3 mb-4">
-            Tags
-          </h3>
-          <div className="flex flex-wrap gap-x-3 gap-y-2">
+          <h2 className="kicker">Tags</h2>
+          <p className="journal-tags">
             {tags.map((tag) => (
-              <span
-                key={tag.name}
-                className="font-mono text-[0.68rem] tracking-[0.06em] uppercase text-ink-3"
-              >
-                {tag.name}
-              </span>
+              <span key={tag.name}>{tag.name}</span>
             ))}
-          </div>
+          </p>
         </section>
       )}
 
       <section>
-        <h3 className="font-mono text-[0.68rem] tracking-[0.12em] uppercase text-ink-3 mb-3">
-          Subscribe
-        </h3>
-        <a href="/feed.xml" className="nav-link">
+        <h2 className="kicker">Subscribe</h2>
+        <a href={`${prefix}/feed.xml`} className="text-link">
           RSS feed
         </a>
       </section>

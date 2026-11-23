@@ -15,46 +15,42 @@ export const metadata: Metadata = {
 
 export default function DevelopersPage() {
   return (
-    <article className="mx-auto max-w-[1120px] px-5 sm:px-8 py-16 md:py-20">
-      <header className="max-w-[40rem]">
-        <h1 className="text-[clamp(2.4rem,5vw,3.5rem)] font-medium tracking-[-0.035em] leading-[1.12] text-[#161616]">
+    <article className="mx-auto max-w-[40rem] px-5 py-16">
+      <header>
+        <h1 className="font-display text-[clamp(2rem,5vw,3rem)] tracking-[-0.03em] leading-[1.12] text-ink">
           Developer resources
         </h1>
-        <p className="mt-5 text-[17px] leading-[1.6] text-[#4a4a4a]">
+        <p className="mt-5 text-ink-2 leading-relaxed">
           Public work, source, and machine-readable files for {SITE.name}. This
           is a personal portfolio. There is no public API, OpenAPI spec, auth
           flow, developer portal, or MCP server.
         </p>
       </header>
 
-      <section className="mt-14 max-w-[40rem]">
-        <h2 className="text-[1.7rem] font-medium tracking-[-0.03em] text-[#161616]">
-          When to use this
-        </h2>
-        <ul className="mt-5 space-y-3 text-[16px] leading-relaxed text-[#4a4a4a]">
+      <section className="mt-12">
+        <h2 className="text-xl font-bold text-ink">When to use this</h2>
+        <ul className="mt-4 space-y-3 text-ink-2 leading-relaxed">
           <li>Look up Devyanshu&apos;s GitHub, products, or writing</li>
           <li>Contact or hire Devyanshu for AI and backend engineering</li>
           <li>
             Fetch markdown via{" "}
-            <code className="font-mono text-[0.9em] text-[#161616]">
+            <code className="font-mono text-[0.92em] text-ink">
               Accept: text/markdown
             </code>{" "}
-            or the <code className="font-mono text-[0.9em] text-[#161616]">.md</code> sibling
+            or the <code className="font-mono text-[0.92em] text-ink">.md</code> sibling
             of any page
           </li>
         </ul>
       </section>
 
-      <section className="mt-14 max-w-[40rem]">
-        <h2 className="text-[1.7rem] font-medium tracking-[-0.03em] text-[#161616]">
-          Public work and source
-        </h2>
-        <ul className="mt-6 space-y-7">
+      <section className="mt-12">
+        <h2 className="text-xl font-bold text-ink">Public work and source</h2>
+        <ul className="mt-4 space-y-6">
           {DEVELOPER_RESOURCES.map((resource) => (
             <li key={resource.url}>
               <a
                 href={resource.url}
-                className="text-[17px] font-medium text-[#161616] underline decoration-[#ddd] underline-offset-4 hover:decoration-[#161616]"
+                className="font-bold text-ink underline underline-offset-4"
                 target={resource.url.startsWith("http") ? "_blank" : undefined}
                 rel={
                   resource.url.startsWith("http")
@@ -64,7 +60,7 @@ export default function DevelopersPage() {
               >
                 {resource.name}
               </a>
-              <p className="mt-2 text-[16px] leading-relaxed text-[#4a4a4a]">
+              <p className="mt-1 text-ink-2 leading-relaxed">
                 {resource.description}
               </p>
             </li>
@@ -72,42 +68,35 @@ export default function DevelopersPage() {
         </ul>
       </section>
 
-      <section className="mt-14 max-w-[40rem]">
-        <h2 className="text-[1.7rem] font-medium tracking-[-0.03em] text-[#161616]">
-          Machine-readable
-        </h2>
-        <ul className="mt-6 space-y-4">
-          <li className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-            <a href="/llms.txt" className="font-mono text-[14px] text-[#161616] underline decoration-[#ddd] underline-offset-4">
+      <section className="mt-12">
+        <h2 className="text-xl font-bold text-ink">Machine-readable</h2>
+        <ul className="mt-4 space-y-4">
+          <li>
+            <a href="/llms.txt" className="font-mono text-sm text-ink underline underline-offset-4">
               /llms.txt
             </a>
-            <span className="text-[15px] text-[#5e5e5e]">
-              Index and when-to-use guidance
-            </span>
+            <p className="text-ink-2">Index and when-to-use guidance</p>
           </li>
-          <li className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-            <a href="/sitemap.xml" className="font-mono text-[14px] text-[#161616] underline decoration-[#ddd] underline-offset-4">
+          <li>
+            <a href="/sitemap.xml" className="font-mono text-sm text-ink underline underline-offset-4">
               /sitemap.xml
             </a>
-            <span className="text-[15px] text-[#5e5e5e]">Indexable URLs</span>
+            <p className="text-ink-2">Indexable URLs</p>
           </li>
-          <li className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-            <a href="/developers.md" className="font-mono text-[14px] text-[#161616] underline decoration-[#ddd] underline-offset-4">
+          <li>
+            <a href="/developers.md" className="font-mono text-sm text-ink underline underline-offset-4">
               /developers.md
             </a>
-            <span className="text-[15px] text-[#5e5e5e]">This page as markdown</span>
+            <p className="text-ink-2">This page as markdown</p>
           </li>
         </ul>
       </section>
 
-      <section className="mt-14 max-w-[40rem]">
-        <h2 className="text-[1.7rem] font-medium tracking-[-0.03em] text-[#161616]">
-          Contact
-        </h2>
-        <a href={`mailto:${SITE.email}`} className="pill mt-5">
-          Email
+      <section className="mt-12">
+        <h2 className="text-xl font-bold text-ink">Contact</h2>
+        <a href={`mailto:${SITE.email}`} className="mt-4 inline-block font-bold text-ink underline underline-offset-4">
+          {SITE.email}
         </a>
-        <p className="mt-4 break-all text-[15px] text-[#5e5e5e]">{SITE.email}</p>
       </section>
     </article>
   );

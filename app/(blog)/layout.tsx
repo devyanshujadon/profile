@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BootScreen } from "@/components/site/BootScreen";
 import BlogNavbar from "./_components/BlogNavbar";
 import BlogFooter from "./_components/BlogFooter";
 
@@ -31,12 +32,13 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="site-shell min-h-[100dvh]">
+    <div className="atmosphere site-shell">
+      <BootScreen />
       <a href="#main" className="skip-link">
         Skip to content
       </a>
       <BlogNavbar />
-      <main id="main" className="relative min-h-[100dvh] pt-10 pb-12 px-5 sm:px-7 lg:px-9">
+      <main id="main" className="journal-main">
         {children}
       </main>
       <BlogFooter />

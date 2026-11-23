@@ -6,6 +6,7 @@ import {
   resolveContentHtml,
 } from "@/lib/blog";
 import ReadingTime from "../../_components/ReadingTime";
+import { journalPrefix } from "@/lib/journal-path";
 
 export const revalidate = 60;
 
@@ -43,6 +44,7 @@ export default async function JournalPostPage({ params }: Props) {
   if (!post || !post.published) notFound();
 
   const contentHtml = await resolveContentHtml(post);
+  const prefix = await journalPrefix();
   const all = await getAllPosts();
   const idx = all.findIndex((p) => p.slug === post.slug);
   const prev = idx < all.length - 1 ? all[idx + 1] : null;
@@ -50,76 +52,50 @@ export default async function JournalPostPage({ params }: Props) {
 
   return (
     <article className="mx-auto max-w-[40rem]">
-      <header className="mb-10 md:mb-12 pb-8 border-b border-ink">
-        <Link href="/" className="nav-link mb-8 inline-block">
+      <header className="mb-10">
+        <Link href={prefix || "/"} className="text-link journal-back">
           Journal
         </Link>
-
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4 font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
-          <span className="text-mark">{post.category}</span>
+        <p className="journal-meta">
+          <span className="is-mark">{post.category}</span>
           <time dateTime={post.date}>{post.date}</time>
-          <ReadingTime
-            content={post.contentHtml || post.excerpt}
-            className="text-ink-3"
-          />
-        </div>
-
-        <h1 className="font-display uppercase text-[clamp(1.85rem,4.5vw,3.25rem)] tracking-[-0.03em] text-ink leading-[0.95]">
-          {post.title}
-        </h1>
-
-        {post.excerpt && (
-          <p className="mt-5 text-lg text-ink-2 leading-relaxed">
-            {post.excerpt}
-          </p>
-        )}
-
-        {post.coverImage && (
+          <ReadingTime content={post.contentHtml || post.excerpt} />
+        </p>
+        <h1>{post.title}</h1>
+        {post.excerpt ? <p className="mt-4 text-lg text-ink-2 leading-relaxed">{post.excerpt}</p> : null}
+        {post.coverImage ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={post.coverImage}
-            alt=""
-            className="mt-8 w-full border border-ink object-cover max-h-[28rem]"
-          />
-        )}
+          <img src={post.coverImage} alt="" className="journal-cover" />
+        ) : null}
       </header>
 
       <div
-        className="prose prose-site prose-neutral max-w-none
-          prose-headings:font-display prose-headings:font-normal prose-headings:uppercase prose-headings:tracking-[-0.02em] prose-headings:text-ink
+        className="prose prose-site max-w-none
+          prose-headings:font-display prose-headings:tracking-[-0.02em] prose-headings:text-ink
           prose-p:text-ink-2 prose-p:leading-[1.75]
           prose-a:text-ink prose-a:underline prose-a:underline-offset-2
           prose-strong:text-ink prose-strong:font-medium
-          prose-code:text-ink prose-code:bg-canvas-2 prose-code:px-1 prose-code:text-[0.9em]
+          prose-code:text-ink prose-code:px-1 prose-code:text-[0.9em]
           prose-code:before:content-none prose-code:after:content-none
-          prose-pre:bg-ink prose-pre:text-[var(--color-canvas)]
           prose-blockquote:border-mark prose-blockquote:text-ink-2 prose-blockquote:not-italic
           prose-li:text-ink-2"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
 
       {(prev || next) && (
-        <nav className="mt-14 pt-8 border-t-2 border-ink grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <nav className="journal-pager" aria-label="More entries">
           {prev ? (
-            <Link href={`/${prev.slug}`} className="group cursor-pointer">
-              <span className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
-                Previous
-              </span>
-              <span className="block mt-1 font-display uppercase text-lg text-ink group-hover:text-mark transition-colors duration-150 leading-snug">
-                {prev.title}
-              </span>
+            <Link href={`${prefix}/${prev.slug}`} className="journal-card">
+              <span className="journal-meta"><span>Previous</span></span>
+              <span className="block font-display text-lg text-ink leading-snug">{prev.title}</span>
             </Link>
           ) : (
-            <div />
+            <span />
           )}
           {next ? (
-            <Link href={`/${next.slug}`} className="group sm:text-right cursor-pointer">
-              <span className="font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
-                Next
-              </span>
-              <span className="block mt-1 font-display uppercase text-lg text-ink group-hover:text-mark transition-colors duration-150 leading-snug">
-                {next.title}
-              </span>
+            <Link href={`${prefix}/${next.slug}`} className="journal-card is-next">
+              <span className="journal-meta"><span>Next</span></span>
+              <span className="block font-display text-lg text-ink leading-snug">{next.title}</span>
             </Link>
           ) : null}
         </nav>

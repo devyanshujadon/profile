@@ -47,31 +47,27 @@ function parseTags(raw: string): string[] {
 }
 
 function statusBadge(published: boolean, status?: string) {
-  if (status === "archived") {
-    return (
-      <span className="text-ink-3 text-xs font-mono uppercase tracking-wide">
-        Archived
-      </span>
-    );
-  }
+  if (status === "archived") return <span>Archived</span>;
   if (published || status === "published") {
-    return (
-      <span className="text-mark text-xs font-mono uppercase tracking-wide">
-        Published
-      </span>
-    );
+    return <span className="is-mark">Published</span>;
   }
-  return (
-    <span className="text-amber-800/80 text-xs font-mono uppercase tracking-wide">
-      Draft
-    </span>
-  );
+  return <span>Draft</span>;
 }
 
 export default function AdminDashboard() {
   const { data: session, status: authStatus } = useSession();
   const searchParams = useSearchParams();
-  const accessDenied = searchParams.get("error") === "AccessDenied";
+  const authError = searchParams.get("error");
+  const authErrorText =
+    authError === "AccessDenied"
+      ? "That GitHub account is not authorized to use the admin CMS."
+      : authError === "OAuthSignin" ||
+          authError === "OAuthCallback" ||
+          authError === "Configuration"
+        ? "GitHub sign-in is not configured yet. Add the OAuth client id and secret, then restart the dev server."
+        : authError
+          ? "GitHub sign-in didn't complete. Try again."
+          : null;
 
   const [section, setSection] = useState<CmsSection>("dashboard");
   const [mode, setMode] = useState<EditorMode>("list");
@@ -198,33 +194,25 @@ export default function AdminDashboard() {
 
   // ── Auth gates ──────────────────────────────────────────────────────────
   if (authStatus === "loading") {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-5 h-5 border-2 border-line border-t-mark rounded-full animate-spin" />
-      </div>
-    );
+    return <p className="studio-wait">Checking access.</p>;
   }
 
   if (!session) {
     return (
-      <div className="max-w-md mx-auto py-16 surface-card p-8 text-center">
-        <p className="label mb-3">CMS</p>
-        <h1 className="text-2xl font-display uppercase tracking-[-0.02em] text-ink mb-3">
-          Content studio
-        </h1>
-        <p className="text-ink-2 text-sm leading-relaxed mb-6">
+      <div className="studio-plate studio-gate">
+        <p className="kicker">Studio</p>
+        <h1>Content studio</h1>
+        <p>
           Sign in with GitHub to manage posts, projects, pages, notes, and
           media. Only allowlisted accounts can access the CMS.
         </p>
-        {accessDenied && (
-          <p className="mb-6 text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-            That GitHub account is not authorized to use the admin CMS.
-          </p>
+        {authErrorText && (
+          <p className="studio-banner is-bad">{authErrorText}</p>
         )}
         <button
           type="button"
           onClick={() => signIn("github")}
-          className="btn-primary w-full"
+          className="btn-primary"
         >
           Sign in with GitHub
         </button>
@@ -234,21 +222,14 @@ export default function AdminDashboard() {
 
   if (!session.isAdmin) {
     return (
-      <div className="max-w-md mx-auto py-16 surface-card p-8 text-center">
-        <p className="label mb-3">CMS</p>
-        <h1 className="text-2xl font-display text-ink mb-3">Access denied</h1>
-        <p className="text-ink-2 text-sm leading-relaxed mb-6">
-          Signed in as{" "}
-          <span className="font-mono text-ink">
-            {session.githubLogin || session.user?.name || "unknown"}
-          </span>
+      <div className="studio-plate studio-gate">
+        <p className="kicker">Studio</p>
+        <h1>Access denied</h1>
+        <p>
+          Signed in as {session.githubLogin || session.user?.name || "unknown"}
           , which is not on the admin allowlist.
         </p>
-        <button
-          type="button"
-          onClick={() => signOut()}
-          className="btn-primary w-full"
-        >
+        <button type="button" onClick={() => signOut()} className="btn-primary">
           Sign out
         </button>
       </div>
@@ -567,41 +548,29 @@ export default function AdminDashboard() {
   };
 
   // ── Render helpers ──────────────────────────────────────────────────────
-  const field = "w-full bg-canvas border border-line rounded-md px-3 py-2.5 text-ink placeholder:text-ink-3 focus:outline-none focus:border-line-2";
-  const label = "label mb-2 block";
+  const field = "studio-field";
+  const label = "studio-label";
 
   return (
-    <div className="max-w-6xl mx-auto py-8 md:py-12">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <div className="studio">
+      <header className="studio-head">
         <div>
-          <p className="label mb-2">CMS</p>
-          <h1 className="text-3xl font-display text-ink tracking-tight">
-            Content studio
-          </h1>
+          <p className="kicker">Studio</p>
+          <h1>Content studio</h1>
         </div>
-        <div className="flex flex-wrap items-center gap-3 text-sm">
-          <Link
-            href="/"
-            className="text-ink-2 hover:text-ink transition-colors"
-          >
-            ← Site
+        <div className="studio-user">
+          <Link href="/" className="text-link">
+            Site
           </Link>
-          <span className="text-ink-3">
-            {session.user?.name || session.githubLogin}
-          </span>
-          <button
-            type="button"
-            onClick={() => signOut()}
-            className="text-ink-2 hover:text-ink transition-colors"
-          >
+          <span>{session.user?.name || session.githubLogin}</span>
+          <button type="button" onClick={() => signOut()} className="text-link">
             Sign out
           </button>
         </div>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8 lg:gap-10">
-        {/* Sidebar */}
-        <nav className="lg:sticky lg:top-8 self-start space-y-1">
+      <div className="studio-layout">
+        <nav className="studio-side" aria-label="Studio sections">
           {SECTIONS.map((s) => {
             const count =
               s === "posts"
@@ -614,15 +583,12 @@ export default function AdminDashboard() {
                 key={s}
                 type="button"
                 onClick={() => setSection(s)}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center justify-between ${
-                  section === s
-                    ? "bg-mark-soft text-mark font-medium"
-                    : "text-ink-2 hover:bg-canvas-2 hover:text-ink"
-                }`}
+                className={section === s ? "is-current" : undefined}
+                aria-current={section === s ? "page" : undefined}
               >
-                <span>{SECTION_META[s].label}</span>
+                <span className="studio-nav-label">{SECTION_META[s].label}</span>
                 {typeof count === "number" && (
-                  <span className="font-mono text-xs text-ink-3">{count}</span>
+                  <span className="studio-count">{count}</span>
                 )}
               </button>
             );
@@ -632,27 +598,22 @@ export default function AdminDashboard() {
         {/* Main */}
         <div className="min-w-0">
           {message && (
-            <div
-              className={`mb-6 rounded-lg border px-4 py-3 text-sm ${
-                message.type === "success"
-                  ? "border-line bg-mark-soft text-mark"
-                  : "border-red-200 bg-red-50 text-red-800"
-              }`}
+            <p
+              className={`studio-banner${message.type === "error" ? " is-bad" : ""}`}
+              role={message.type === "error" ? "alert" : "status"}
             >
               {message.text}
-            </div>
+            </p>
           )}
 
           {/* ── Dashboard ─────────────────────────────────────────────── */}
           {section === "dashboard" && mode === "list" && (
             <div>
-              <p className="text-sm text-ink-3 mb-6">
-                {SECTION_META.dashboard.description}
-              </p>
+              <p className="studio-note">{SECTION_META.dashboard.description}</p>
               {loading && !stats ? (
-                <div className="h-24 animate-pulse bg-panel rounded-lg" />
+                <div className="studio-skel" />
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
+                <div className="studio-stats">
                   {(
                     [
                       ["posts", "Posts", stats?.posts ?? 0],
@@ -667,19 +628,17 @@ export default function AdminDashboard() {
                       key={labelText}
                       type="button"
                       onClick={() => setSection(target)}
-                      className="surface-card p-4 text-left hover:border-line-2 transition-colors"
+                      className="studio-plate studio-stat"
                     >
-                      <p className="font-mono text-2xl text-ink tabular-nums">
-                        {count}
-                      </p>
-                      <p className="text-sm text-ink-3 mt-1">{labelText}</p>
+                      <strong>{count}</strong>
+                      <span>{labelText}</span>
                     </button>
                   ))}
                 </div>
               )}
-              <div className="surface-card p-5 sm:p-6 space-y-3">
-                <h2 className="font-display text-lg text-ink">Quick actions</h2>
-                <div className="flex flex-wrap gap-2">
+              <div className="studio-plate">
+                <h2>Quick actions</h2>
+                <div className="studio-actions-row">
                   <button
                     type="button"
                     className="btn-primary"
@@ -692,7 +651,7 @@ export default function AdminDashboard() {
                   </button>
                   <button
                     type="button"
-                    className="btn-line"
+                    className="btn-ghost"
                     onClick={() => {
                       setOpenCreateOnSection("projects");
                       setSection("projects");
@@ -702,7 +661,7 @@ export default function AdminDashboard() {
                   </button>
                   <button
                     type="button"
-                    className="btn-line"
+                    className="btn-ghost"
                     onClick={() => {
                       setOpenCreateOnSection("media");
                       setSection("media");
@@ -711,7 +670,7 @@ export default function AdminDashboard() {
                     Add media
                   </button>
                 </div>
-                <p className="text-xs text-ink-3 pt-2 leading-relaxed">
+                <p className="studio-help">
                   Posts power the journal at blog.devyanshu.com. Projects appear
                   on the portfolio homepage. Pages, notes, and media are ready
                   for you to attach wherever you need them.
@@ -723,12 +682,10 @@ export default function AdminDashboard() {
           {/* ── Posts list ────────────────────────────────────────────── */}
           {section === "posts" && mode === "list" && (
             <>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+              <div className="studio-section-head">
                 <div>
-                  <h2 className="font-display text-2xl text-ink tracking-tight">
-                    Posts
-                  </h2>
-                  <p className="text-sm text-ink-3 mt-1">
+                  <h2>Posts</h2>
+                  <p>
                     {loading
                       ? "Loading…"
                       : `${filteredPosts.length} post${filteredPosts.length === 1 ? "" : "s"}`}
@@ -748,57 +705,45 @@ export default function AdminDashboard() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search posts…"
-                className={`${field} mb-4`}
+                className={`${field} studio-search`}
               />
 
-              <div className="divide-y divide-[var(--color-line)] border-t border-line">
+              <div>
                 {filteredPosts.map((post) => (
-                  <div
-                    key={post.slug}
-                    className="py-5 flex flex-col sm:flex-row sm:items-start justify-between gap-4"
-                  >
+                  <div key={post.slug} className="studio-row">
                     <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-3 mb-1">
+                      <div className="journal-meta">
                         <time dateTime={post.date}>{post.date}</time>
                         <span>{post.category}</span>
                         {statusBadge(post.published, post.status)}
-                        {post.featured && (
-                          <span className="text-mark text-xs">★ Featured</span>
-                        )}
+                        {post.featured && <span className="work-tag">Featured</span>}
                       </div>
-                      <h3 className="font-display text-xl text-ink tracking-tight">
-                        {post.title}
-                      </h3>
-                      <p className="mt-1 text-sm text-ink-3 font-mono">
-                        /{post.slug}
-                      </p>
+                      <h3>{post.title}</h3>
+                      <p className="studio-slug">/{post.slug}</p>
                     </div>
-                    <div className="flex flex-wrap gap-3 text-sm shrink-0">
+                    <div className="studio-actions">
                       <button
                         type="button"
                         onClick={() => startEditPost(post.slug)}
-                        className="text-mark hover:text-ink transition-colors"
                       >
                         Edit
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDuplicatePost(post.slug)}
-                        className="text-ink-2 hover:text-ink transition-colors"
                       >
                         Duplicate
                       </button>
                       <Link
                         href={`https://blog.devyanshu.com/${post.slug}`}
                         target="_blank"
-                        className="text-ink-2 hover:text-ink transition-colors"
                       >
                         View
                       </Link>
                       <button
                         type="button"
                         onClick={() => handleDeletePost(post.slug)}
-                        className="text-red-700/80 hover:text-red-800 transition-colors"
+                        className="is-danger"
                       >
                         Delete
                       </button>
@@ -806,7 +751,7 @@ export default function AdminDashboard() {
                   </div>
                 ))}
                 {!loading && filteredPosts.length === 0 && (
-                  <p className="py-10 text-ink-3 text-sm">
+                  <p className="studio-empty">
                     No posts yet. Create your first one.
                   </p>
                 )}
@@ -816,21 +761,15 @@ export default function AdminDashboard() {
 
           {/* ── Post form ─────────────────────────────────────────────── */}
           {section === "posts" && (mode === "create" || mode === "edit") && (
-            <form onSubmit={handleSubmitPost} className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-2xl text-ink tracking-tight">
-                  {mode === "edit" ? "Edit post" : "New post"}
-                </h2>
-                <button
-                  type="button"
-                  onClick={backToList}
-                  className="text-sm text-ink-2 hover:text-ink transition-colors"
-                >
-                  ← Back
+            <form onSubmit={handleSubmitPost} className="studio-fields">
+              <div className="studio-section-head">
+                <h2>{mode === "edit" ? "Edit post" : "New post"}</h2>
+                <button type="button" onClick={backToList} className="studio-back">
+                  Back
                 </button>
               </div>
 
-              <div className="surface-card p-5 sm:p-6 space-y-5">
+              <div className="studio-plate studio-fields">
                 <div>
                   <label className={label}>Title</label>
                   <input
@@ -854,7 +793,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setPostForm((f) => ({ ...f, slug: e.target.value }))
                       }
-                      className={`${field} font-mono text-sm`}
+                      className={field}
                       placeholder="auto-from-title"
                     />
                   </div>
@@ -886,7 +825,7 @@ export default function AdminDashboard() {
                       setPostForm((f) => ({ ...f, excerpt: e.target.value }))
                     }
                     rows={2}
-                    className={`${field} resize-none`}
+                    className={field}
                     placeholder="Short summary for the index"
                   />
                 </div>
@@ -950,12 +889,12 @@ export default function AdminDashboard() {
                     <img
                       src={postForm.coverImage}
                       alt=""
-                      className="mt-2 h-28 rounded-md object-cover border border-line"
+                      className="studio-preview"
                     />
                   )}
                 </div>
 
-                <label className="inline-flex items-center gap-2 text-sm text-ink-2 cursor-pointer">
+                <label className="studio-check">
                   <input
                     type="checkbox"
                     checked={postForm.featured}
@@ -965,14 +904,14 @@ export default function AdminDashboard() {
                         featured: e.target.checked,
                       }))
                     }
-                    className="rounded border-line"
+                    
                   />
                   Featured on index
                 </label>
               </div>
 
-              <div className="surface-card p-5 sm:p-6 space-y-4">
-                <p className="label">SEO</p>
+              <div className="studio-plate studio-fields">
+                <p className="studio-subhead">SEO</p>
                 <div>
                   <label className={label}>SEO title</label>
                   <input
@@ -996,14 +935,14 @@ export default function AdminDashboard() {
                       }))
                     }
                     rows={2}
-                    className={`${field} resize-none`}
+                    className={field}
                     placeholder="Defaults to excerpt"
                   />
                 </div>
               </div>
 
-              <div className="surface-card p-5 sm:p-6">
-                <label className={`${label} mb-3`}>Content</label>
+              <div className="studio-plate">
+                <label className={label}>Content</label>
                 <Editor
                   key={editingPostSlug || "new-post"}
                   content={postForm.content}
@@ -1013,7 +952,7 @@ export default function AdminDashboard() {
                 />
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="studio-actions-row">
                 <button
                   type="submit"
                   disabled={saving}
@@ -1028,7 +967,7 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={backToList}
-                  className="btn-line"
+                  className="btn-ghost"
                 >
                   Cancel
                 </button>
@@ -1039,12 +978,10 @@ export default function AdminDashboard() {
           {/* ── Generic entries list ──────────────────────────────────── */}
           {entryType && mode === "list" && (
             <>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+              <div className="studio-section-head">
                 <div>
-                  <h2 className="font-display text-2xl text-ink tracking-tight">
-                    {SECTION_META[section].label}
-                  </h2>
-                  <p className="text-sm text-ink-3 mt-1">
+                  <h2>{SECTION_META[section].label}</h2>
+                  <p>
                     {SECTION_META[section].description}
                     {!loading && ` · ${entries.length}`}
                   </p>
@@ -1063,39 +1000,35 @@ export default function AdminDashboard() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={`Search ${entryType}s…`}
-                className={`${field} mb-4`}
+                className={`${field} studio-search`}
               />
 
               {entryType === "media" ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="studio-media">
                   {filteredEntries.map((entry) => {
                     const url = String(entry.meta?.url || entry.content || "");
                     return (
                       <div
                         key={entry.id}
-                        className="surface-card overflow-hidden group"
+                        className="studio-plate studio-media-card"
                       >
-                        <div className="aspect-video bg-panel flex items-center justify-center overflow-hidden">
+                        <div className="studio-media-frame">
                           {url ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
                               src={url}
                               alt={String(entry.meta?.alt || entry.title)}
-                              className="w-full h-full object-cover"
                             />
                           ) : (
-                            <span className="text-ink-3 text-xs">No URL</span>
+                            <span>No URL</span>
                           )}
                         </div>
-                        <div className="p-3">
-                          <p className="text-sm text-ink font-medium truncate">
-                            {entry.title}
-                          </p>
-                          <div className="flex gap-2 mt-2 text-xs">
+                        <div className="studio-media-body">
+                          <p>{entry.title}</p>
+                          <div className="studio-actions">
                             <button
                               type="button"
                               onClick={() => startEditEntry(entry.id)}
-                              className="text-mark"
                             >
                               Edit
                             </button>
@@ -1109,7 +1042,6 @@ export default function AdminDashboard() {
                                     text: "URL copied.",
                                   });
                                 }}
-                                className="text-ink-2"
                               >
                                 Copy URL
                               </button>
@@ -1119,7 +1051,7 @@ export default function AdminDashboard() {
                               onClick={() =>
                                 handleDeleteEntry(entry.id, entry.title)
                               }
-                              className="text-red-700/80"
+                              className="is-danger"
                             >
                               Delete
                             </button>
@@ -1129,55 +1061,40 @@ export default function AdminDashboard() {
                     );
                   })}
                   {!loading && filteredEntries.length === 0 && (
-                    <p className="col-span-full py-10 text-ink-3 text-sm">
+                    <p className="studio-empty">
                       No media yet. Add an image by URL.
                     </p>
                   )}
                 </div>
               ) : (
-                <div className="divide-y divide-[var(--color-line)] border-t border-line">
+                <div>
                   {filteredEntries.map((entry) => (
-                    <div
-                      key={entry.id}
-                      className="py-5 flex flex-col sm:flex-row sm:items-start justify-between gap-4"
-                    >
+                    <div key={entry.id} className="studio-row">
                       <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-3 mb-1">
+                        <div className="journal-meta">
                           <time dateTime={entry.date}>{entry.date}</time>
                           {statusBadge(entry.published, entry.status)}
                           {entry.featured && (
-                            <span className="text-mark text-xs">
-                              ★ Featured
-                            </span>
+                            <span className="work-tag">Featured</span>
                           )}
                           {entryType === "project" && entry.meta?.tag && (
                             <span>{String(entry.meta.tag)}</span>
                           )}
                         </div>
-                        <h3 className="font-display text-xl text-ink tracking-tight">
-                          {entry.title}
-                        </h3>
-                        {entry.excerpt && (
-                          <p className="mt-1 text-sm text-ink-2 line-clamp-2">
-                            {entry.excerpt}
-                          </p>
-                        )}
-                        <p className="mt-1 text-sm text-ink-3 font-mono">
-                          /{entry.slug}
-                        </p>
+                        <h3>{entry.title}</h3>
+                        {entry.excerpt && <p>{entry.excerpt}</p>}
+                        <p className="studio-slug">/{entry.slug}</p>
                       </div>
-                      <div className="flex flex-wrap gap-3 text-sm shrink-0">
+                      <div className="studio-actions">
                         <button
                           type="button"
                           onClick={() => startEditEntry(entry.id)}
-                          className="text-mark hover:text-ink transition-colors"
                         >
                           Edit
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDuplicateEntry(entry.id)}
-                          className="text-ink-2 hover:text-ink transition-colors"
                         >
                           Duplicate
                         </button>
@@ -1186,7 +1103,7 @@ export default function AdminDashboard() {
                           onClick={() =>
                             handleDeleteEntry(entry.id, entry.title)
                           }
-                          className="text-red-700/80 hover:text-red-800 transition-colors"
+                          className="is-danger"
                         >
                           Delete
                         </button>
@@ -1194,9 +1111,8 @@ export default function AdminDashboard() {
                     </div>
                   ))}
                   {!loading && filteredEntries.length === 0 && (
-                    <p className="py-10 text-ink-3 text-sm">
-                      Nothing here yet. Create your first{" "}
-                      {entryType}.
+                    <p className="studio-empty">
+                      Nothing here yet. Create your first {entryType}.
                     </p>
                   )}
                 </div>
@@ -1206,21 +1122,15 @@ export default function AdminDashboard() {
 
           {/* ── Generic entry form ────────────────────────────────────── */}
           {entryType && (mode === "create" || mode === "edit") && (
-            <form onSubmit={handleSubmitEntry} className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-2xl text-ink tracking-tight">
-                  {mode === "edit" ? `Edit ${entryType}` : `New ${entryType}`}
-                </h2>
-                <button
-                  type="button"
-                  onClick={backToList}
-                  className="text-sm text-ink-2 hover:text-ink transition-colors"
-                >
-                  ← Back
+            <form onSubmit={handleSubmitEntry} className="studio-fields">
+              <div className="studio-section-head">
+                <h2>{mode === "edit" ? `Edit ${entryType}` : `New ${entryType}`}</h2>
+                <button type="button" onClick={backToList} className="studio-back">
+                  Back
                 </button>
               </div>
 
-              <div className="surface-card p-5 sm:p-6 space-y-5">
+              <div className="studio-plate studio-fields">
                 <div>
                   <label className={label}>Title</label>
                   <input
@@ -1243,7 +1153,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setEntryForm((f) => ({ ...f, slug: e.target.value }))
                       }
-                      className={`${field} font-mono text-sm`}
+                      className={field}
                       placeholder="auto-from-title"
                     />
                   </div>
@@ -1282,7 +1192,7 @@ export default function AdminDashboard() {
                         }))
                       }
                       rows={2}
-                      className={`${field} resize-none`}
+                      className={field}
                     />
                   </div>
                 )}
@@ -1345,7 +1255,7 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                <label className="inline-flex items-center gap-2 text-sm text-ink-2 cursor-pointer">
+                <label className="studio-check">
                   <input
                     type="checkbox"
                     checked={entryForm.featured}
@@ -1355,15 +1265,15 @@ export default function AdminDashboard() {
                         featured: e.target.checked,
                       }))
                     }
-                    className="rounded border-line"
+                    
                   />
                   Featured
                 </label>
 
                 {/* Project-specific */}
                 {entryType === "project" && (
-                  <div className="pt-2 border-t border-line space-y-4">
-                    <p className="label">Project details</p>
+                  <div className="studio-group">
+                    <p className="studio-subhead">Project details</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className={label}>Year</label>
@@ -1465,8 +1375,8 @@ export default function AdminDashboard() {
 
                 {/* Media-specific */}
                 {entryType === "media" && (
-                  <div className="pt-2 border-t border-line space-y-4">
-                    <p className="label">Asset</p>
+                  <div className="studio-group">
+                    <p className="studio-subhead">Asset</p>
                     <div>
                       <label className={label}>URL</label>
                       <input
@@ -1487,7 +1397,7 @@ export default function AdminDashboard() {
                         <img
                           src={entryForm.url}
                           alt=""
-                          className="mt-2 max-h-40 rounded-md border border-line object-contain"
+                          className="studio-preview"
                         />
                       )}
                     </div>
@@ -1544,8 +1454,8 @@ export default function AdminDashboard() {
 
                 {/* Page-specific */}
                 {entryType === "page" && (
-                  <div className="pt-2 border-t border-line space-y-4">
-                    <p className="label">Page options</p>
+                  <div className="studio-group">
+                    <p className="studio-subhead">Page options</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className={label}>Template</label>
@@ -1565,7 +1475,7 @@ export default function AdminDashboard() {
                         </select>
                       </div>
                       <div className="flex items-end pb-2">
-                        <label className="inline-flex items-center gap-2 text-sm text-ink-2 cursor-pointer">
+                        <label className="studio-check">
                           <input
                             type="checkbox"
                             checked={entryForm.showInNav}
@@ -1575,7 +1485,7 @@ export default function AdminDashboard() {
                                 showInNav: e.target.checked,
                               }))
                             }
-                            className="rounded border-line"
+                            
                           />
                           Show in nav
                         </label>
@@ -1586,7 +1496,7 @@ export default function AdminDashboard() {
 
                 {/* Note-specific */}
                 {entryType === "note" && (
-                  <label className="inline-flex items-center gap-2 text-sm text-ink-2 cursor-pointer">
+                  <label className="studio-check">
                     <input
                       type="checkbox"
                       checked={entryForm.pinned}
@@ -1596,7 +1506,7 @@ export default function AdminDashboard() {
                           pinned: e.target.checked,
                         }))
                       }
-                      className="rounded border-line"
+                      
                     />
                     Pinned
                   </label>
@@ -1604,8 +1514,8 @@ export default function AdminDashboard() {
               </div>
 
               {entryType !== "media" && entryType !== "project" && (
-                <div className="surface-card p-5 sm:p-6">
-                  <label className={`${label} mb-3`}>Content</label>
+                <div className="studio-plate">
+                  <label className={label}>Content</label>
                   <Editor
                     key={editingEntryId || `new-${entryType}`}
                     content={entryForm.content}
@@ -1623,8 +1533,8 @@ export default function AdminDashboard() {
               )}
 
               {entryType === "project" && (
-                <div className="surface-card p-5 sm:p-6">
-                  <label className={`${label} mb-3`}>
+                <div className="studio-plate">
+                  <label className={label}>
                     Long description{" "}
                     <span className="text-ink-3 font-normal">(optional)</span>
                   </label>
@@ -1640,7 +1550,7 @@ export default function AdminDashboard() {
                 </div>
               )}
 
-              <div className="flex flex-wrap gap-3">
+              <div className="studio-actions-row">
                 <button
                   type="submit"
                   disabled={saving}
@@ -1655,7 +1565,7 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={backToList}
-                  className="btn-line"
+                  className="btn-ghost"
                 >
                   Cancel
                 </button>

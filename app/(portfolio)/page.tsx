@@ -1,34 +1,34 @@
 import type { Metadata } from "next";
-import IdentityPanel from "@/components/IdentityPanel";
-import Projects from "@/components/Projects";
-import Experience from "@/components/Experience";
-import TechStack from "@/components/TechStack";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import { SITE } from "@/lib/site";
+import { HomePage } from "@/components/site/HomePage";
+import { SITE, homepageJsonLd } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { absolute: SITE.name },
-  description: SITE.shortDescription,
+  title: { absolute: "Devyanshu Jadon" },
+  description: SITE.description,
   alternates: {
     canonical: "/",
     types: {
       "text/markdown": "/index.md",
     },
   },
+  openGraph: {
+    title: "Devyanshu Jadon",
+    description: SITE.description,
+    url: SITE.url,
+    type: "profile",
+  },
 };
 
 export default function Home() {
   return (
-    <div className="min-h-[100dvh]">
-      <IdentityPanel />
-      <Projects />
-      <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-14 px-5 sm:px-8 pb-8 lg:grid-cols-2 lg:gap-20">
-        <Experience />
-        <TechStack />
-      </div>
-      <Contact />
-      <Footer />
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(homepageJsonLd()),
+        }}
+      />
+      <HomePage />
+    </>
   );
 }

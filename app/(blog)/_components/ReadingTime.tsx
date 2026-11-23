@@ -16,8 +16,6 @@ export default function ReadingTime({
   const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 
   return (
-    <span className={`font-mono text-xs ${className}`}>
-      · {minutes} min
-    </span>
+    <span className={className}>{minutes} min</span>
   );
 }

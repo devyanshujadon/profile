@@ -1,4 +1,5 @@
 import { getAllPosts, getAllCategories } from "@/lib/blog";
+import { journalPrefix } from "@/lib/journal-path";
 import PostCard from "../_components/PostCard";
 import Sidebar from "../_components/Sidebar";
 
@@ -10,6 +11,7 @@ export const metadata = {
 };
 
 export default async function JournalHomePage() {
+  const prefix = await journalPrefix();
   const posts = await getAllPosts();
   const categoriesList = await getAllCategories();
   const [featured, ...rest] = posts;
@@ -33,43 +35,25 @@ export default async function JournalHomePage() {
     .slice(0, 20);
 
   return (
-    <div className="mx-auto max-w-[56rem]">
-      <header className="mb-12 md:mb-14 pb-8 border-b-2 border-ink">
-        <h1 className="font-display uppercase text-[clamp(2.25rem,6vw,4rem)] tracking-[-0.04em] leading-[0.9] text-ink max-w-[12ch]">
-          Notes from building
-        </h1>
-        <p className="mt-5 text-ink-2 max-w-md leading-relaxed">
-          Engineering logs, ideas, and field notes.
-        </p>
+    <>
+      <header className="section-head">
+        <div>
+          <p className="kicker">Journal</p>
+          <h1>Notes from building.</h1>
+        </div>
+        <p>Engineering logs, ideas, and field notes.</p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_11rem] gap-12 lg:gap-16">
-        <div>
-          {featured && (
-            <div className="mb-0 pb-10 border-b border-ink">
-              <PostCard post={featured} variant="featured" />
-            </div>
-          )}
-
-          {rest.length > 0 && (
-            <div>
-              {rest.map((post) => (
-                <div key={post.slug} className="py-8 border-b border-ink">
-                  <PostCard post={post} variant="list" />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {posts.length > 0 ? null : (
-            <p className="text-ink-3">No entries yet.</p>
-          )}
+      <div className="journal-layout">
+        <div className="journal-list">
+          {featured ? <PostCard post={featured} href={`${prefix}/${featured.slug}`} variant="featured" /> : null}
+          {rest.map((post) => (
+            <PostCard key={post.slug} post={post} href={`${prefix}/${post.slug}`} />
+          ))}
+          {posts.length === 0 ? <p className="text-ink-3">No entries yet.</p> : null}
         </div>
-
-        <div className="hidden lg:block">
-          <Sidebar categories={categories} tags={tags} />
-        </div>
+        <Sidebar categories={categories} tags={tags} prefix={prefix} />
       </div>
-    </div>
+    </>
   );
 }

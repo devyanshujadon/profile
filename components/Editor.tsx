@@ -52,8 +52,7 @@ export default function Editor({
     },
     editorProps: {
       attributes: {
-        class:
-          "prose prose-neutral max-w-none focus:outline-none px-4 py-3 text-ink prose-headings:font-display prose-a:text-mark prose-img:rounded-lg",
+        class: "prose prose-site max-w-none focus:outline-none",
         style: `min-height: ${minHeight}`,
       },
       handleDrop: (view, event, _slice, moved) => {
@@ -113,23 +112,16 @@ export default function Editor({
 
   if (!editor) {
     return (
-      <div
-        className="border border-line rounded-lg bg-panel animate-pulse"
-        style={{ minHeight }}
-      />
+      <div className="studio-skel" style={{ minHeight }} />
     );
   }
 
   const btn = (active: boolean) =>
-    `px-2 py-1.5 rounded text-xs font-medium transition-colors ${
-      active
-        ? "bg-canvas-2 text-ink"
-        : "text-ink-2 hover:bg-canvas-2 hover:text-ink"
-    }`;
+    active ? "studio-tool is-on" : "studio-tool";
 
   return (
-    <div className="border border-line rounded-lg overflow-hidden bg-canvas">
-      <div className="flex flex-wrap gap-0.5 p-2 bg-panel border-b border-line sticky top-0 z-10">
+    <div className="studio-editor">
+      <div className="studio-editor-bar">
         <button
           type="button"
           onClick={() => editor.chain().focus().undo().run()}
@@ -146,7 +138,7 @@ export default function Editor({
         >
           ↷
         </button>
-        <div className="w-px h-6 bg-line mx-1 self-center" />
+        <span className="studio-tool-gap" aria-hidden="true" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -179,7 +171,7 @@ export default function Editor({
         >
           <s>S</s>
         </button>
-        <div className="w-px h-6 bg-line mx-1 self-center" />
+        <span className="studio-tool-gap" aria-hidden="true" />
         <button
           type="button"
           onClick={() =>
@@ -207,7 +199,7 @@ export default function Editor({
         >
           H3
         </button>
-        <div className="w-px h-6 bg-line mx-1 self-center" />
+        <span className="studio-tool-gap" aria-hidden="true" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -229,7 +221,7 @@ export default function Editor({
         >
           Quote
         </button>
-        <div className="w-px h-6 bg-line mx-1 self-center" />
+        <span className="studio-tool-gap" aria-hidden="true" />
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleCode().run()}

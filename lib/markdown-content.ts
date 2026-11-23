@@ -10,6 +10,7 @@ import {
   loadProjects,
   type ProjectView,
 } from "@/lib/projects";
+import { NOTES, STUDIES } from "@/lib/profile";
 import { getAllCategories, getAllPosts, getPostBySlug } from "@/lib/blog";
 import { getEntryBySlug, getPublishedPages } from "@/lib/cms";
 
@@ -85,10 +86,32 @@ export function renderHomeMarkdown(
   projects: ProjectView[] = FALLBACK_PROJECTS,
   origin = SITE.url
 ): string {
-  const work = projects.map(renderProject).join("\n");
+  const known = new Set(STUDIES.map((study) => study.name));
+  const extra = projects.filter((project) => !known.has(project.title));
+  const work = STUDIES.map((study) => {
+    const links = study.links
+      .map((link) => `- ${link.label}: [${link.href}](${link.href})`)
+      .join("\n");
+    return `### ${study.name}
+
+${study.year}. ${study.tech}
+
+${study.summary}
+
+- Problem: ${study.problem}
+- Built: ${study.built}
+- Decision: ${study.decision}
+- Outcome: ${study.outcome}
+${links}
+${study.aside ? `\n${study.aside}\n` : ""}`;
+  }).join("\n");
+  const more = extra.map(renderProject).join("\n");
+  const notes = NOTES.map(
+    (note) => `- [${note.title}](${note.href}): ${note.excerpt}`
+  ).join("\n");
   const path = EXPERIENCES.map(
     (exp) =>
-      `- **${exp.period}** — ${exp.company} · ${exp.role}: ${exp.detail}`
+      `- **${exp.period}**, ${exp.company}, ${exp.role}: ${exp.detail}`
   ).join("\n");
   const tools = TOOLS.map(([title, items]) => `- **${title}:** ${items}`).join(
     "\n"
@@ -98,17 +121,26 @@ export function renderHomeMarkdown(
 
 ${SITE.description}
 
-${SITE.location} · Open to work
+${SITE.location}. Full-time, plus side projects.
 
 - Email: [${SITE.email}](mailto:${SITE.email})
 - GitHub: [${SITE.githubHandle}](${SITE.github})
 - LinkedIn: [devyanshu-jadon](${SITE.linkedin})
+- X: [DevyanshuJadon](${SITE.x})
 - Writing: [journal](${SITE.blogUrl})
 - Developer resources: [Devyanshu developer resources](${origin}/developers)
 
 ## Work
 
 ${work}
+${more ? `\n${more}\n` : ""}
+## Lab
+
+Minigames on the homepage ([#lab](${origin}/#lab)): Pulse, a reaction timer; Repeat, a four-pad pattern; and Snake, on a 12 by 12 grid. Hardware experiments are listed in that section when a bench note is published.
+
+## Notes
+
+${notes}
 
 ## Path
 
@@ -120,9 +152,7 @@ ${tools}
 
 ## Contact
 
-Open to thoughtful collaborations and interesting problems.
-
-If you're building something that needs AI depth, backend architecture, or a product-minded engineer — write ${SITE.email}.
+For a product, a role, or a collaboration, email ${SITE.email}.
 
 ## For agents
 

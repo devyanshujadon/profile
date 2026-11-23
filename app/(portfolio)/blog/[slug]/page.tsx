@@ -5,6 +5,7 @@ import {
   resolveContentHtml,
 } from "@/lib/blog";
 import { notFound } from "next/navigation";
+import ReadingTime from "@/app/(blog)/_components/ReadingTime";
 
 export const revalidate = 60;
 
@@ -42,33 +43,29 @@ export default async function BlogPostPage({ params }: Props) {
   const contentHtml = await resolveContentHtml(post);
 
   return (
-    <article className="mx-auto max-w-[40rem] px-5 sm:px-0 py-8">
-      <header className="mb-10 pb-8 border-b border-ink">
-        <Link href="/blog" className="nav-link mb-8 inline-block">
+    <article className="section shell journal-read">
+      <header className="mb-10">
+        <Link href="/blog" className="text-link journal-back">
           Writing
         </Link>
-        <div className="flex flex-wrap gap-4 mb-4 font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
-          <span className="text-mark">{post.category}</span>
+        <p className="journal-meta">
+          <span className="is-mark">{post.category}</span>
           <time dateTime={post.date}>{post.date}</time>
-        </div>
-        <h1 className="font-display uppercase text-[clamp(1.85rem,4.5vw,3.25rem)] tracking-[-0.03em] text-ink leading-[0.95]">
-          {post.title}
-        </h1>
-        {post.excerpt && (
-          <p className="mt-5 text-lg text-ink-2 leading-relaxed">
-            {post.excerpt}
-          </p>
-        )}
+          <ReadingTime content={post.contentHtml || post.excerpt} />
+        </p>
+        <h1>{post.title}</h1>
+        {post.excerpt ? <p className="mt-4 text-lg text-ink-2 leading-relaxed">{post.excerpt}</p> : null}
       </header>
-
       <div
-        className="prose prose-site prose-neutral max-w-none
-          prose-headings:font-display prose-headings:font-normal prose-headings:uppercase prose-headings:text-ink
-          prose-p:text-ink-2 prose-a:text-ink prose-a:underline
-          prose-strong:text-ink
-          prose-code:text-ink prose-code:bg-canvas-2 prose-code:px-1
+        className="prose prose-site max-w-none
+          prose-headings:font-display prose-headings:tracking-[-0.02em] prose-headings:text-ink
+          prose-p:text-ink-2
+          prose-a:text-ink prose-a:underline prose-a:underline-offset-2
+          prose-strong:text-ink prose-strong:font-medium
+          prose-code:text-ink prose-code:px-1
           prose-code:before:content-none prose-code:after:content-none
-          prose-pre:bg-ink prose-pre:text-[var(--color-canvas)]"
+          prose-blockquote:border-mark prose-blockquote:not-italic
+          prose-li:text-ink-2"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
     </article>

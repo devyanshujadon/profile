@@ -1,5 +1,10 @@
-import NotFoundView from "@/components/NotFoundView";
+import { SiteFrame } from "@/components/site/SiteFrame";
+import { Missing } from "@/components/site/Missing";
 
 export default function NotFound() {
-  return <NotFoundView />;
+  return (
+    <SiteFrame>
+      <Missing />
+    </SiteFrame>
+  );
 }

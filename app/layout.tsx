@@ -1,41 +1,54 @@
 import type { Metadata } from "next";
-import { Archivo, Archivo_Black, Geist, IBM_Plex_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
-import RoamingBot from "@/components/RoamingBot";
-import JsonLd from "@/components/JsonLd";
-import { homepageJsonLd } from "@/lib/site";
+import { SITE } from "@/lib/site";
 
-const archivo = Archivo({
-  variable: "--font-archivo",
+const sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
+  style: ["normal", "italic"],
 });
 
-const archivoBlack = Archivo_Black({
-  variable: "--font-archivo-black",
-  subsets: ["latin"],
-  weight: "400",
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
-const geist = Geist({
-  variable: "--font-geist",
-  subsets: ["latin"],
-});
+const themeScript = `(function(){
+  var root = document.documentElement;
+  function apply(next){
+    root.setAttribute("data-theme", next);
+    root.style.colorScheme = next;
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    var dark = next !== "light";
+    var label = dark ? "Dark theme on, switch to light" : "Light theme on, switch to dark";
+    var nodes = document.querySelectorAll(".theme-switch");
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].setAttribute("data-dark", dark ? "true" : "false");
+      nodes[i].setAttribute("aria-checked", dark ? "true" : "false");
+      nodes[i].setAttribute("aria-label", label);
+    }
+  }
+  try {
+    var saved = localStorage.getItem("theme");
+    apply(saved === "light" || saved === "dark" ? saved : "dark");
+  } catch (e) {
+    apply("dark");
+  }
+  if (window.__themeBound) return;
+  window.__themeBound = true;
+  document.addEventListener("click", function(event){
+    var target = event.target;
+    if (!target || !target.closest) return;
+    if (!target.closest(".theme-switch")) return;
+    apply(root.getAttribute("data-theme") === "light" ? "dark" : "light");
+  });
+})();`;
 
 export const metadata: Metadata = {
   title: {
     template: "%s · Devyanshu",
-    default: "Devyanshu Jadon",
+    default: "Devyanshu Jadon — AI & Software Developer",
   },
-  description:
-    "AI and backend engineer. Building intelligent systems and products.",
+  description: SITE.description,
 };
 
 export default function RootLayout({
@@ -45,13 +58,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google Sans is served from Google's CDN but is not in the
+            next/font catalog, so it is loaded with a plain stylesheet. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
-        className={`${archivo.variable} ${archivoBlack.variable} ${plexMono.variable} ${geist.variable} antialiased custom-scrollbar`}
+        className={`${sans.variable} antialiased`}
         suppressHydrationWarning
       >
-        <JsonLd data={homepageJsonLd()} />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Providers>{children}</Providers>
-        <RoamingBot />
       </body>
     </html>
   );

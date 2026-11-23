@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllCategories, getPostsByCategory } from "@/lib/blog";
+import { journalPrefix } from "@/lib/journal-path";
 import PostCard from "../../../_components/PostCard";
 
 export const revalidate = 60;
@@ -40,26 +41,24 @@ export default async function CategoryPage({ params }: Props) {
   if (!matched) notFound();
 
   const posts = await getPostsByCategory(matched);
+  const prefix = await journalPrefix();
 
   return (
     <div className="mx-auto max-w-[42rem]">
-      <header className="mb-12 pb-8 border-b-2 border-ink">
-        <Link href="/" className="nav-link mb-8 inline-block">
-          Journal
-        </Link>
-        <h1 className="font-display uppercase text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] leading-[0.92] text-ink">
-          {matched}
-        </h1>
-        <p className="mt-3 font-mono text-[0.68rem] tracking-[0.1em] uppercase text-ink-3">
-          {posts.length} {posts.length === 1 ? "post" : "posts"}
-        </p>
+      <header className="section-head">
+        <div>
+          <Link href={prefix || "/"} className="text-link journal-back">
+            Journal
+          </Link>
+          <h1>{matched}</h1>
+          <p className="journal-meta">
+            <span>{posts.length} {posts.length === 1 ? "post" : "posts"}</span>
+          </p>
+        </div>
       </header>
-
-      <div>
+      <div className="journal-list">
         {posts.map((post) => (
-          <div key={post.slug} className="py-8 border-b border-ink">
-            <PostCard post={post} variant="list" />
-          </div>
+          <PostCard key={post.slug} post={post} href={`${prefix}/${post.slug}`} />
         ))}
       </div>
     </div>

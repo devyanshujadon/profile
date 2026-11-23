@@ -1,16 +1,22 @@
-import Link from "next/link";
+import { journalPrefix } from "@/lib/journal-path";
 
-const BlogFooter = () => {
+export default async function BlogFooter() {
+  const base = await journalPrefix();
+
   return (
     <footer className="site-foot">
-      <p className="font-mono text-[0.68rem] tracking-[0.08em] uppercase text-ink-3">
-        © {new Date().getFullYear()} Devyanshu Jadon
-      </p>
-      <Link href="https://devyanshu.com" className="nav-link">
-        Back to portfolio
-      </Link>
+      <div className="shell foot-row">
+        <p className="foot-name">Devyanshu Jadon</p>
+        <p>Journal</p>
+        <ul className="foot-links">
+          <li>
+            <a href="https://devyanshu.com">Portfolio</a>
+          </li>
+          <li>
+            <a href={`${base}/feed.xml`}>RSS</a>
+          </li>
+        </ul>
+      </div>
     </footer>
   );
-};
-
-export default BlogFooter;
+}

@@ -1,5 +1,5 @@
-import NotFoundView from "@/components/NotFoundView";
+import { Missing } from "@/components/site/Missing";
 
 export default function PortfolioNotFound() {
-  return <NotFoundView framed />;
+  return <Missing />;
 }

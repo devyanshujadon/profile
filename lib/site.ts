@@ -5,18 +5,20 @@ export const SITE = {
   url: "https://devyanshu.com",
   blogUrl: "https://blog.devyanshu.com",
   description:
-    "AI and backend engineer. I design systems for production and ship products people use.",
+    "AI and software developer who builds practical agents, automations, and SaaS tools. Full-time at Tudip, shipping side projects like FeedFr.",
   shortDescription:
-    "AI and backend engineer. Building intelligent systems and products.",
+    "AI and software developer. Practical agents, automations, and SaaS tools.",
   email: "jadon.devyanshu@gmail.com",
-  location: "India · Remote",
-  jobTitle: "AI & Backend Engineer",
+  location: "India",
+  jobTitle: "AI and software developer",
   github: "https://github.com/devyanshujadon",
   githubHandle: "devyanshujadon",
   linkedin: "https://linkedin.com/in/devyanshu-jadon",
+  x: "https://x.com/DevyanshuJadon",
   sameAs: [
     "https://github.com/devyanshujadon",
     "https://linkedin.com/in/devyanshu-jadon",
+    "https://x.com/DevyanshuJadon",
     "https://blog.devyanshu.com",
   ],
 } as const;
@@ -97,6 +99,11 @@ export const DEVELOPER_RESOURCES: DeveloperResource[] = [
     name: "Devyanshu on LinkedIn",
     url: SITE.linkedin,
     description: "Professional profile and work history.",
+  },
+  {
+    name: "Devyanshu on X",
+    url: SITE.x,
+    description: "Public posts.",
   },
 ];
 
@@ -204,7 +211,7 @@ export function staticSitemapEntries(origin = SITE.url): SitemapEntry[] {
 export function buildLlmsTxt(origin = SITE.url): string {
   return `# ${SITE.name}
 
-> ${SITE.description} Personal site at ${origin}. Open to work. ${SITE.location}.
+> ${SITE.description} Personal site at ${origin}. ${SITE.location}.
 
 When to use this site: reach for Devyanshu Jadon when you need an AI or backend engineer, a contact email or hiring pointer, or developer resources published under his name (LoomKit, FeedFr, GitHub, journal). This is a personal portfolio — not a SaaS product. There is no public HTTP API, OpenAPI spec, auth flow, developer portal, or MCP server to call.
 
@@ -234,6 +241,7 @@ How an agent should call this site:
 - [LoomKit](https://loomkit.vercel.app/): LLM orchestration core by Devyanshu
 - [FeedFr](https://feedfr.com): Feedback boards, roadmaps, and changelogs by Devyanshu
 - [Devyanshu on LinkedIn](${SITE.linkedin}): Work history
+- [Devyanshu on X](${SITE.x}): Public posts
 
 ## Optional
 

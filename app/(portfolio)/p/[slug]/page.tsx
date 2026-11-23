@@ -57,13 +57,11 @@ export default async function CmsPage({ params }: Params) {
 
   return (
     <article
-      className={`mx-auto py-12 md:py-16 px-5 sm:px-7 ${
-        wide ? "max-w-3xl" : "max-w-[40rem]"
-      }`}
+      className={`mx-auto px-5 py-12 md:py-16 ${wide ? "max-w-3xl" : "max-w-[44rem]"}`}
     >
       {!minimal && (
-        <header className="mb-10 pb-8 border-b border-[#ececec]">
-          <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-medium tracking-[-0.035em] leading-[1.12] text-[#161616]">
+        <header className="mb-8 pb-6 border-b border-line">
+          <h1 className="text-[clamp(1.7rem,4vw,2.4rem)] font-bold tracking-[-0.02em] leading-[1.15] text-ink">
             {page.title}
           </h1>
           {page.excerpt && (
@@ -72,12 +70,12 @@ export default async function CmsPage({ params }: Params) {
         </header>
       )}
       {minimal && (
-        <h1 className="mb-8 text-[clamp(2rem,5vw,3.25rem)] font-medium tracking-[-0.035em] leading-[1.12] text-[#161616]">
+        <h1 className="mb-8 text-[clamp(1.7rem,4vw,2.4rem)] font-bold tracking-[-0.02em] leading-[1.15] text-ink">
           {page.title}
         </h1>
       )}
       <div
-        className="prose prose-neutral max-w-none text-ink-2 prose-headings:font-display prose-headings:text-ink prose-a:text-mark"
+        className="prose prose-site max-w-none text-ink-2 prose-headings:font-display prose-headings:text-ink prose-a:text-mark"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </article>
