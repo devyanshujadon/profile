@@ -61,13 +61,13 @@ export default function AdminDashboard() {
   const authErrorText =
     authError === "AccessDenied"
       ? "That GitHub account is not authorized to use the admin CMS."
-      : authError === "OAuthSignin" ||
-          authError === "OAuthCallback" ||
-          authError === "Configuration"
-        ? "GitHub sign-in is not configured yet. Add the OAuth client id and secret, then restart the dev server."
-        : authError
-          ? "GitHub sign-in didn't complete. Try again."
-          : null;
+      : authError === "OAuthSignin" || authError === "Configuration"
+        ? "GitHub sign-in is not configured on this server."
+        : authError === "OAuthCallback"
+          ? "GitHub returned to this site, but the server rejected the reply. Start again from this page."
+          : authError
+            ? "GitHub sign-in didn't complete. Try again."
+            : null;
 
   const [section, setSection] = useState<CmsSection>("dashboard");
   const [mode, setMode] = useState<EditorMode>("list");
@@ -211,7 +211,7 @@ export default function AdminDashboard() {
         )}
         <button
           type="button"
-          onClick={() => signIn("github")}
+          onClick={() => signIn("github", { callbackUrl: "/blog/admin" })}
           className="btn-primary"
         >
           Sign in with GitHub

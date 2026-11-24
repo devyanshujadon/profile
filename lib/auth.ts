@@ -26,6 +26,9 @@ export const authOptions: AuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID ?? "",
       clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
+      // GitHub now returns iss= on the callback (RFC 9207). Without this,
+      // openid-client rejects the reply before the token exchange.
+      issuer: "https://github.com/login/oauth",
       // CMS only needs identity — no repo write scope
       authorization: {
         params: { scope: "read:user user:email" },
